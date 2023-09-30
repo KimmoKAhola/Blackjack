@@ -20,8 +20,13 @@
             //Console.ReadKey();
 
             //PlayingTable table = new PlayingTable();
+            List<int> dealerHand = new List<int>();
+            List<int> playerOneHand = new List<int>();
+            
             BlackJack blackjack = new(new PlayingTable());
-            blackjack.RunGame();
+            Player playerOne = new Player("Kimmo");
+
+            blackjack.RunGame(playerOne);
         }
     }
 }
