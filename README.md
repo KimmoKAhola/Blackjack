@@ -6,22 +6,22 @@ Ens egen hand är sin giv
 
 
 # Regler för spelet:
-* Man ska få 21
-* Om man får 21 på första draw får man extra vinst
-* Man förlorar om man får över 21
-* Huset vinner oavgjorda situationer
-* Man kan splitta sin hand för att öka/minska risk
-* Vi kan kolla upp det
-* Dealen stannar på ett värde
-* Vi kan kolla upp det
-* Alla kungliga valörer är lika med 10 i värde
-* Ess är 11 & 1
-* Siffervalörer är sin motsvarande siffra i värde
-* Färger spelar ingen roll, bara estetiskt och att det finns 4 av varje valör.
-* 52 kort totalt
-* Blanda kortleken och dela ut kort, ett kort per spelare tills alla spelare har fått 2 kort var.
-* Alla spelare spelar sin omgång tills de vinner/förlorar mot husets hand, ej turvis
-* Man kan satsa pengar också
+    * Man ska få 21
+    * Om man får 21 på första draw får man extra vinst
+    * Man förlorar om man får över 21
+    * Huset vinner oavgjorda situationer
+    * Man kan splitta sin hand för att öka/minska risk
+    * Vi kan kolla upp det
+    * Dealen stannar på ett värde
+    * Vi kan kolla upp det
+    * Alla kungliga valörer är lika med 10 i värde
+    * Ess är 11 & 1
+    * Siffervalörer är sin motsvarande siffra i värde
+    * Färger spelar ingen roll, bara estetiskt och att det finns 4 av varje valör.
+    * 52 kort totalt
+    * Blanda kortleken och dela ut kort, ett kort per spelare tills alla spelare har fått 2 kort var.
+    * Alla spelare spelar sin omgång tills de vinner/förlorar mot husets hand, ej turvis
+    * Man kan satsa pengar också
 
 # Vilka klasser?
 
