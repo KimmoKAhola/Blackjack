@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, Kimmo!");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            GameBoard board = new GameBoard();
+            board.PrintBoard();
         }
     }
 }
