@@ -13,6 +13,7 @@ namespace Blackjack
         /// int value which is unique for each card.
         /// ex. ace of spades can be int = 1
         /// </summary>
+        ///
         public Card(string one, string two, string three, string four, string five, string six, int number)
         {
             One = one;
