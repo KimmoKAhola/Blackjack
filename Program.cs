@@ -8,9 +8,10 @@
             Console.WindowHeight = 50;
             Console.WindowWidth = 200;
 
-            GameBoard board = new GameBoard();
+            GameBoard board = new();
+            Card aceOfSpades = new(" _____", "|A .  |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
             board.PrintBoard();
-            board.PrintCards();
+            board.PrintCards(aceOfSpades);
         }
     }
 }

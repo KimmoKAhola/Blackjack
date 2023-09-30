@@ -12,16 +12,9 @@ namespace Blackjack
     /// </summary>
     internal class GameBoard
     {
-        const int windowWidth = 190;
-        const int windowHeight = 40;
-        string aceOfSpades = " _____\r\n    |A.   |\r\n    | /.\\ |\r\n    |(_._)|\r\n    |  |  |\r\n    |____V|";
-    // 6 rows
-    // _____
-    //|A.   |
-    //| /.\ |
-    //|(_._)|
-    //|  |  |
-    //|____V|
+        public const int windowWidth = 190;
+        public const int windowHeight = 40;
+        //Card aceOfSpades = new("_____", "|A.   |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -43,12 +36,11 @@ namespace Blackjack
         }
         /// <summary>
         /// Prints a card at a specified position inside our playing table
-        /// 
+        ///
         /// </summary>
-        public void PrintCards()
+        public void PrintCards(Card card)
         {
-            Console.SetCursorPosition(windowWidth / 2, windowHeight / 2);
-            Console.Write(aceOfSpades);
+            card.PrintCard(card);
         }
 
     }
