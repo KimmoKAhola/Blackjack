@@ -23,11 +23,13 @@ namespace Blackjack
 
         public void PlayerInfo()
         {
-            Console.WriteLine($"{Name}, {PlayerNumber}, ");
+            Console.WriteLine($"The player {Name}, with id {PlayerNumber}, has the hand ");
+            Console.Write("[");
             foreach (var card in PlayerHand)
             {
-                Console.WriteLine(card + ", ");
+                Console.Write($"{card}, ");
             }
+            Console.Write("]\n");
         }
     }
 }
