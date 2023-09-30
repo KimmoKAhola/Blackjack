@@ -11,35 +11,27 @@ namespace Blackjack
         private static Card[]? cards = GetNewDeck();
         public static Card[] AllCards
         {
-            get
-            {
-                if (cards == null)
-                {
-                    cards = GetNewDeck();
-                }
-
-                return cards;
-            }
+            get => cards ??= GetNewDeck();
+            //get => cards = (cards == null) ? GetNewDeck() : cards;
         }
 
         private static Card[] GetNewDeck()
         {
-            Card[] cardsArray = new Card[52];
+            Card[] cardNumbers = new Card[52];
 
-            for (int i = 1; i < 52; i++)
+
+            for (int i = 0; i <= 51; i++)
             {
-                cardsArray[i] = new Card(i);
+                cardNumbers[i] = new Card(i+1, Enum.GetNames(typeof(AllCards))[i]);
             }
 
-            return cardsArray;
+            return cardNumbers;
         }
-
-        //public Card[] Cards { get; set; }
 
         public static void ShuffleDeck()
         {
             Random randomNum = new();
-            for (int i = 52; i > 1; i--)
+            for (int i = 51; i > 0; i--)
             {
                 int j = randomNum.Next(0, i);
 
@@ -49,10 +41,9 @@ namespace Blackjack
 
         public static void PrintAllCards()
         {
-            cards = GetNewDeck();
             foreach (Card card in cards)
             {
-                Console.WriteLine(card.CardNumber);
+                Console.Write($"{card.Number} {card.Title}, ");
             }
         }
     }

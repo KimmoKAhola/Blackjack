@@ -13,7 +13,7 @@ namespace Blackjack
         /// int value which is unique for each card.
         /// ex. ace of spades can be int = 1
         /// </summary>
-        public Card(string one, string two, string three, string four, string five, string six, int cardNumber)
+        public Card(string one, string two, string three, string four, string five, string six, int number)
         {
             One = one;
             Two = two;
@@ -21,7 +21,7 @@ namespace Blackjack
             Four = four;
             Five = five;
             Six = six;
-            CardNumber = 1; // Hårdkodat nu
+            Number = 1; // Hårdkodat nu
         }
         public Card(string one, string two, string three, string four, string five, string six)
         {
@@ -32,13 +32,13 @@ namespace Blackjack
             Four = four;
             Five = five;
             Six = six;
-            CardNumber = 1; // Hårdkodat nu
+            Number = 1; // Hårdkodat nu
         }
 
-        public Card(int cardNumber)
+        public Card(int number, string title)
         {
-            //One to Six = new array[6]
-            CardNumber = cardNumber; // Hårdkodat nu
+            Number = number;
+            Title = title;
         }
 
         public string One { get; set; }
@@ -47,7 +47,8 @@ namespace Blackjack
         public string Four { get; set; }
         public string Five { get; set; }
         public string Six { get; set; }
-        public int CardNumber { get; set; }
+        public int Number { get; set; }
+        public string Title { get; set; }
 
         private static int _numberOfRows = 6;
         //private string[] aceOfSpadesArray = new string[_numberOfRows];
