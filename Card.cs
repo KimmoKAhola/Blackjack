@@ -36,9 +36,10 @@ namespace Blackjack
             Number = 1; // Hårdkodat nu
         }
 
-        public Card(string title)
+        public Card(string title, int value)
         {
             Title = title;
+            Value = value;
         }
 
         public string One { get; set; }
@@ -49,6 +50,7 @@ namespace Blackjack
         public string Six { get; set; }
         public int Number { get; set; }
         public string Title { get; set; }
+        public int Value { get; set; }
 
         private static int _numberOfRows = 6;
         //private string[] aceOfSpadesArray = new string[_numberOfRows];
