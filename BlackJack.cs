@@ -9,6 +9,8 @@ namespace Blackjack
     public class BlackJack
     {
         Player _dealer = new Player("William");
+
+        private static bool firstDeal = true;
         //Player _playerOne = new Player("Kimmo");
         public BlackJack(PlayingTable table)
         {
@@ -21,18 +23,9 @@ namespace Blackjack
         {
             //Table.PrintBoard();
             Deck.ShuffleDeck();
-            Deck.DealCard();
+            Deck.DealCard(_dealer, firstDeal);
             Console.ReadKey();
-            Deck.DealCard();
-            Console.ReadKey();
-            Deck.DealCard();
-            Console.ReadKey();
-            Deck.DealCard();
-            Console.ReadKey();
-            Deck.DealCard();
-            Console.ReadKey();
-            Deck.DealCard();
-            Console.ReadKey();
+            Deck.DealCard(playerOne, firstDeal); ;
 
             _dealer.PlayerInfo();
             playerOne.PlayerInfo();

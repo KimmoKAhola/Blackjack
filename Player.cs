@@ -13,17 +13,21 @@ namespace Blackjack
         {
             Name = name;
             PlayerNumber = playerCounter++;
-            PlayerHand = new List<int>();
+            PlayerHand = new List<string>();
             //PlayerHand = playerHand;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
-        public List<int> PlayerHand { get; set; }
+        public List<string> PlayerHand { get; set; }
 
         public void PlayerInfo()
         {
-            Console.WriteLine($"{Name}, {PlayerNumber}, {PlayerHand}");
+            Console.WriteLine($"{Name}, {PlayerNumber}, ");
+            foreach (var card in PlayerHand)
+            {
+                Console.WriteLine(card + ", ");
+            }
         }
     }
 }

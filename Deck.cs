@@ -10,7 +10,7 @@ namespace Blackjack
     public static class Deck
     {
         private static Card[]? cards = GetNewDeck();
-        private static bool firstDeal = true;
+        
         private static int counter = 0;
         public static Card[] AllCards
         {
@@ -50,11 +50,13 @@ namespace Blackjack
             }
         }
 
-        public static void DealCard()
+        public static void DealCard(Player player, bool firstDeal)
         {
             if (firstDeal)
             {
                 Console.WriteLine($"{cards[counter].Title} + {cards[counter + 1].Title}");
+                player.PlayerHand.Add(cards[counter].Title);
+                player.PlayerHand.Add(cards[counter+1].Title);
                 counter+=2;
                 firstDeal = false;
             }
@@ -62,6 +64,7 @@ namespace Blackjack
             else
             {
                 Console.WriteLine($"{cards[counter].Title}");
+                player.PlayerHand.Add(cards[counter].Title);
                 counter++;
             }
         }
