@@ -28,7 +28,7 @@ namespace Blackjack
             Console.Write("[");
             foreach (var card in PlayerHand)
             {
-                Console.Write($"{card}, ");
+                Console.Write($"{card.Title} {card.Value}, ");
             }
             Console.Write("]\n");
         }

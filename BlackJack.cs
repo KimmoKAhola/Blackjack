@@ -24,17 +24,28 @@ namespace Blackjack
             //Table.PrintBoard();
 
             Deck.PrintAllCards();
-            //Console.ReadKey();
+            Console.ReadKey();
+            Console.Clear();
 
-            //Deck.ShuffleDeck();
+            Deck.ShuffleDeck();
+            Deck.PrintAllCards();
+            Console.ReadKey();
+            Console.Clear();
 
-            //Deck.DealCard(_dealer, firstDeal);
-            //Console.ReadKey();
-            //Deck.DealCard(playerOne, firstDeal); ;
 
-            //_dealer.PlayerInfo();
-            //playerOne.PlayerInfo();
+            Deck.DealCard(_dealer, firstDeal);
             //Console.ReadKey();
+            Deck.DealCard(playerOne, firstDeal); ;
+
+            _dealer.PlayerInfo();
+            Console.ReadKey();
+
+            playerOne.PlayerInfo();
+            Console.ReadKey();
+
+            Console.Clear();
+            Deck.PrintAllCards();
+            Console.ReadKey();
         }
     }
 }

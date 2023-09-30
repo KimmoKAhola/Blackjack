@@ -9,18 +9,18 @@ namespace Blackjack
 {
     public static class Deck
     {
-        private static Card[]? cards = GetNewDeck();
+        private static List<Card>? cards = GetNewDeck();
 
 
-        public static Card[] AllCards
+        public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
             //get => cards = (cards == null) ? GetNewDeck() : cards;
         }
 
-        private static Card[] GetNewDeck()
+        private static List<Card> GetNewDeck()
         {
-            Card[] cardNumbers = new Card[52];
+            List<Card> cardNumbers = new();
             int cardIndex = 0;
             for (int j = 0; j <= 3; j++)
             {
@@ -28,11 +28,11 @@ namespace Blackjack
                 {
                     if (i < 9)
                     {
-                        cardNumbers[cardIndex] = new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1);
+                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1));
                         cardIndex++;
                         continue;
                     }
-                    cardNumbers[cardIndex] = new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10);
+                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10));
                     cardIndex++;
                 }
             }
@@ -58,25 +58,23 @@ namespace Blackjack
                 Console.WriteLine($"[Card value: {card.Value}, {card.Title}]");
             }
         }
-
-        private static int counter = 0;
         public static void DealCard(Player player, bool firstDeal)
         {
             if (firstDeal)
             {
-                Console.WriteLine($"{cards[counter].Title} + {cards[counter + 1].Title}");
+                Console.WriteLine($"{cards[0].Title} + {cards[1].Title}");
 
-                player.PlayerHand.Add(cards[counter]);
-                //player.PlayerHand.Add(cards[counter + 1].Title);
-                counter += 2;
+                player.PlayerHand.Add(cards[0]);
+                cards.RemoveAt(0);
+                player.PlayerHand.Add(cards[0]);
+                cards.RemoveAt(0);
                 firstDeal = false;
             }
-
             else
             {
-                //Console.WriteLine($"{}");
-                //player.PlayerHand.Add(cards[counter].Title);
-                counter++;
+                Console.WriteLine($"{cards[0].Title}");
+                player.PlayerHand.Add(cards[0]);
+                cards.RemoveAt(0);
             }
         }
     }
