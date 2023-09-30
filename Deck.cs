@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace Blackjack
     public static class Deck
     {
         private static Card[]? cards = GetNewDeck();
+        private static bool firstDeal = true;
+        private static int counter = 0;
         public static Card[] AllCards
         {
             get => cards ??= GetNewDeck();
@@ -44,6 +47,22 @@ namespace Blackjack
             foreach (Card card in cards)
             {
                 Console.Write($"{card.Title}, ");
+            }
+        }
+
+        public static void DealCard()
+        {
+            if (firstDeal)
+            {
+                Console.WriteLine($"{cards[counter].Title} + {cards[counter + 1].Title}");
+                counter+=2;
+                firstDeal = false;
+            }
+
+            else
+            {
+                Console.WriteLine($"{cards[counter].Title}");
+                counter++;
             }
         }
     }

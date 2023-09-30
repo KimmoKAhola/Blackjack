@@ -17,8 +17,15 @@ namespace Blackjack
 
         public void RunGame()
         {
-            Table.PrintBoard();
+            //Table.PrintBoard();
             Deck.ShuffleDeck();
+            Deck.DealCard();
+            Console.ReadKey();Deck.DealCard();
+            Console.ReadKey();Deck.DealCard();
+            Console.ReadKey();Deck.DealCard();
+            Console.ReadKey();Deck.DealCard();
+            Console.ReadKey();Deck.DealCard();
+            Console.ReadKey();
         }
     }
 }

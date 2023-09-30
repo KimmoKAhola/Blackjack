@@ -8,17 +8,20 @@
             Console.WindowHeight = 50;
             Console.WindowWidth = 200;
 
-            PlayingTable board = new();
-            Card aceOfSpades = new(" _____", "|A .  |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
-            board.PrintBoard();
-            //board.PrintCards(aceOfSpades);
-            Deck.PrintAllCards();
-            Console.ReadKey();
-            Deck.ShuffleDeck();
-            Console.ReadKey();
-            Deck.PrintAllCards();
-            Console.ReadKey();
+            //PlayingTable board = new();
+            //Card aceOfSpades = new(" _____", "|A .  |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
+            //board.PrintBoard();
+            ////board.PrintCards(aceOfSpades);
+            //Deck.PrintAllCards();
+            //Console.ReadKey();
+            //Deck.ShuffleDeck();
+            //Console.ReadKey();
+            //Deck.PrintAllCards();
+            //Console.ReadKey();
 
+            //PlayingTable table = new PlayingTable();
+            BlackJack blackjack = new(new PlayingTable());
+            blackjack.RunGame();
         }
     }
 }
