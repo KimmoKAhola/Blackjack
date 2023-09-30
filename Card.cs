@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
-    internal class Card
+    public class Card
     {
         /// <summary>
         /// One card consists of 6 strings and an

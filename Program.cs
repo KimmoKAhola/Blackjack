@@ -11,7 +11,14 @@
             GameBoard board = new();
             Card aceOfSpades = new(" _____", "|A .  |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
             board.PrintBoard();
-            board.PrintCards(aceOfSpades);
+            //board.PrintCards(aceOfSpades);
+            Deck.PrintAllCards();
+            Console.ReadKey();
+            Deck.ShuffleDeck();
+            Console.ReadKey();
+            Deck.PrintAllCards();
+            Console.ReadKey();
+
         }
     }
 }
