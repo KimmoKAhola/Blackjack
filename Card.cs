@@ -35,13 +35,19 @@ namespace Blackjack
             CardNumber = 1; // Hårdkodat nu
         }
 
+        public Card(int cardNumber)
+        {
+            //One to Six = new array[6]
+            CardNumber = cardNumber; // Hårdkodat nu
+        }
+
         public string One { get; set; }
         public string Two { get; set; }
         public string Three { get; set; }
         public string Four { get; set; }
         public string Five { get; set; }
         public string Six { get; set; }
-        public int CardNumber { get; private set; }
+        public int CardNumber { get; set; }
 
         private static int _numberOfRows = 6;
         //private string[] aceOfSpadesArray = new string[_numberOfRows];
