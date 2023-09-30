@@ -12,6 +12,16 @@ namespace Blackjack
     /// </summary>
     internal class GameBoard
     {
+        const int windowWidth = 190;
+        const int windowHeight = 40;
+        string aceOfSpades = " _____\r\n    |A.   |\r\n    | /.\\ |\r\n    |(_._)|\r\n    |  |  |\r\n    |____V|";
+    // 6 rows
+    // _____
+    //|A.   |
+    //| /.\ |
+    //|(_._)|
+    //|  |  |
+    //|____V|
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -21,21 +31,25 @@ namespace Blackjack
         /// </summary>
         public void PrintBoard()
         {
-            Console.WindowHeight = 50;
-            Console.WindowWidth = 200;
-            const int windowWidth = 190;
-            const int windowHeight = 40;
             char line = '─';
             string playingBoard = "╭" + new string(line, windowWidth) + "╮";
             char playingBoardBorder = '│';
-            for(int i = 0; i < windowHeight; i++)
+            for (int i = 0; i < windowHeight; i++)
             {
-                playingBoard += "\n"+playingBoardBorder + new string(' ', windowWidth) + playingBoardBorder;
+                playingBoard += "\n" + playingBoardBorder + new string(' ', windowWidth) + playingBoardBorder;
             }
-            playingBoard += "\n"+"╰" + new string(line, windowWidth) + "╯";
+            playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
             Console.WriteLine(playingBoard);
         }
-
+        /// <summary>
+        /// Prints a card at a specified position inside our playing table
+        /// 
+        /// </summary>
+        public void PrintCards()
+        {
+            Console.SetCursorPosition(windowWidth / 2, windowHeight / 2);
+            Console.Write(aceOfSpades);
+        }
 
     }
 }
