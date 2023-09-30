@@ -9,7 +9,7 @@ namespace Blackjack
     public enum AllCards
     {
         AceOfSpades = 1,
-        TwoOfpades,
+        TwoOfSpades,
         ThreeOfSpades,
         FourOfSpades,
         FiveOfSpades,

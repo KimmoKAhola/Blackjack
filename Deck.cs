@@ -10,8 +10,8 @@ namespace Blackjack
     public static class Deck
     {
         private static Card[]? cards = GetNewDeck();
-        
-        private static int counter = 0;
+
+
         public static Card[] AllCards
         {
             get => cards ??= GetNewDeck();
@@ -21,11 +21,20 @@ namespace Blackjack
         private static Card[] GetNewDeck()
         {
             Card[] cardNumbers = new Card[52];
-
-
-            for (int i = 0; i <= 51; i++)
+            int cardIndex = 0;
+            for (int j = 0; j <= 3; j++)
             {
-                cardNumbers[i] = new Card(Enum.GetNames(typeof(AllCards))[i]);
+                for (int i = 0; i <= 12; i++)
+                {
+                    if (i < 9)
+                    {
+                        cardNumbers[cardIndex] = new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1);
+                        cardIndex++;
+                        continue;
+                    }
+                    cardNumbers[cardIndex] = new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10);
+                    cardIndex++;
+                }
             }
 
             return cardNumbers;
@@ -46,25 +55,27 @@ namespace Blackjack
         {
             foreach (Card card in cards)
             {
-                Console.Write($"{card.Title}, ");
+                Console.WriteLine($"[Card value: {card.Value}, {card.Title}]");
             }
         }
 
+        private static int counter = 0;
         public static void DealCard(Player player, bool firstDeal)
         {
             if (firstDeal)
             {
                 Console.WriteLine($"{cards[counter].Title} + {cards[counter + 1].Title}");
-                player.PlayerHand.Add(cards[counter].Title);
-                player.PlayerHand.Add(cards[counter+1].Title);
-                counter+=2;
+
+                player.PlayerHand.Add(cards[counter]);
+                //player.PlayerHand.Add(cards[counter + 1].Title);
+                counter += 2;
                 firstDeal = false;
             }
 
             else
             {
-                Console.WriteLine($"{cards[counter].Title}");
-                player.PlayerHand.Add(cards[counter].Title);
+                //Console.WriteLine($"{}");
+                //player.PlayerHand.Add(cards[counter].Title);
                 counter++;
             }
         }

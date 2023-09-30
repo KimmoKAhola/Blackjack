@@ -13,13 +13,14 @@ namespace Blackjack
         {
             Name = name;
             PlayerNumber = playerCounter++;
-            PlayerHand = new List<string>();
+            PlayerHand = new List<Card>();
             //PlayerHand = playerHand;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
-        public List<string> PlayerHand { get; set; }
+        public List<Card> PlayerHand { get; set; }
+
 
         public void PlayerInfo()
         {
