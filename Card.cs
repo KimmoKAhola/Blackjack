@@ -35,9 +35,8 @@ namespace Blackjack
             Number = 1; // Hårdkodat nu
         }
 
-        public Card(int number, string title)
+        public Card(string title)
         {
-            Number = number;
             Title = title;
         }
 
@@ -61,10 +60,10 @@ namespace Blackjack
         public void PrintCard(Card card)
         {
             string[] cardArray = new string[] {One, Two, Three, Four, Five, Six };
-            Console.SetCursorPosition(GameBoard.windowWidth / 2, GameBoard.windowHeight / 2);
+            Console.SetCursorPosition(PlayingTable.windowWidth / 2, PlayingTable.windowHeight / 2);
             for (int i = 0; i < _numberOfRows; i++)
             {
-                Console.SetCursorPosition(GameBoard.windowWidth/2, Console.CursorTop + 1);
+                Console.SetCursorPosition(PlayingTable.windowWidth/2, Console.CursorTop + 1);
                 Console.Write(cardArray[i]);
             }
         }

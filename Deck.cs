@@ -22,7 +22,7 @@ namespace Blackjack
 
             for (int i = 0; i <= 51; i++)
             {
-                cardNumbers[i] = new Card(i+1, Enum.GetNames(typeof(AllCards))[i]);
+                cardNumbers[i] = new Card(Enum.GetNames(typeof(AllCards))[i]);
             }
 
             return cardNumbers;
@@ -43,7 +43,7 @@ namespace Blackjack
         {
             foreach (Card card in cards)
             {
-                Console.Write($"{card.Number} {card.Title}, ");
+                Console.Write($"{card.Title}, ");
             }
         }
     }

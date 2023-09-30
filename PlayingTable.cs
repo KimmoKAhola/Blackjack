@@ -10,7 +10,7 @@ namespace Blackjack
     /// Creates a playing board for the black jack table.
     ///
     /// </summary>
-    internal class GameBoard
+    public class PlayingTable
     {
         public const int windowWidth = 190;
         public const int windowHeight = 40;
