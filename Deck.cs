@@ -6,25 +6,45 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
-    public class Deck
+    public static class Deck
     {
-        public Deck()
+        private static Card[]? cards = GetNewDeck();
+        public static Card[] AllCards
         {
-            cards = GetNewDeck();
+            get => cards ??= GetNewDeck();
+            //get => cards = (cards == null) ? GetNewDeck() : cards;
         }
-
-        private Card[] cards = new Card[52];
 
         private static Card[] GetNewDeck()
         {
-            Card[] cardsArray = new Card[52];
+            Card[] cardNumbers = new Card[52];
 
-            for (int i = 1; i <= 52; i++)
+
+            for (int i = 0; i <= 51; i++)
             {
-                cardsArray[i] = new Card(i);
+                cardNumbers[i] = new Card(Enum.GetNames(typeof(AllCards))[i]);
             }
 
-            return cardsArray;
+            return cardNumbers;
+        }
+
+        public static void ShuffleDeck()
+        {
+            Random randomNum = new();
+            for (int i = 51; i > 0; i--)
+            {
+                int j = randomNum.Next(0, i);
+
+                (cards[j], cards[i]) = (cards[i], cards[j]);
+            }
+        }
+
+        public static void PrintAllCards()
+        {
+            foreach (Card card in cards)
+            {
+                Console.Write($"{card.Title}, ");
+            }
         }
     }
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
-    internal class Card
+    public class Card
     {
         /// <summary>
         /// One card consists of 6 strings and an
         /// int value which is unique for each card.
         /// ex. ace of spades can be int = 1
         /// </summary>
-        public Card(string one, string two, string three, string four, string five, string six, int cardNumber)
+        public Card(string one, string two, string three, string four, string five, string six, int number)
         {
             One = one;
             Two = two;
@@ -21,7 +21,7 @@ namespace Blackjack
             Four = four;
             Five = five;
             Six = six;
-            CardNumber = 1; // Hårdkodat nu
+            Number = 1; // Hårdkodat nu
         }
         public Card(string one, string two, string three, string four, string five, string six)
         {
@@ -32,13 +32,12 @@ namespace Blackjack
             Four = four;
             Five = five;
             Six = six;
-            CardNumber = 1; // Hårdkodat nu
+            Number = 1; // Hårdkodat nu
         }
 
-        public Card(int cardNumber)
+        public Card(string title)
         {
-            //One to Six = new array[6]
-            CardNumber = cardNumber; // Hårdkodat nu
+            Title = title;
         }
 
         public string One { get; set; }
@@ -47,7 +46,8 @@ namespace Blackjack
         public string Four { get; set; }
         public string Five { get; set; }
         public string Six { get; set; }
-        public int CardNumber { get; set; }
+        public int Number { get; set; }
+        public string Title { get; set; }
 
         private static int _numberOfRows = 6;
         //private string[] aceOfSpadesArray = new string[_numberOfRows];
@@ -60,10 +60,10 @@ namespace Blackjack
         public void PrintCard(Card card)
         {
             string[] cardArray = new string[] {One, Two, Three, Four, Five, Six };
-            Console.SetCursorPosition(GameBoard.windowWidth / 2, GameBoard.windowHeight / 2);
+            Console.SetCursorPosition(PlayingTable.windowWidth / 2, PlayingTable.windowHeight / 2);
             for (int i = 0; i < _numberOfRows; i++)
             {
-                Console.SetCursorPosition(GameBoard.windowWidth/2, Console.CursorTop + 1);
+                Console.SetCursorPosition(PlayingTable.windowWidth/2, Console.CursorTop + 1);
                 Console.Write(cardArray[i]);
             }
         }
