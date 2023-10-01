@@ -18,6 +18,8 @@
         /// </summary>
         public void PrintBoard()
         {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
             char line = '─';
             string playingBoard = "╭" + new string(line, windowWidth) + "╮";
             char playingBoardBorder = '│';
@@ -28,14 +30,39 @@
             playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
             Console.WriteLine(playingBoard);
         }
+
+        private readonly static int _cardWidth = 7;
         /// <summary>
-        /// Prints a card at a specified position inside our playing table
-        ///
+        /// Prints a card at a certain position which is decided
+        /// by two scaling vectors.
         /// </summary>
-        public static void PrintCards(Card card)
+        /// <param name="card"></param>
+        public static void PrintCard(Card card)
         {
             var vectors = ScalingVectors();
-            card.PrintCard(vectors.x, vectors.y);
+            double[] xValues = vectors.x;
+            double[] yValues = vectors.y;
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            // y position is the height value
+            // the xposition has to be chosen accordingly
+            for (int xPosition = 0; xPosition < 1; xPosition++)
+            {
+                Console.SetCursorPosition((int)xValues[xPosition], (int)yValues[3]);
+                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                {
+                    Console.SetCursorPosition((int)xValues[xPosition], Console.CursorTop + 1);
+                    Console.Write(cardArray[yPosition]);
+                }
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
 
         public static (double[] x, double[] y) ScalingVectors()

@@ -28,11 +28,11 @@ namespace Blackjack
                 {
                     if (i < 9)
                     {
-                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1));
+                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1, Card.allCardGraphics[cardIndex]));
                         cardIndex++;
                         continue;
                     }
-                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10));
+                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10, Card.allCardGraphics[cardIndex]));
                     cardIndex++;
                 }
             }
