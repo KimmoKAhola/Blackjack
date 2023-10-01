@@ -8,7 +8,6 @@
     {
         public const int windowWidth = 190;
         public const int windowHeight = 40;
-        //Card aceOfSpades = new("_____", "|A.   |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -39,32 +38,74 @@
         /// <param name="card"></param>
         public static void PrintCard(Card card)
         {
-            var vectors = ScalingVectors();
-            double[] xValues = vectors.x;
-            double[] yValues = vectors.y;
-
             Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
 
-            // y position is the height value
-            // the xposition has to be chosen accordingly
-            for (int xPosition = 0; xPosition < 1; xPosition++)
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
             {
-                Console.SetCursorPosition((int)xValues[xPosition], (int)yValues[3]);
-                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-                {
-                    Console.SetCursorPosition((int)xValues[xPosition], Console.CursorTop + 1);
-                    Console.Write(cardArray[yPosition]);
-                }
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(cardArray[yPosition]);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
 
+        /// <summary>
+        /// A method that prints out the whole player hand.
+        /// Utilizes the PrintCard method to print out one card at a time while looping through
+        /// the list of cards.
+        /// </summary>
+        /// <param name="player"></param>
+        public static void PrintCard(Player player)
+        {
+            // TODO startPosX 8 prints one card in a specific region!!!!
+            // TODO startPosY 5 prints one card in a specific region!!!!
+            //TODO Brädet är 28 kort brett och 8 kort högt.
+            int playerRegion = player.PlayerNumber;
+            List<Card> listOfCards = player.PlayerHand;
+            int startPosX, startPosY;
+
+            //This switch case decides where to print the cards. The region values are hard coded in a switch case.
+            switch (playerRegion)
+            {
+                case 0: //dealer
+                    startPosX = 13;
+                    startPosY = 0;
+                    break;
+                case 1: //player one etc
+                    startPosX = 13;
+                    startPosY = 5;
+                    break;
+                default:
+                    //TODO fix error handling later.
+                    startPosX = 10;
+                    startPosY = 5;
+                    break;
+            }
+
+            foreach (Card card in listOfCards)
+            {
+                var vectors = ScalingVectors();
+                double[] xValues = vectors.x;
+                double[] yValues = vectors.y;
+                Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
+                PrintCard(card);
+                startPosX++;
+            }
+            Console.ForegroundColor=ConsoleColor.Yellow;
+        }
+
+        /// <summary>
+        /// Divides the playing board into different subparts.
+        /// These subparts are then used to decide where to draw the card graphics.
+        /// The subparts are a function of windowSize / cardSize in both
+        /// x and y direction.
+        /// </summary>
+        /// <returns></returns>
         public static (double[] x, double[] y) ScalingVectors()
         {
             double cardHeight = 6;

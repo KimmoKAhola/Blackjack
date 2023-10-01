@@ -9,12 +9,6 @@
             Console.WindowWidth = 200;
             Console.CursorVisible = false;
 
-            Graphics table = new Graphics();
-            table.PrintBoard();
-            Graphics.PrintCard(Deck.AllCards[51]);
-
-            Console.ReadKey();
-            
             BlackJack blackjack = new(new Graphics());
             Player playerOne = new Player("Kimmo");
 
