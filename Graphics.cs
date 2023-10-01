@@ -9,9 +9,6 @@
         public const int windowWidth = 190;
         public const int windowHeight = 40;
 
-        
-
-
         /// <summary>
         /// Prints out a square with rounded corners.
         /// Hard coded values for window height and width
@@ -57,13 +54,39 @@
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
 
-        public static void PrintCard(List<Card> listOfCards)
+        /// <summary>
+        /// A method that prints out the whole player hand.
+        /// Utilizes the PrintCard method to print out one card at a time while looping through
+        /// the list of cards.
+        /// </summary>
+        /// <param name="player"></param>
+        public static void PrintCard(Player player)
         {
             // TODO startPosX 8 prints one card in a specific region!!!!
             // TODO startPosY 5 prints one card in a specific region!!!!
             //TODO Brädet är 28 kort brett och 8 kort högt.
-            int startPosX = 10;
-            int startPosY = 5;
+            int playerRegion = player.PlayerNumber;
+            List<Card> listOfCards = player.PlayerHand;
+            int startPosX, startPosY;
+
+            //This switch case decides where to print the cards. The region values are hard coded in a switch case.
+            switch (playerRegion)
+            {
+                case 0: //dealer
+                    startPosX = 13;
+                    startPosY = 0;
+                    break;
+                case 1: //player one etc
+                    startPosX = 13;
+                    startPosY = 5;
+                    break;
+                default:
+                    //TODO fix error handling later.
+                    startPosX = 10;
+                    startPosY = 5;
+                    break;
+            }
+
             foreach (Card card in listOfCards)
             {
                 var vectors = ScalingVectors();
@@ -73,8 +96,16 @@
                 PrintCard(card);
                 startPosX++;
             }
+            Console.ForegroundColor=ConsoleColor.Yellow;
         }
 
+        /// <summary>
+        /// Divides the playing board into different subparts.
+        /// These subparts are then used to decide where to draw the card graphics.
+        /// The subparts are a function of windowSize / cardSize in both
+        /// x and y direction.
+        /// </summary>
+        /// <returns></returns>
         public static (double[] x, double[] y) ScalingVectors()
         {
             double cardHeight = 6;

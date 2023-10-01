@@ -10,16 +10,13 @@ namespace Blackjack
     public class Card
     {
         /// <summary>
-        /// One card consists of 6 strings and an
-        /// int value which is unique for each card.
-        /// ex. ace of spades can be int = 1
+        /// Card constructor.
+        /// Reads in title, value and graphics
+        /// from a separate text file/card enum.
         /// </summary>
-        ///
-        public Card(string title, int value)
-        {
-            Title = title;
-            Value = value;
-        }
+        /// <param name="title"></param>
+        /// <param name="value"></param>
+        /// <param name="cardGraphic"></param>
         public Card(string title, int value, string cardGraphic)
         {
             Title = title;

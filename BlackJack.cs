@@ -10,7 +10,7 @@ namespace Blackjack
     {
         Player _dealer = new Player("William");
 
-        private static bool firstDeal = true;
+        private static bool _firstDeal = true;
         //Player _playerOne = new Player("Kimmo");
         public BlackJack(Graphics table)
         {
@@ -23,15 +23,16 @@ namespace Blackjack
         {
             Table.PrintBoard();
             Deck.ShuffleDeck();
-            Deck.DealCard(_dealer, firstDeal);
-            Deck.DealCard(playerOne, firstDeal);
-            Deck.DealCard(playerOne, firstDeal);
-            Deck.DealCard(playerOne, firstDeal);
+            Deck.DealCard(_dealer, _firstDeal);
+            Deck.DealCard(playerOne, _firstDeal);
 
 
-            Graphics.PrintCard(playerOne.PlayerHand);
+            Graphics.PrintCard(_dealer);
+            Graphics.PrintCard(playerOne);
             
             _dealer.PlayerInfo();
+            playerOne.PlayerInfo();
+            Console.ReadKey();
         }
     }
 }
