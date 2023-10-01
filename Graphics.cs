@@ -8,7 +8,9 @@
     {
         public const int windowWidth = 190;
         public const int windowHeight = 40;
-        //Card aceOfSpades = new("_____", "|A.   |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
+
+        
+
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -39,10 +41,6 @@
         /// <param name="card"></param>
         public static void PrintCard(Card card)
         {
-            var vectors = ScalingVectors();
-            double[] xValues = vectors.x;
-            double[] yValues = vectors.y;
-
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
             string[] cardArray = new string[6];
@@ -51,18 +49,30 @@
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
 
-            // y position is the height value
-            // the xposition has to be chosen accordingly
-            for (int xPosition = 0; xPosition < 1; xPosition++)
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
             {
-                Console.SetCursorPosition((int)xValues[xPosition], (int)yValues[3]);
-                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-                {
-                    Console.SetCursorPosition((int)xValues[xPosition], Console.CursorTop + 1);
-                    Console.Write(cardArray[yPosition]);
-                }
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(cardArray[yPosition]);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+        }
+
+        public static void PrintCard(List<Card> listOfCards)
+        {
+            // TODO startPosX 8 prints one card in a specific region!!!!
+            // TODO startPosY 5 prints one card in a specific region!!!!
+            //TODO Brädet är 28 kort brett och 8 kort högt.
+            int startPosX = 10;
+            int startPosY = 5;
+            foreach (Card card in listOfCards)
+            {
+                var vectors = ScalingVectors();
+                double[] xValues = vectors.x;
+                double[] yValues = vectors.y;
+                Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
+                PrintCard(card);
+                startPosX++;
+            }
         }
 
         public static (double[] x, double[] y) ScalingVectors()

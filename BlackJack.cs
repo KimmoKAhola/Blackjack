@@ -21,31 +21,17 @@ namespace Blackjack
         public Player Player { get; }
         public void RunGame(Player playerOne) //skicka in en lista med spelare sen
         {
-            //Table.PrintBoard();
-
-            Deck.PrintAllCards();
-            Console.ReadKey();
-            Console.Clear();
-
+            Table.PrintBoard();
             Deck.ShuffleDeck();
-            Deck.PrintAllCards();
-            Console.ReadKey();
-            Console.Clear();
-
-
             Deck.DealCard(_dealer, firstDeal);
-            //Console.ReadKey();
-            Deck.DealCard(playerOne, firstDeal); ;
+            Deck.DealCard(playerOne, firstDeal);
+            Deck.DealCard(playerOne, firstDeal);
+            Deck.DealCard(playerOne, firstDeal);
 
+
+            Graphics.PrintCard(playerOne.PlayerHand);
+            
             _dealer.PlayerInfo();
-            Console.ReadKey();
-
-            playerOne.PlayerInfo();
-            Console.ReadKey();
-
-            Console.Clear();
-            Deck.PrintAllCards();
-            Console.ReadKey();
         }
     }
 }
