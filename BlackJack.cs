@@ -12,12 +12,12 @@ namespace Blackjack
 
         private static bool firstDeal = true;
         //Player _playerOne = new Player("Kimmo");
-        public BlackJack(PlayingTable table)
+        public BlackJack(Graphics table)
         {
             Table = table;
         }
 
-        public PlayingTable Table { get; set; }
+        public Graphics Table { get; set; }
         public Player Player { get; }
         public void RunGame(Player playerOne) //skicka in en lista med spelare sen
         {

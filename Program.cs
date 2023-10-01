@@ -9,7 +9,7 @@
             Console.WindowWidth = 200;
 
             //PlayingTable board = new();
-            //Card aceOfSpades = new(" _____", "|A .  |", "| /.\\ |", "|(_._)|", "|  |  |", "|____V|");
+            Card aceOfSpades = new("╭─────╮", "│A .  │", "│ /.\\ │", "│(_._)│", "│  │ V│", "╰─────╯");
             //board.PrintBoard();
             ////board.PrintCards(aceOfSpades);
             //Deck.PrintAllCards();
@@ -19,12 +19,22 @@
             //Deck.PrintAllCards();
             //Console.ReadKey();
 
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Graphics table = new Graphics();
+            table.PrintBoard();
+            Graphics.PrintCards(aceOfSpades);
+
+            Console.ReadKey();
+
             //PlayingTable table = new PlayingTable();
             List<int> dealerHand = new List<int>();
             List<int> playerOneHand = new List<int>();
             
-            BlackJack blackjack = new(new PlayingTable());
+            BlackJack blackjack = new(new Graphics());
             Player playerOne = new Player("Kimmo");
+
+            
 
             blackjack.RunGame(playerOne);
         }
