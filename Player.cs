@@ -20,5 +20,14 @@ namespace Blackjack
         public int PlayerNumber { get; set; }
         public List<Card> PlayerHand { get; set; }
         public int PlayerSeat { get; set; }
+        public int HandSum()
+        {
+            int sum = 0;
+            foreach (var card in PlayerHand)
+            {
+                sum += card.Value;
+            }
+            return sum;
+        }
     }
 }
