@@ -1,4 +1,6 @@
-﻿namespace Blackjack
+﻿using System.Xml.Linq;
+
+namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -73,17 +75,21 @@
             //This switch case decides where to print the cards. The region values are hard coded in a switch case.
             switch (playerRegion)
             {
-                case 0: //dealer
+                case 0: //dealer on the top
                     startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
-                case 1: //player one etc
-                    startPosX = vectors.x.Length-3;
-                    startPosY = 2;
+                case 1: //player one on the right side
+                    startPosX = vectors.x.Length - 2 - player.PlayerHand.Count;
+                    startPosY = vectors.y.Length / 3;
                     break;
-                case 2:
+                case 2: // player two on the bottom
                     startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
-                    startPosY = 5;
+                    startPosY = vectors.y.Length - 4;
+                    break;
+                case 3: // player three on the left side
+                    startPosX = 0 + player.PlayerHand.Count;
+                    startPosY = vectors.y.Length / 3;
                     break;
                 default:
                     //TODO fix error handling later.
@@ -100,7 +106,7 @@
                 PrintCard(card);
                 startPosX++;
             }
-            Console.ForegroundColor=ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
 
@@ -136,11 +142,43 @@
 
             for (int i = 0; i < vectorYValues.Length; i++)
             {
-                vectorYValues[i] = i * cardHeight;
+                vectorYValues[i] = i * cardHeight / 2;
             }
 
             return (vectorXValues, vectorYValues);
         }
 
+        //TODO does not work currently, but almost.
+        public static void PrintPlayerInfo(Player player)
+        {
+            var vectors = ScalingVectors();
+
+
+            int startPosX = vectors.x.Length - 20;
+            int startPosY = 0;
+
+            Console.SetCursorPosition(startPosX, startPosY);
+            List<string> infoList = new();
+
+
+            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand";
+
+            infoList.Add(info);
+            foreach (Card card in player.PlayerHand)
+            {
+                infoList.Add(($"[{card.Title} {card.Value}] "));
+            }
+
+            foreach (var item in infoList)
+            {
+                Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
+                Console.Write(item);
+            }
+            if (infoList.Count > 4)
+            {
+                infoList.RemoveAt(0);
+                Console.SetCursorPosition(startPosX, startPosY);
+            }
+        }
     }
 }

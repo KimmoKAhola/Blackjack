@@ -32,8 +32,9 @@ namespace Blackjack
                 {
                     //TODO These four lines should go in a separate UpdateBoard() method
                     Graphics.PrintCard(players);
-                    _dealer.PlayerInfo();
-                    players[currentPlayer].PlayerInfo();
+                    Graphics.PrintPlayerInfo(players[currentPlayer]);
+                    Graphics.PrintPlayerInfo(players[currentPlayer]);
+
 
                     char response = 'ä';
                     Console.Write("Want another card broski?");

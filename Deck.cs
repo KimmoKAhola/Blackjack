@@ -60,7 +60,6 @@ namespace Blackjack
         }
         public static void DealCard(Player player)
         {
-                Console.WriteLine($"{cards[0].Title}");
                 player.PlayerHand.Add(cards[0]);
                 cards.RemoveAt(0);
         }
