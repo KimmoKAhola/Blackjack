@@ -28,10 +28,10 @@ namespace Blackjack
         public string Title { get; set; }
         public int Value { get; set; }
         public string CardInfo { get; set; }
-        private static int _cardWidth = 7;
+        private readonly static int _cardWidth = 7;
         /// <summary>
-        /// Prints a card at a 
-        /// currently at the windowWidth / 2, and windowHeight / 2.
+        /// Prints a card at a certain position which is decided
+        /// by two scaling vectors.
         /// </summary>
         /// <param name="card"></param>
         public void PrintCard(double[] xValues, double[] yValues)
