@@ -9,7 +9,7 @@
             Console.WindowWidth = 200;
 
             //PlayingTable board = new();
-            Card aceOfSpades = new("╭─────╮", "│A .  │", "│ /.\\ │", "│(_._)│", "│  │ V│", "╰─────╯");
+            Card aceOfSpades = new("aceOfSpaces", 11, "╭─────╮│A .  ││ /.\\ ││(_._)││  │ V│╰─────╯");
             //board.PrintBoard();
             ////board.PrintCards(aceOfSpades);
             //Deck.PrintAllCards();
