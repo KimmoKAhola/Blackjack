@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,42 +20,16 @@ namespace Blackjack
             Title = title;
             Value = value;
         }
-        public Card(string title, int value, string cardInfo)
+        public Card(string title, int value, string cardGraphic)
         {
             Title = title;
             Value = value;
-            CardInfo = cardInfo;
+            CardGraphic = cardGraphic;
         }
+
+        public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
-        public string CardInfo { get; set; }
-        private readonly static int _cardWidth = 7;
-        /// <summary>
-        /// Prints a card at a certain position which is decided
-        /// by two scaling vectors.
-        /// </summary>
-        /// <param name="card"></param>
-        public void PrintCard(double[] xValues, double[] yValues)
-        {
-            Console.BackgroundColor = ConsoleColor.White;
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth-1; i++)
-            {
-                cardArray[i] = CardInfo.Substring(i*_cardWidth, _cardWidth);
-            }
-
-            // y position is the height value
-            // the xposition has to be chosen accordingly
-            for (int xPosition = 0; xPosition < 1; xPosition++)
-            {
-                Console.SetCursorPosition((int)xValues[xPosition], (int)yValues[3]);
-                for (int yPosition = 0; yPosition < _cardWidth-1; yPosition++)
-                {
-                    Console.SetCursorPosition((int)xValues[xPosition], Console.CursorTop + 1);
-                    Console.Write(cardArray[yPosition]);
-                }
-            }
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
+        public string CardGraphic { get; set; }
     }
 }
