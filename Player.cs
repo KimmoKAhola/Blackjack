@@ -22,15 +22,25 @@ namespace Blackjack
         public List<Card> PlayerHand { get; set; }
 
 
-        public void PlayerInfo()
+        //public void PlayerInfo()
+        //{
+        //    Console.WriteLine($"The player {Name}, with id {PlayerNumber}, has the hand ");
+        //    Console.Write("[");
+        //    foreach (var card in PlayerHand)
+        //    {
+        //        Console.Write($"{card.Title} {card.Value}, ");
+        //    }
+        //    Console.Write("]\n");
+        //}
+        public string PlayerInfo()
         {
-            Console.WriteLine($"The player {Name}, with id {PlayerNumber}, has the hand ");
-            Console.Write("[");
-            foreach (var card in PlayerHand)
+            string info = $"The player {Name}, with id {PlayerNumber}, has the hand";
+            Console.WriteLine(info);
+            foreach (Card card in PlayerHand)
             {
-                Console.Write($"{card.Title} {card.Value}, ");
+                Console.Write($"[{card.Title} {card.Value}] ");
             }
-            Console.Write("]\n");
+            return info;
         }
     }
 }
