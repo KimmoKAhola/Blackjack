@@ -20,27 +20,5 @@ namespace Blackjack
         public int PlayerNumber { get; set; }
         public List<Card> PlayerHand { get; set; }
         public int PlayerSeat { get; set; }
-
-
-        //public void PlayerInfo()
-        //{
-        //    Console.WriteLine($"The player {Name}, with id {PlayerNumber}, has the hand ");
-        //    Console.Write("[");
-        //    foreach (var card in PlayerHand)
-        //    {
-        //        Console.Write($"{card.Title} {card.Value}, ");
-        //    }
-        //    Console.Write("]\n");
-        //}
-        public string PlayerInfo()
-        {
-            string info = $"\nThe player {Name}, with id {PlayerNumber}, has the hand";
-            Console.WriteLine(info);
-            foreach (Card card in PlayerHand)
-            {
-                Console.Write($"[{card.Title} {card.Value}] ");
-            }
-            return info;
-        }
     }
 }

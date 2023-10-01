@@ -1,4 +1,6 @@
-﻿namespace Blackjack
+﻿using System.Xml.Linq;
+
+namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -146,5 +148,37 @@
             return (vectorXValues, vectorYValues);
         }
 
+        //TODO does not work currently, but almost.
+        public static void PrintPlayerInfo(Player player)
+        {
+            var vectors = ScalingVectors();
+
+
+            int startPosX = vectors.x.Length - 20;
+            int startPosY = 0;
+
+            Console.SetCursorPosition(startPosX, startPosY);
+            List<string> infoList = new();
+
+
+            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand";
+
+            infoList.Add(info);
+            foreach (Card card in player.PlayerHand)
+            {
+                infoList.Add(($"[{card.Title} {card.Value}] "));
+            }
+
+            foreach (var item in infoList)
+            {
+                Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
+                Console.Write(item);
+            }
+            if (infoList.Count > 4)
+            {
+                infoList.RemoveAt(0);
+                Console.SetCursorPosition(startPosX, startPosY);
+            }
+        }
     }
 }
