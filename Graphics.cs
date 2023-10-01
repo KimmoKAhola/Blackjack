@@ -73,17 +73,21 @@
             //This switch case decides where to print the cards. The region values are hard coded in a switch case.
             switch (playerRegion)
             {
-                case 0: //dealer
+                case 0: //dealer on the top
                     startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
-                case 1: //player one etc
-                    startPosX = vectors.x.Length-3;
-                    startPosY = 2;
+                case 1: //player one on the right side
+                    startPosX = vectors.x.Length - 2 - player.PlayerHand.Count;
+                    startPosY = vectors.y.Length / 3;
                     break;
-                case 2:
+                case 2: // player two on the bottom
                     startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
-                    startPosY = 5;
+                    startPosY = vectors.y.Length - 4;
+                    break;
+                case 3: // player three on the left side
+                    startPosX = 0 + player.PlayerHand.Count;
+                    startPosY = vectors.y.Length / 3;
                     break;
                 default:
                     //TODO fix error handling later.
@@ -100,7 +104,7 @@
                 PrintCard(card);
                 startPosX++;
             }
-            Console.ForegroundColor=ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
 
@@ -136,7 +140,7 @@
 
             for (int i = 0; i < vectorYValues.Length; i++)
             {
-                vectorYValues[i] = i * cardHeight;
+                vectorYValues[i] = i * cardHeight / 2;
             }
 
             return (vectorXValues, vectorYValues);

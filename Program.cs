@@ -15,6 +15,7 @@
             allPlayers.Add(null);
             allPlayers.Add(new Player("Mille"));
             allPlayers.Add(new Player("Kimmo"));
+            allPlayers.Add(new Player("Jesus"));
 
             blackjack.RunGame(allPlayers);
         }
