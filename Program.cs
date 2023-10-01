@@ -11,7 +11,7 @@
 
             Graphics table = new Graphics();
             table.PrintBoard();
-            Graphics.PrintCard(Deck.AllCards[51]);
+            Graphics.PrintCard(Deck.AllCards[5]);
 
             Console.ReadKey();
             

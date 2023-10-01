@@ -25,11 +25,22 @@ namespace Blackjack
             Title = title;
             Value = value;
             CardGraphic = cardGraphic;
+            IsRed = _isRed;
         }
-
+        private bool _isRed;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
         public string CardGraphic { get; set; }
+        public bool IsRed {
+            get {  return _isRed; }
+            set
+            {
+                if(Title.Contains("Hearts") || Title.Contains("Diamond"))
+                {
+                    _isRed = true;
+                }
+            }
+        }
     }
 }

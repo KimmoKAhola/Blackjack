@@ -44,7 +44,7 @@
             double[] yValues = vectors.y;
 
             Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
