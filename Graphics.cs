@@ -36,7 +36,7 @@
         /// by two scaling vectors.
         /// </summary>
         /// <param name="card"></param>
-        public static void PrintCard(Card card)
+        private static void PrintCard(Card card)
         {
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
@@ -60,8 +60,9 @@
         /// the list of cards.
         /// </summary>
         /// <param name="player"></param>
-        public static void PrintCard(Player player)
+        private static void PrintCard(Player player)
         {
+            var vectors = ScalingVectors();
             // TODO startPosX 8 prints one card in a specific region!!!!
             // TODO startPosY 5 prints one card in a specific region!!!!
             //TODO Brädet är 28 kort brett och 8 kort högt.
@@ -73,23 +74,26 @@
             switch (playerRegion)
             {
                 case 0: //dealer
-                    startPosX = 13;
+                    startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
                 case 1: //player one etc
-                    startPosX = 13;
+                    startPosX = vectors.x.Length-3;
+                    startPosY = 2;
+                    break;
+                case 2:
+                    startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
                     startPosY = 5;
                     break;
                 default:
                     //TODO fix error handling later.
-                    startPosX = 10;
+                    startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
                     startPosY = 5;
                     break;
             }
 
             foreach (Card card in listOfCards)
             {
-                var vectors = ScalingVectors();
                 double[] xValues = vectors.x;
                 double[] yValues = vectors.y;
                 Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
@@ -99,6 +103,14 @@
             Console.ForegroundColor=ConsoleColor.Yellow;
         }
 
+
+        public static void PrintCard(List<Player> players)
+        {
+            foreach (Player player in players)
+            {
+                PrintCard(player);
+            }
+        }
         /// <summary>
         /// Divides the playing board into different subparts.
         /// These subparts are then used to decide where to draw the card graphics.
@@ -111,15 +123,15 @@
             double cardHeight = 6;
             double cardWidth = 7;
 
-            double stepsInXDirection = (windowWidth + 10) / cardWidth;
-            double stepsInYDirection = (windowHeight + 10) / cardHeight;
+            double stepsInXDirection = (windowWidth + 10) / cardWidth * 2;
+            double stepsInYDirection = (windowHeight + 10) / cardHeight * 2;
 
             double[] vectorXValues = new double[(int)stepsInXDirection];
             double[] vectorYValues = new double[(int)stepsInYDirection - 1];
 
             for (int i = 0; i < vectorXValues.Length; i++)
             {
-                vectorXValues[i] = i * cardWidth + 1;
+                vectorXValues[i] = i * cardWidth / 2 + 1;
             }
 
             for (int i = 0; i < vectorYValues.Length; i++)

@@ -10,9 +10,13 @@
             Console.CursorVisible = false;
 
             BlackJack blackjack = new(new Graphics());
-            Player playerOne = new Player("Kimmo");
 
-            blackjack.RunGame(playerOne);
+            List<Player> allPlayers = new();
+            allPlayers.Add(null);
+            allPlayers.Add(new Player("Mille"));
+            allPlayers.Add(new Player("Kimmo"));
+
+            blackjack.RunGame(allPlayers);
         }
     }
 }

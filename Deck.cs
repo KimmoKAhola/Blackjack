@@ -58,24 +58,11 @@ namespace Blackjack
                 Console.WriteLine($"[Card value: {card.Value}, {card.Title}]");
             }
         }
-        public static void DealCard(Player player, bool firstDeal)
+        public static void DealCard(Player player)
         {
-            if (firstDeal)
-            {
-                Console.WriteLine($"{cards[0].Title} + {cards[1].Title}");
-
-                player.PlayerHand.Add(cards[0]);
-                cards.RemoveAt(0);
-                player.PlayerHand.Add(cards[0]);
-                cards.RemoveAt(0);
-                firstDeal = false;
-            }
-            else
-            {
                 Console.WriteLine($"{cards[0].Title}");
                 player.PlayerHand.Add(cards[0]);
                 cards.RemoveAt(0);
-            }
         }
     }
 }
