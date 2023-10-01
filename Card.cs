@@ -56,19 +56,29 @@ namespace Blackjack
         //private string[] aceOfSpadesArray = new string[_numberOfRows];
 
         /// <summary>
-        /// Prints a card at a hard coded position
+        /// Prints a card at a 
         /// currently at the windowWidth / 2, and windowHeight / 2.
         /// </summary>
         /// <param name="card"></param>
-        public void PrintCard(Card card)
+        public void PrintCard(double[] xValues, double[] yValues)
         {
-            string[] cardArray = new string[] {One, Two, Three, Four, Five, Six };
-            Console.SetCursorPosition(PlayingTable.windowWidth / 2, PlayingTable.windowHeight / 2);
-            for (int i = 0; i < _numberOfRows; i++)
+            Console.BackgroundColor = ConsoleColor.White;
+            string[] cardArray = new string[] { One, Two, Three, Four, Five, Six };
+
+            // y position is the height value
+            // the xposition has to be chosen accordingly
+            for (int xPosition = 0; xPosition < 3; xPosition++)
             {
-                Console.SetCursorPosition(PlayingTable.windowWidth/2, Console.CursorTop + 1);
-                Console.Write(cardArray[i]);
+                Console.SetCursorPosition((int)xValues[xPosition], (int)yValues[3]);
+                for (int yPosition = 0; yPosition < _numberOfRows; yPosition++)
+                {
+                    Console.SetCursorPosition((int)xValues[xPosition], Console.CursorTop + 1);
+                    Console.Write(cardArray[yPosition]);
+                }
             }
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+
         }
 
     }

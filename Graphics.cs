@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
     ///
     /// </summary>
-    public class PlayingTable
+    public class Graphics
     {
         public const int windowWidth = 190;
         public const int windowHeight = 40;
@@ -38,9 +32,34 @@ namespace Blackjack
         /// Prints a card at a specified position inside our playing table
         ///
         /// </summary>
-        public void PrintCards(Card card)
+        public static void PrintCards(Card card)
         {
-            card.PrintCard(card);
+            var vectors = ScalingVectors();
+            card.PrintCard(vectors.x, vectors.y);
+        }
+
+        public static (double[] x, double[] y) ScalingVectors()
+        {
+            double cardHeight = 6;
+            double cardWidth = 7;
+
+            double stepsInXDirection = (windowWidth + 10) / cardWidth;
+            double stepsInYDirection = (windowHeight + 10) / cardHeight;
+
+            double[] vectorXValues = new double[(int)stepsInXDirection];
+            double[] vectorYValues = new double[(int)stepsInYDirection - 1];
+
+            for (int i = 0; i < vectorXValues.Length; i++)
+            {
+                vectorXValues[i] = i * cardWidth + 1;
+            }
+
+            for (int i = 0; i < vectorYValues.Length; i++)
+            {
+                vectorYValues[i] = i * cardHeight;
+            }
+
+            return (vectorXValues, vectorYValues);
         }
 
     }
