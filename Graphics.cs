@@ -38,7 +38,7 @@ namespace Blackjack
         /// by two scaling vectors.
         /// </summary>
         /// <param name="card"></param>
-        private static void PrintCard(Card card)
+        private static void PrintASingleCard(Card card)
         {
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
@@ -62,7 +62,7 @@ namespace Blackjack
         /// the list of cards.
         /// </summary>
         /// <param name="player"></param>
-        private static void PrintCard(Player player)
+        private static void PrintSinglePlayerCards(Player player)
         {
             var vectors = ScalingVectors();
             // TODO startPosX 8 prints one card in a specific region!!!!
@@ -103,18 +103,18 @@ namespace Blackjack
                 double[] xValues = vectors.x;
                 double[] yValues = vectors.y;
                 Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
-                PrintCard(card);
-                startPosX++;
+                PrintASingleCard(card);
+                startPosX++; //Buggen för spelare 3 är här. Denna rad ska kommenteras bort/skippas efter första dealen, men då endast för spelare 3.
             }
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
 
-        public static void PrintCard(List<Player> players)
+        public static void PrintAllPlayerCards(List<Player> players)
         {
             foreach (Player player in players)
             {
-                PrintCard(player);
+                PrintSinglePlayerCards(player);
             }
         }
         /// <summary>

@@ -29,15 +29,10 @@ namespace Blackjack
         public string Title { get; set; }
         public int Value { get; set; }
         public string CardGraphic { get; set; }
-        public bool IsRed {
-            get {  return _isRed; }
-            set
-            {
-                if(Title.Contains("Hearts") || Title.Contains("Diamond"))
-                {
-                    _isRed = true;
-                }
-            }
+        public bool IsRed
+        {
+            get => _isRed;
+            set => _isRed = (Title.Contains("Hearts") || Title.Contains("Diamond"));
         }
     }
 }
