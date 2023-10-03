@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,10 +51,13 @@ namespace Blackjack
 
         private void FirstDeal(List<Player> players)
         {
-            foreach (var player in players)
+            for (int i = 0; i < 2; i++)
             {
-                Deck.DealCard(player);
-                Deck.DealCard(player);
+                for (int j = 1; j < players.Count; j++)
+                {
+                    Deck.DealCard(players[j]);
+                }
+                Deck.DealCard(_dealer);
             }
         }
     }
