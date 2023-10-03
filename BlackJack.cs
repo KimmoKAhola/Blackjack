@@ -31,7 +31,7 @@ namespace Blackjack
                 while (true)
                 {
                     //TODO These four lines should go in a separate UpdateBoard() method
-                    Graphics.PrintCard(players);
+                    Graphics.PrintAllPlayerCards(players);
                     Graphics.PrintPlayerInfo(players[currentPlayer]);
                     Graphics.PrintPlayerInfo(players[currentPlayer]);
 
