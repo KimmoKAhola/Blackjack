@@ -19,7 +19,7 @@ namespace Blackjack
 
         //TODO Add loop so that each keypress deals a new card
         public Graphics Table { get; set; }
-        public Player[] Player { get; }
+        //public Player[] Player { get; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             players[0] = _dealer;
