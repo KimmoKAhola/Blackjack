@@ -77,7 +77,7 @@ namespace Blackjack
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = vectors.x.Length / 2+3 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
