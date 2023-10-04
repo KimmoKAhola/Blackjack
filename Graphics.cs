@@ -82,7 +82,7 @@ namespace Blackjack
                     break;
                 case 1: //player one on the right side
                     startPosX = vectors.x.Length - player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 2;
+                    startPosY = vectors.y.Length / 2-1;
                     break;
                 case 2: // player two on the bottom
                     startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
@@ -90,7 +90,7 @@ namespace Blackjack
                     break;
                 case 3: // player three on the left side
                     startPosX = 0 + player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 2;
+                    startPosY = vectors.y.Length / 2-1;
                     break;
                 default:
                     //TODO fix error handling later.
