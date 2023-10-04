@@ -8,8 +8,8 @@ namespace Blackjack
     /// </summary>
     public class Graphics
     {
-        public const int windowWidth = 190;
-        public const int windowHeight = 40;
+        public const int windowWidth = 195;
+        public const int windowHeight = 45;
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -80,16 +80,16 @@ namespace Blackjack
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
-                    startPosX = vectors.x.Length - 2 - player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 3;
+                    startPosX = vectors.x.Length - player.PlayerHand.Count;
+                    startPosY = vectors.y.Length / 2;
                     break;
                 case 2: // player two on the bottom
                     startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
-                    startPosY = vectors.y.Length - 4;
+                    startPosY = vectors.y.Length-1;
                     break;
                 case 3: // player three on the left side
                     startPosX = 0 + player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 3;
+                    startPosY = vectors.y.Length / 2;
                     break;
                 default:
                     //TODO fix error handling later.
@@ -129,11 +129,11 @@ namespace Blackjack
             double cardHeight = 6;
             double cardWidth = 7;
 
-            double stepsInXDirection = (windowWidth + 10) / cardWidth * 2;
-            double stepsInYDirection = (windowHeight + 10) / cardHeight * 2;
+            double stepsInXDirection = (windowWidth+cardWidth/2) / cardWidth * 2;
+            double stepsInYDirection = (windowHeight-cardHeight/2) / cardHeight * 2;
 
             double[] vectorXValues = new double[(int)stepsInXDirection];
-            double[] vectorYValues = new double[(int)stepsInYDirection - 1];
+            double[] vectorYValues = new double[(int)stepsInYDirection];
 
             for (int i = 0; i < vectorXValues.Length; i++)
             {
