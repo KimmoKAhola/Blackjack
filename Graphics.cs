@@ -73,10 +73,11 @@ namespace Blackjack
             int startPosX, startPosY;
 
             //This switch case decides where to print the cards. The region values are hard coded in a switch case.
+            // The middle can be found by vectors.x.Length / 2 + 1. The +1 is because we have an odd size on the window width (27 cards wide)
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
@@ -84,8 +85,8 @@ namespace Blackjack
                     startPosY = vectors.y.Length / 2;
                     break;
                 case 2: // player two on the bottom
-                    startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
-                    startPosY = vectors.y.Length-1;
+                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
+                    startPosY = vectors.y.Length - 1;
                     break;
                 case 3: // player three on the left side
                     startPosX = 0 + player.PlayerHand.Count;
@@ -129,8 +130,8 @@ namespace Blackjack
             double cardHeight = 6;
             double cardWidth = 7;
 
-            double stepsInXDirection = (windowWidth+cardWidth/2) / cardWidth * 2;
-            double stepsInYDirection = (windowHeight-cardHeight/2) / cardHeight * 2;
+            double stepsInXDirection = (windowWidth + cardWidth / 2) / cardWidth * 2;
+            double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
 
             double[] vectorXValues = new double[(int)stepsInXDirection];
             double[] vectorYValues = new double[(int)stepsInYDirection];
