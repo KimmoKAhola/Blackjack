@@ -158,7 +158,7 @@ namespace Blackjack
             int startPosX = vectors.x.Length - 20;
             int startPosY = 0;
 
-            Console.SetCursorPosition(startPosX, startPosY);
+            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
             List<string> infoList = new();
 
 
