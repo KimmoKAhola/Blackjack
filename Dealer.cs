@@ -13,6 +13,10 @@ namespace Blackjack
     /// </summary>
     public class Dealer : Participant
     {
+        public Dealer()
+        {
+            
+        }
 
     }
 }
