@@ -50,7 +50,17 @@ namespace Blackjack
 
             return cardNumbers;
         }
-
+        public static void FirstDeal(List<Player> players)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 1; j < players.Count; j++)
+                {
+                    Deck.DealCard(players[j]);
+                }
+                Deck.DealCard(players[0]);
+            }
+        }
         public static void ShuffleDeck()
         {
             Random randomNum = new();

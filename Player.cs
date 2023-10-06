@@ -19,6 +19,6 @@ namespace Blackjack
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
-
+        public WinState WinState { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Blackjack
             players[0] = _dealer;
             Table.PrintBoard();
             Deck.ShuffleDeck();
-            FirstDeal(players);
+            Deck.FirstDeal(players);
             int currentPlayer = 1;
             while (currentPlayer <= players.Count-1)
             {
@@ -93,18 +93,6 @@ namespace Blackjack
                         }
                     }
                 }
-            }
-        }
-
-        private void FirstDeal(List<Player> players)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 1; j < players.Count; j++)
-                {
-                    Deck.DealCard(players[j]);
-                }
-                Deck.DealCard(_dealer);
             }
         }
     }
