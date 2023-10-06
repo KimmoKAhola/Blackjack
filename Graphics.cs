@@ -164,24 +164,19 @@ namespace Blackjack
             Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
             List<string> infoList = new();
 
-
-            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand";
+            //TODO change so that HandSum checks for aces in the hand.
+            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}"; 
 
             infoList.Add(info);
             foreach (Card card in player.PlayerHand)
             {
                 infoList.Add(($"[{card.Title} {card.Value}] "));
             }
-
+            
             foreach (var item in infoList)
             {
                 Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
                 Console.Write(item);
-            }
-            if (infoList.Count > 4)
-            {
-                infoList.RemoveAt(0);
-                Console.SetCursorPosition(startPosX, startPosY);
             }
         }
     }

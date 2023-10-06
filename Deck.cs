@@ -10,12 +10,23 @@ namespace Blackjack
     public static class Deck
     {
         private static List<Card>? cards = GetNewDeck();
+        //private static List<Card>? cards = GetAceDeck(); // Only for testing
 
 
         public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
             //get => cards = (cards == null) ? GetNewDeck() : cards;
+        }
+        //Only for testing edge cases
+        private static List<Card> GetAceDeck()
+        {
+            List<Card> aceCards = new List<Card>();
+            for (int i = 0; i < 51; i++)
+            {
+                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0]));
+            }
+            return aceCards;
         }
 
         private static List<Card> GetNewDeck()
