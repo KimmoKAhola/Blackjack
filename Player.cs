@@ -14,12 +14,10 @@ namespace Blackjack
             Name = name;
             PlayerNumber = _playerCounter++;
             PlayerHand = new List<Card>();
-            NextCardPos = 0;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
-        public int NextCardPos { get; set; }
         public List<Card> PlayerHand { get; set; }
         public int PlayerSeat { get; set; }
         public int HandSum()
