@@ -37,7 +37,6 @@ namespace Blackjack
             }
             playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
             Console.WriteLine(playingBoard);
-            UpdateLog();
         }
 
         private readonly static int _cardWidth = 7;
@@ -164,22 +163,23 @@ namespace Blackjack
             int startPosX = 1;
             int startPosY = 1;
             Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+            int cursorLeft = Console.CursorLeft;
 
             if (Log.Count > 4)
             {
                 Log.RemoveAt(0);
             }
-            Console.Write("╭────────────────────────────────────────────────╮");
+            Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
             for (int i = 3; i >= 0; i--)
             {
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop+1);
-                int spaces = 48 - Log[i].Length;
+                Console.SetCursorPosition(cursorLeft, Console.CursorTop+1);
+                int spaces = 80 - Log[i].Length;
                 string padding = new string(' ', spaces);
                 Console.Write($"│{Log[i]}{padding}│");
             }
-            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop + 1);
-            Console.Write("╰────────────────────────────────────────────────╯");
+            Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
+            Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
         }
         
