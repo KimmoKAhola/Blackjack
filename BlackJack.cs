@@ -34,8 +34,7 @@ namespace Blackjack
                     bool blackJack = false;
                     //TODO These four lines should go in a separate UpdateBoard() method
                     Graphics.PrintAllPlayerCards(players);
-                    Graphics.PrintPlayerInfo(players[currentPlayer]);
-                    Graphics.PrintPlayerInfo(players[currentPlayer]);
+                    Graphics.LogPlayerInfo(players[currentPlayer]);
 
                     if (GameLogic.CheckFor21(players[currentPlayer], out blackJack))
                     {
@@ -62,7 +61,7 @@ namespace Blackjack
                 }
                 currentPlayer++;
             }
-              while (players[0].HandSum() < 17)
+               while (players[0].HandSum() < 17)
             {
                 if (players[0].HandSum() < 17)
                 {

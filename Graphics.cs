@@ -10,6 +10,13 @@ namespace Blackjack
     {
         public const int windowWidth = 195;
         public const int windowHeight = 45;
+        public static List<string> Log = new List<string>()
+        {
+            "",
+            "",
+            "",
+            ""
+        };
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -30,6 +37,7 @@ namespace Blackjack
             }
             playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
             Console.WriteLine(playingBoard);
+            UpdateLog();
         }
 
         private readonly static int _cardWidth = 7;
@@ -78,7 +86,7 @@ namespace Blackjack
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 + 1; //- player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
@@ -112,8 +120,6 @@ namespace Blackjack
             }
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
-
-
         public static void PrintAllPlayerCards(List<Player> players)
         {
             foreach (Player player in players)
@@ -154,34 +160,59 @@ namespace Blackjack
 
         public static void UpdateLog()
         {
+            var vectors = ScalingVectors();
+            int startPosX = 1;
+            int startPosY = 1;
+            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+
+            if (Log.Count > 4)
+            {
+                Log.RemoveAt(0);
+            }
+            Console.Write("╭────────────────────────────────────────────────╮");
+
+            for (int i = 3; i >= 0; i--)
+            {
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop+1);
+                int spaces = 48 - Log[i].Length;
+                string padding = new string(' ', spaces);
+                Console.Write($"│{Log[i]}{padding}│");
+            }
+            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop + 1);
+            Console.Write("╰────────────────────────────────────────────────╯");
 
         }
         
         //TODO does not work currently, but almost.
-        public static void PrintPlayerInfo(Player player)
+        public static void LogPlayerInfo(Player player)
         {
-            var vectors = ScalingVectors();
+            string handInfo = $"{player.Name} got dealt a {player.PlayerHand.Last().Title}, their hand is now worth {player.HandSum()}";
 
-            int startPosX = vectors.x.Length - 20;
-            int startPosY = 0;
+            Log.Add(handInfo);
 
-            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
-            List<string> infoList = new();
 
-            //TODO change so that HandSum checks for aces in the hand.
-            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}"; 
-
-            infoList.Add(info);
-            foreach (Card card in player.PlayerHand)
-            {
-                infoList.Add(($"[{card.Title} {card.Value}] "));
-            }
-            
-            foreach (var item in infoList)
-            {
-                Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
-                Console.Write(item);
-            }
+            //var vectors = ScalingVectors();
+            //
+            //int startPosX = vectors.x.Length - 20;
+            //int startPosY = 0;
+            //
+            //Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+            //List<string> infoList = new();
+            //
+            ////TODO change so that HandSum checks for aces in the hand.
+            //string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}"; 
+            //
+            //infoList.Add(info);
+            //foreach (Card card in player.PlayerHand)
+            //{
+            //    infoList.Add(($"[{card.Title} {card.Value}] "));
+            //}
+            //
+            //foreach (var item in infoList)
+            //{
+            //    Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
+            //    Console.Write(item);
+            //}
         }
     }
 }
