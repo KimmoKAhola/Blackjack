@@ -31,11 +31,26 @@ namespace Blackjack
             {
                 while (true)
                 {
+                    bool blackJack = false;
                     //TODO These four lines should go in a separate UpdateBoard() method
                     Graphics.PrintAllPlayerCards(players);
                     Graphics.PrintPlayerInfo(players[currentPlayer]);
                     Graphics.PrintPlayerInfo(players[currentPlayer]);
 
+                    if (GameLogic.CheckFor21(players[currentPlayer], out blackJack))
+                    {
+                        if (blackJack)
+                        {
+                            players[currentPlayer].Wallet *= 3;
+                        }
+                        break;
+                    }
+
+                    if (GameLogic.CheckForBust(players[currentPlayer]))
+                    {
+                        players[currentPlayer].Wallet = 0;
+                        break;
+                    }
 
                     char response = 'ä';
                     Console.Write("Want another card broski?");
@@ -46,6 +61,37 @@ namespace Blackjack
                     Deck.DealCard(players[currentPlayer]);
                 }
                 currentPlayer++;
+            }
+            while (players[0].HandSum() < 17)
+            {
+                if (players[0].HandSum() < 17)
+                {
+                    Deck.DealCard(players[0]);
+                }
+                else if (players[0].HandSum() <= 21)
+                {
+                    for (int i = 1; i < players.Count(); i++)
+                    {
+                        if (players[i].HandSum() <= players[0].HandSum())
+                        {
+                            players[i].Wallet = 0;
+                        }
+                        else
+                        {
+                            players[i].Wallet *= 2;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < players.Count(); i++)
+                    {
+                        if (players[i].HandSum() <= 21)
+                        {
+                            players[i].Wallet *= 2;
+                        }
+                    }
+                }
             }
         }
 

@@ -13,10 +13,12 @@ namespace Blackjack
         {
             Name = name;
             PlayerNumber = _playerCounter++;
+            Wallet = 1000;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
+        public int Wallet { get; set; }
 
     }
 }
