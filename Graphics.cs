@@ -64,10 +64,11 @@ namespace Blackjack
         /// <param name="player"></param>
         private static void PrintSinglePlayerCards(Player player)
         {
+            int counter = 0;
             var vectors = ScalingVectors();
             // TODO startPosX 8 prints one card in a specific region!!!!
             // TODO startPosY 5 prints one card in a specific region!!!!
-            //TODO Brädet är 28 kort brett och 8 kort högt.
+            // TODO Brädet är 28 kort brett och 8 kort högt.
             int playerRegion = player.PlayerNumber;
             List<Card> listOfCards = player.PlayerHand;
             int startPosX, startPosY;
@@ -77,20 +78,20 @@ namespace Blackjack
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
                     startPosX = vectors.x.Length - player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 2-1;
+                    startPosY = vectors.y.Length / 2 - 1;
                     break;
                 case 2: // player two on the bottom
-                    startPosX = vectors.x.Length / 2+1 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
                     startPosY = vectors.y.Length - 1;
                     break;
                 case 3: // player three on the left side
-                    startPosX = 0 + player.PlayerHand.Count;
-                    startPosY = vectors.y.Length / 2-1;
+                    startPosX = (int)vectors.x[0];
+                    startPosY = vectors.y.Length / 2 - 1;
                     break;
                 default:
                     //TODO fix error handling later.
@@ -105,7 +106,9 @@ namespace Blackjack
                 double[] yValues = vectors.y;
                 Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
                 PrintASingleCard(card);
-                startPosX++; //Buggen för spelare 3 är här. Denna rad ska kommenteras bort/skippas efter första dealen, men då endast för spelare 3.
+
+                startPosX++;
+
             }
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
@@ -138,7 +141,7 @@ namespace Blackjack
 
             for (int i = 0; i < vectorXValues.Length; i++)
             {
-                vectorXValues[i] = i * cardWidth / 2 + 1;
+                vectorXValues[i] = i * cardWidth / 2 + 2;
             }
 
             for (int i = 0; i < vectorYValues.Length; i++)
