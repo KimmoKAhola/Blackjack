@@ -11,7 +11,8 @@ namespace Blackjack
     /// and creates ONE dealer who runs the place.
     /// Not implemented
     /// </summary>
-    internal class Dealer
+    public class Dealer : Participant
     {
+
     }
 }
