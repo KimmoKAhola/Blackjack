@@ -62,7 +62,7 @@ namespace Blackjack
                 }
                 currentPlayer++;
             }
-            while (players[0].HandSum() < 17)
+              while (players[0].HandSum() < 17)
             {
                 if (players[0].HandSum() < 17)
                 {

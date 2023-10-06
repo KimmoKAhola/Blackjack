@@ -152,11 +152,15 @@ namespace Blackjack
             return (vectorXValues, vectorYValues);
         }
 
+        public static void UpdateLog()
+        {
+
+        }
+        
         //TODO does not work currently, but almost.
         public static void PrintPlayerInfo(Player player)
         {
             var vectors = ScalingVectors();
-
 
             int startPosX = vectors.x.Length - 20;
             int startPosY = 0;

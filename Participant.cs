@@ -18,31 +18,25 @@ namespace Blackjack
         public int HandSum()
         {
             int sum = 0;
+            int aceCount = 0; // To keep track of the number of Aces
+
             foreach (var card in PlayerHand)
             {
-                if (sum <= 21 && card.Title.Contains("Ace"))
+                if (card.Title.Contains("Ace"))
                 {
+                    aceCount++;
                     card.Value = 11;
                 }
                 sum += card.Value;
-
-                if (sum > 21)
-                {
-                    var aces = PlayerHand.FindAll(card => card.Title.Contains("Ace"));
-                    foreach (var ace in aces)
-                    {
-                        ace.Value = 1;
-                        sum = sum - 11 + 1;
-                        if(sum < 21)
-                        {
-                            break;
-                        }
-                    }
-                    //card.Value = card.Value-10+1;
-                    //sum = 0;
-                }
-
             }
+
+            // Adjust Ace values if the total sum exceeds 21
+            while (aceCount > 0 && sum > 21)
+            {
+                sum -= 10; // Change the value of an Ace from 11 to 1
+                aceCount--;
+            }
+
             return sum;
         }
     }
