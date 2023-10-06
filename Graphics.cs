@@ -164,8 +164,8 @@ namespace Blackjack
             Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
             List<string> infoList = new();
 
-
-            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}";
+            //TODO change so that HandSum checks for aces in the hand.
+            string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}"; 
 
             infoList.Add(info);
             foreach (Card card in player.PlayerHand)

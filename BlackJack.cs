@@ -24,7 +24,7 @@ namespace Blackjack
         {
             players[0] = _dealer;
             Table.PrintBoard();
-            Deck.ShuffleDeck();
+            //Deck.ShuffleDeck();
             FirstDeal(players);
             int currentPlayer = 1;
             while (currentPlayer <= players.Count-1)
