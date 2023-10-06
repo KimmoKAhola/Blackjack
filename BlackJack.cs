@@ -27,7 +27,7 @@ namespace Blackjack
             Deck.ShuffleDeck();
             FirstDeal(players);
             int currentPlayer = 1;
-            while (currentPlayer <= players.Count())
+            while (currentPlayer <= players.Count-1)
             {
                 while (true)
                 {
@@ -67,10 +67,11 @@ namespace Blackjack
                 if (players[0].HandSum() < 17)
                 {
                     Deck.DealCard(players[0]);
+                    Graphics.PrintAllPlayerCards(players);
                 }
                 else if (players[0].HandSum() <= 21)
                 {
-                    for (int i = 1; i < players.Count(); i++)
+                    for (int i = 1; i < players.Count; i++)
                     {
                         if (players[i].HandSum() <= players[0].HandSum())
                         {
@@ -84,7 +85,7 @@ namespace Blackjack
                 }
                 else
                 {
-                    for (int i = 1; i < players.Count(); i++)
+                    for (int i = 1; i < players.Count; i++)
                     {
                         if (players[i].HandSum() <= 21)
                         {
