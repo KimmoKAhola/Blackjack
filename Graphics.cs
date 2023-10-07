@@ -170,25 +170,24 @@ namespace Blackjack
         {
             //TODO Use this later on to express the starting positions as functions of a card.
             //var vectors = ScalingVectors();  
-            Console.CursorVisible = true; // For debugging
+            //Console.CursorVisible = true; // For debugging
 
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            //TODO sätt färgen till bakgrundsfärgen här. Blå färg för att skriva ut baksidan?
-
-            int startingXPosition = 5; // Hårdkodade
+            int startingXPosition = 5; // Hard coded values
             int startingYPosition = 25;
             int updatedXPosition;
-            int animationSpeed = 10; // Change this to play around with the animation speed. Values between 5 and 500 are "ok".
+            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
+
             string cardCornerTopLeft = "╭";
             string cardEdge = "│";
             string cardCornerBottomLeft = "╰";
@@ -196,10 +195,9 @@ namespace Blackjack
             string cardCornerBottomRight = "╯";
             for (int i = 0; i < distance; i++)
             {
-                // distance motsvarar hur långt till höger vi vill animera korten
+                // distance is how far we want to animate the card to the right
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
-                    //Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
                     Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
                     Console.Write(cardArray[yPosition]);
                 }
@@ -213,63 +211,48 @@ namespace Blackjack
                         Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
                         if (xPosition == 0)
                         {
-                            Console.BackgroundColor = ConsoleColor.DarkGreen;
                             Console.Write(" ");
                             Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.Write(cardCornerTopLeft);
                         }
-                        else if(xPosition == _cardWidth - 2)
+                        else if (xPosition == _cardWidth - 2)
                         {
-                            Console.BackgroundColor = ConsoleColor.DarkGreen;
                             Console.Write(" ");
                             Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.Write(cardCornerBottomLeft);
                         }
                         else
                         {
-                            Console.BackgroundColor = ConsoleColor.DarkGreen;
                             Console.Write(" ");
                             Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.Write(cardEdge);
                         }
                     }
-                    Console.SetCursorPosition(startingXPosition + _cardWidth-1, startingYPosition+1);
-                    updatedXPosition = startingXPosition + _cardWidth-1;
+                    Console.SetCursorPosition(startingXPosition + _cardWidth - 1, startingYPosition + 1);
+                    updatedXPosition = startingXPosition + _cardWidth - 1;
                     for (int yPosition = 0; yPosition < _cardHeight; yPosition++)
                     {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
                         if (yPosition == 0)
                         {
-                            Console.BackgroundColor = ConsoleColor.DarkBlue;
-                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
                             Console.Write("─");
                             Console.Write(cardCornerTopRight);
                         }
                         else if (yPosition == _cardWidth - 2)
                         {
-                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
-                            //Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.Write("─");
                             Console.Write(cardCornerBottomRight);
                         }
                         else
                         {
-                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
-                            //Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.Write(" ");
                             Console.Write(cardEdge);
                         }
-                        //Loop för att skriva en ny rad längst till höger. Detta ska skapa en animation och få kortet att röra sig.
-                        //Console.Write(" ");
                         Console.SetCursorPosition(updatedXPosition, Console.CursorTop + 1);
-                        Console.BackgroundColor = ConsoleColor.DarkBlue;
                     }
-
                     Thread.Sleep(animationSpeed);
                     Console.SetCursorPosition(startingXPosition++, startingYPosition); // Update x Position
                 }
-                //Thread.Sleep(100); // Only needed for testing
             }
         }
         public static void UpdateLog()
