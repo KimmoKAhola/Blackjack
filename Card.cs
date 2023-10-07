@@ -11,7 +11,7 @@ namespace Blackjack
     {
         public Card()
         {
-            
+
         }
         /// <summary>
         /// Card constructor.
@@ -26,7 +26,7 @@ namespace Blackjack
             Title = title;
             Value = value;
             CardGraphic = cardGraphic;
-            IsRed = _isRed;
+            IsRed = false;
             CardSymbol = cardSymbol;
         }
 
@@ -35,18 +35,13 @@ namespace Blackjack
             CardGraphicWhileStationary = cardGraphicWhileStationary;
             CardGraphicWhileMoving = cardGraphicWhileMoving;
         }
-        private bool _isRed;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
         public string CardGraphic { get; set; }
         public string CardGraphicWhileMoving { get; set; }
         public string CardGraphicWhileStationary { get; set; }
-        public bool IsRed
-        {
-            get => _isRed;
-            //set => _isRed = (Title.Contains("Hearts") || Title.Contains("Diamond"));
-        }
+        public bool IsRed {get; set;}
         public string CardSymbol { get; set; }
     }
 }

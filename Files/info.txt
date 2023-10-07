@@ -1,37 +1,11 @@
-2023-10-07 17:11:30, Game ID [1]
-Mille was dealt a EightOfSpades, their hand is now worth 12
-Mille was dealt a FiveOfHearts, their hand is now worth 17
-Mille was dealt a AceOfClubs, their hand is now worth 18
-Kimmo was dealt a TwoOfClubs, their hand is now worth 12
-Kimmo was dealt a TwoOfSpades, their hand is now worth 14
-Kimmo was dealt a KingOfSpades, their hand is now worth 24
-Jesus was dealt a FourOfSpades, their hand is now worth 14
-Jesus was dealt a JackOfDiamonds, their hand is now worth 24
-The dealer was dealt a AceOfSpades, their hand is now worth 13
-The dealer was dealt a QueenOfHearts, their hand is now worth 23
-Mille, Win, wallet: 2000
-Kimmo, Loss, wallet: 0
-Jesus, Loss, wallet: 0
-2023-10-07 17:11:59, Game ID [1]
-Mille was dealt a AceOfSpades, their hand is now worth 17
-Mille was dealt a KingOfClubs, their hand is now worth 17
-Mille was dealt a AceOfDiamonds, their hand is now worth 18
-Kimmo was dealt a JackOfClubs, their hand is now worth 20
-Jesus was dealt a TenOfSpades, their hand is now worth 20
-The dealer was dealt a JackOfHearts, their hand is now worth 16
-The dealer was dealt a SevenOfHearts, their hand is now worth 23
-Mille, Win, wallet: 2000
-Kimmo, Win, wallet: 2000
-Jesus, Win, wallet: 2000
-2023-10-07 17:27:47, Game ID [1]
-2023-10-07 17:40:16, Game ID [1]
-2023-10-07 17:40:26, Game ID [1]
-2023-10-07 17:51:00, Game ID [1]
-2023-10-07 18:13:37, Game ID [1]
-Mille was dealt a QueenOfSpades, their hand is now worth 21
-Kimmo was dealt a FiveOfClubs, their hand is now worth 15
-2023-10-07 18:29:49, Game ID [1]
-2023-10-07 18:37:18, Game ID [1]
-2023-10-07 18:37:35, Game ID [1]
-2023-10-07 18:38:12, Game ID [1]
-2023-10-07 18:50:04, Game ID [1]
+2023-10-07 19:01:45, Game ID [1]
+MILLE was dealt a [K♠], their hand is now worth 20
+MILLE was dealt a [8♠], their hand is now worth 28
+KIMMO was dealt a [A♥], their hand is now worth 8
+KIMMO was dealt a [6♦], their hand is now worth 14
+KIMMO was dealt a [9♣], their hand is now worth 23
+JESUS was dealt a [5♥], their hand is now worth 13
+JESUS was dealt a [J♣], their hand is now worth 23
+Mille, Loss, wallet: 999
+Kimmo, Loss, wallet: 999
+Jesus, Loss, wallet: 999

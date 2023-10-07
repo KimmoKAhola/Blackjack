@@ -55,9 +55,8 @@ namespace Blackjack
             {
                 for (int i = 0; i <= 12; i++)
                 {
-                    Card card = new Card();
-                    card.IsRed = false;
-                    string cardSymbol = "♠";
+                    Card card = new();
+                    card.CardSymbol = "♠";
                     if (j == 1)
                     {
                         card.IsRed = true;
@@ -80,7 +79,6 @@ namespace Blackjack
                             card.Value = i + 1;
                             card.CardGraphic = Card.allCardGraphics[cardIndex];
                         }
-                        //cardNumbers.Add(new Card("A", i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
                         else
                         {
                             card.Title = (i+1).ToString();
@@ -88,19 +86,16 @@ namespace Blackjack
                             card.CardGraphic = Card.allCardGraphics[cardIndex];
                         }
                         cardNumbers.Add(card);    
-                        //cardNumbers.Add(new Card((i + 1).ToString(), i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
                         cardIndex++;
                         continue;
                     }
                     card.Title = Enum.GetNames(typeof(AllCards))[cardIndex][..1];
-                    card.Value = i + 1;
+                    card.Value = 10;
                     card.CardGraphic = Card.allCardGraphics[cardIndex];
                     cardNumbers.Add(card);
-                    //cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex][..1], 10, Card.allCardGraphics[cardIndex], cardSymbol));
                     cardIndex++;
                 }
             }
-
             return cardNumbers;
         }
         public static void FirstDeal(List<Player> participants, Dealer dealer)

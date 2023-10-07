@@ -291,7 +291,12 @@
         //TODO does not work currently, but almost.
         public static void LogPlayerInfo(Player player)
         {
-            string handInfo = $"{player.Name} was dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
+            string cardSymbol = player.Hand.Last().CardSymbol;
+            string lastCard = player.Hand.Last().Title;
+            int cardSum = player.HandSum();
+            string playerName = player.Name.ToUpper();
+
+            string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
             _log.Add(handInfo);
             FileManager.GetHandInfo(handInfo);
         }
