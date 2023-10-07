@@ -10,7 +10,7 @@ namespace Blackjack
     {
         public BlackJackGameHistory(List<Player> listOfAllPlayers)
         {
-            TimeStamp = DateTime.UtcNow;
+            TimeStamp = DateTime.Now;
             ListOfAllPlayers = listOfAllPlayers;
         }
         public DateTime TimeStamp { get; set; }

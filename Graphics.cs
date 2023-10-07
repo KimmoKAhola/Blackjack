@@ -1,4 +1,6 @@
-﻿namespace Blackjack
+﻿using System.Numerics;
+
+namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -298,14 +300,18 @@
 
             string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
             _log.Add(handInfo);
-            FileManager.GetHandInfo(handInfo);
+            FileManager.SaveHandInfo(handInfo);
         }
         public static void LogPlayerInfo(Dealer dealer)
         {
-            string handInfo = $"The dealer was dealt a {dealer.Hand.Last().Title}, their hand is now worth {dealer.HandSum()}";
+            string cardSymbol = dealer.Hand.Last().CardSymbol;
+            string lastCard = dealer.Hand.Last().Title;
+            int cardSum = dealer.HandSum();
+
+            string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
 
             _log.Add(handInfo);
-            FileManager.GetHandInfo(handInfo);
+            FileManager.SaveHandInfo(handInfo);
         }
         public static void UpdateBoard(List<Player> players, int currentPlayer)
         {

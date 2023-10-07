@@ -100,14 +100,18 @@ namespace Blackjack
         }
         public static void FirstDeal(List<Player> participants, Dealer dealer)
         {
+            string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < participants.Count; j++)
                 {
-                    Deck.DealCard(participants[j]);
+                    DealCard(participants[j]);
+                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
                 }
-                Deck.DealCard(dealer);
+                DealCard(dealer);
+                firstDealInfo += $"The dealer was dealt a [{dealer.Hand.Last().Title}{dealer.Hand.Last().CardSymbol}]\n";
             }
+            FileManager.SaveFirstDealInfo(firstDealInfo);
         }
         public static void ShuffleDeck()
         {
