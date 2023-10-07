@@ -42,7 +42,7 @@ namespace Blackjack
             List<Card> aceCards = new List<Card>();
             for (int i = 0; i < 52; i++)
             {
-                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0]));
+                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0], "♦"));
             }
             return aceCards;
         }
@@ -55,29 +55,63 @@ namespace Blackjack
             {
                 for (int i = 0; i <= 12; i++)
                 {
-                    if (i < 9)
+                    Card card = new();
+                    card.CardSymbol = "♠";
+                    if (j == 1)
                     {
-                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1, Card.allCardGraphics[cardIndex]));
+                        card.IsRed = true;
+                        card.CardSymbol = "♥";
+                    }
+                    else if (j == 2)
+                    {
+                        card.CardSymbol = "♣";
+                    }
+                    else if (j == 3)
+                    {
+                        card.IsRed = true;
+                        card.CardSymbol = "♦";
+                    }
+                    if (i < 10)
+                    {
+                        if (i == 0)
+                        {
+                            card.Title = "A";
+                            card.Value = i + 1;
+                            card.CardGraphic = Card.allCardGraphics[cardIndex];
+                        }
+                        else
+                        {
+                            card.Title = (i+1).ToString();
+                            card.Value = i + 1;
+                            card.CardGraphic = Card.allCardGraphics[cardIndex];
+                        }
+                        cardNumbers.Add(card);    
                         cardIndex++;
                         continue;
                     }
-                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10, Card.allCardGraphics[cardIndex]));
+                    card.Title = Enum.GetNames(typeof(AllCards))[cardIndex][..1];
+                    card.Value = 10;
+                    card.CardGraphic = Card.allCardGraphics[cardIndex];
+                    cardNumbers.Add(card);
                     cardIndex++;
                 }
             }
-
             return cardNumbers;
         }
         public static void FirstDeal(List<Player> participants, Dealer dealer)
         {
+            string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < participants.Count; j++)
                 {
-                    Deck.DealCard(participants[j]);
+                    DealCard(participants[j]);
+                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
                 }
-                Deck.DealCard(dealer);
+                DealCard(dealer);
+                firstDealInfo += $"The dealer was dealt a [{dealer.Hand.Last().Title}{dealer.Hand.Last().CardSymbol}]\n";
             }
+            FileManager.SaveFirstDealInfo(firstDealInfo);
         }
         public static void ShuffleDeck()
         {

@@ -8,6 +8,8 @@
             Console.WindowHeight = 50;
             Console.WindowWidth = 200;
             Console.CursorVisible = false;
+            FileManager.CreateDirectory();
+            FileManager.CreateFile();
 
             BlackJack blackjack = new();
 

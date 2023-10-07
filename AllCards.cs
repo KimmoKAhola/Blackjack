@@ -10,7 +10,7 @@ namespace Blackjack
     {
         AceOfSpades = 1,
         TwoOfSpades,
-        ThreeOfSpades,
+        ThreeOfSpades, 
         FourOfSpades,
         FiveOfSpades,
         SixOfSpades,

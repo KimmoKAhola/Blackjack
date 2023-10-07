@@ -29,21 +29,20 @@ namespace Blackjack
             Table.PrintBoard();
             
             // TODO WHAT THE FUCK IS THIS!?
-            Thread.Sleep(500);
-            int co = 2;
-            while (co > 0)
-            {
-                Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-                Graphics.ShuffleAnimationForASingleCard(Deck.AnimationCards[0], 12);
-                co--;
-            }
+            //Thread.Sleep(500);
+            //int co = 2;
+            //while (co > 0)
+            //{
+            //    Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+            //    Graphics.ShuffleAnimationForASingleCard(Deck.AnimationCards[0], 12);
+            //    co--;
+            //}
 
             GetPlayerBets(players);
             ShowDebugWallets(players);
             Deck.ShuffleDeck();
             Deck.FirstDeal(players, Dealer);
             Graphics.PrintAllPlayerCards(players);
-
             Console.ReadKey();
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
