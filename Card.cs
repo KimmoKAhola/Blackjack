@@ -24,6 +24,11 @@ namespace Blackjack
             CardGraphic = cardGraphic;
             IsRed = _isRed;
         }
+
+        public Card(string cardGraphic)
+        {
+            CardGraphic = cardGraphic;
+        }
         private bool _isRed;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
