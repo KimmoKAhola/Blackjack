@@ -25,10 +25,10 @@ namespace Blackjack
             IsRed = _isRed;
         }
 
-        public Card(string cardGraphicWhileMoving, string cardGraphicWhileStationary)
+        public Card(string cardGraphicWhileStationary, string cardGraphicWhileMoving)
         {
-            CardGraphicWhileMoving = cardGraphicWhileMoving;
             CardGraphicWhileStationary = cardGraphicWhileStationary;
+            CardGraphicWhileMoving = cardGraphicWhileMoving;
         }
         private bool _isRed;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
