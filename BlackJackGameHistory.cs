@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
-    internal class BlackJackGameHistory
+    public class BlackJackGameHistory
     {
-        public BlackJackGameHistory(BlackJack blackJack, List<Player> listOfAllPlayers)
+        public BlackJackGameHistory(List<Player> listOfAllPlayers)
         {
-            BlackJack = blackJack;
-            TimeStamp = DateTime.UtcNow;
+            StartTimeStamp = DateTime.UtcNow;
+            EndTimeStamp = DateTime.UtcNow;
             ListOfAllPlayers = listOfAllPlayers;
         }
-        public BlackJack BlackJack { get; set; }
-        public DateTime TimeStamp { get; }
+        public DateTime StartTimeStamp { get; set; }
+        public DateTime EndTimeStamp { get; }
         public List<Player> ListOfAllPlayers { get; set; }
     }
 }

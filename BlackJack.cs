@@ -11,10 +11,12 @@ namespace Blackjack
     {
         public Dealer Dealer { get; set; }
         public Graphics Table { get; set; }
+        public BlackJackGameHistory GameHistory { get; set; }
+        //public List<BlackJackGameHistory> GameHistoryList { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
-
+            FileManager.SaveGameInfo(new BlackJackGameHistory(players));
             Table.PrintBoard();
 
             // TODO WHAT THE FUCK IS THIS!?
@@ -84,6 +86,7 @@ namespace Blackjack
             }
 
             Console.ReadKey();
+            GameHistory = new(players);
             RunGame(players);
         }
         private void CheckResults(List<Player> players)
@@ -147,6 +150,7 @@ namespace Blackjack
 
         private void InitializeNewGame(List<Player> players)
         {
+            GameHistory.StartTimeStamp = DateTime.UtcNow;
             Dealer = new();
             Table = new();
             foreach (Player player in players)
@@ -154,7 +158,7 @@ namespace Blackjack
                 player.Hand.Clear();
                 if (player.Wallet == 0)
                 {
-
+                    // Fix error handling here.
                 }
             }
             Console.Clear();
