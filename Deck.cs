@@ -55,20 +55,48 @@ namespace Blackjack
             {
                 for (int i = 0; i <= 12; i++)
                 {
+                    Card card = new Card();
+                    card.IsRed = false;
                     string cardSymbol = "♠";
                     if (j == 1)
-                        cardSymbol = "♥";
-                    else if (j == 2)
-                        cardSymbol = "♣";
-                    else if (j == 3)
-                        cardSymbol = "♦";
-                    if (i < 9)
                     {
-                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
+                        card.IsRed = true;
+                        card.CardSymbol = "♥";
+                    }
+                    else if (j == 2)
+                    {
+                        card.CardSymbol = "♣";
+                    }
+                    else if (j == 3)
+                    {
+                        card.IsRed = true;
+                        card.CardSymbol = "♦";
+                    }
+                    if (i < 10)
+                    {
+                        if (i == 0)
+                        {
+                            card.Title = "A";
+                            card.Value = i + 1;
+                            card.CardGraphic = Card.allCardGraphics[cardIndex];
+                        }
+                        //cardNumbers.Add(new Card("A", i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
+                        else
+                        {
+                            card.Title = (i+1).ToString();
+                            card.Value = i + 1;
+                            card.CardGraphic = Card.allCardGraphics[cardIndex];
+                        }
+                        cardNumbers.Add(card);    
+                        //cardNumbers.Add(new Card((i + 1).ToString(), i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
                         cardIndex++;
                         continue;
                     }
-                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10, Card.allCardGraphics[cardIndex], cardSymbol));
+                    card.Title = Enum.GetNames(typeof(AllCards))[cardIndex][..1];
+                    card.Value = i + 1;
+                    card.CardGraphic = Card.allCardGraphics[cardIndex];
+                    cardNumbers.Add(card);
+                    //cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex][..1], 10, Card.allCardGraphics[cardIndex], cardSymbol));
                     cardIndex++;
                 }
             }

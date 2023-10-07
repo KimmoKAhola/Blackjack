@@ -9,6 +9,10 @@ namespace Blackjack
 {
     public class Card
     {
+        public Card()
+        {
+            
+        }
         /// <summary>
         /// Card constructor.
         /// Reads in title, value and graphics
@@ -41,7 +45,7 @@ namespace Blackjack
         public bool IsRed
         {
             get => _isRed;
-            set => _isRed = (Title.Contains("Hearts") || Title.Contains("Diamond"));
+            //set => _isRed = (Title.Contains("Hearts") || Title.Contains("Diamond"));
         }
         public string CardSymbol { get; set; }
     }

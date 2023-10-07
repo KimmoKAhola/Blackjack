@@ -31,3 +31,7 @@ Jesus, Win, wallet: 2000
 Mille was dealt a QueenOfSpades, their hand is now worth 21
 Kimmo was dealt a FiveOfClubs, their hand is now worth 15
 2023-10-07 18:29:49, Game ID [1]
+2023-10-07 18:37:18, Game ID [1]
+2023-10-07 18:37:35, Game ID [1]
+2023-10-07 18:38:12, Game ID [1]
+2023-10-07 18:50:04, Game ID [1]
