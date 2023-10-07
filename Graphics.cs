@@ -317,12 +317,13 @@ namespace Blackjack
 
         public static void PrintAStackOfCards(Card card)
         {
-            int startingXPosition = 97; // Hard coded values
-            int startingYPosition = 17;
-            int updatedXPosition, updatedYPosition;
-            int numberOfCardsInStack = 4;
+            var vectors = ScalingVectors();
+            int startingXPosition = (int)vectors.x[vectors.x.Length / 2-1]; // Hard coded values
+            int startingYPosition = (int)vectors.y[vectors.y.Length / 2-1];
+            //int updatedXPosition, updatedYPosition;
+            int numberOfCardsInStack = 6;
 
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            Console.SetCursorPosition(startingXPosition,startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -340,9 +341,7 @@ namespace Blackjack
                     Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
                     Console.Write(cardArray[yPosition]);
                 }
-                updatedXPosition = startingXPosition++;
-                updatedYPosition = startingYPosition++;
-                Console.SetCursorPosition(startingXPosition, startingYPosition);
+                Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
         }
     }
