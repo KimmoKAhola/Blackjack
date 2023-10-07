@@ -176,7 +176,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18;
             int updatedXPosition;
-            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
+            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -318,12 +318,12 @@ namespace Blackjack
         public static void PrintAStackOfCards(Card card)
         {
             var vectors = ScalingVectors();
-            int startingXPosition = (int)vectors.x[vectors.x.Length / 2-1]; // Hard coded values
-            int startingYPosition = (int)vectors.y[vectors.y.Length / 2-1];
+            int startingXPosition = (int)vectors.x[vectors.x.Length / 2 - 1]; // Hard coded values
+            int startingYPosition = (int)vectors.y[vectors.y.Length / 2 - 1];
             //int updatedXPosition, updatedYPosition;
             int numberOfCardsInStack = 6;
 
-            Console.SetCursorPosition(startingXPosition,startingYPosition);
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
             Console.BackgroundColor = ConsoleColor.DarkBlue;
