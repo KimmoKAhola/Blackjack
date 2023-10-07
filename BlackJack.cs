@@ -21,7 +21,6 @@ namespace Blackjack
         {
             Table.PrintBoard();
 
-            //TODO these lines are only for testing. Comment out when necessary when working in this class
             Thread.Sleep(500);
             int co = 2;
             while (co > 0)
@@ -40,11 +39,7 @@ namespace Blackjack
             {
                 while (true)
                 {
-                    bool blackJack = false;
-                    //TODO These four lines should go in a separate UpdateBoard() method
-                    Graphics.PrintAllPlayerCards(players);
-                    Graphics.LogPlayerInfo(players[currentPlayer]);
-                    Graphics.UpdateLog();
+                    UpdateBoard(players, currentPlayer);
 
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
                     {
@@ -104,6 +99,19 @@ namespace Blackjack
                 //    }
                 //}
             }
+
+            CheckResults(players);
+        }
+
+        private static void UpdateBoard(List<Player> players, int currentPlayer)
+        {
+            Graphics.PrintAllPlayerCards(players);
+            Graphics.LogPlayerInfo(players[currentPlayer]);
+            Graphics.UpdateLog();
+        }
+        private static void CheckResults(List<Player> players)
+        {
+
         }
     }
 }
