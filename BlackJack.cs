@@ -9,18 +9,15 @@ namespace Blackjack
 {
     public class BlackJack
     {
-        Dealer _dealer = new Dealer();
-        public BlackJack(Graphics table)
-        {
-            Table = table;
-        }
-
-        //TODO Add loop so that each keypress deals a new card
+        public Dealer Dealer { get; set; }
         public Graphics Table { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
+            InitializeNewGame(players);
+
             Table.PrintBoard();
 
+            // TODO WHAT THE FUCK IS THIS!?
             Thread.Sleep(500);
             int co = 2;
             while (co > 0)
@@ -29,8 +26,11 @@ namespace Blackjack
                 Graphics.ShuffleAnimationForASingleCard(Deck.AnimationCards[0], 12);
                 co--;
             }
+
+            GetPlayerBets(players);
+            ShowDebugWallets(players);
             Deck.ShuffleDeck();
-            Deck.FirstDeal(players, _dealer);
+            Deck.FirstDeal(players, Dealer);
             Graphics.PrintAllPlayerCards(players);
 
             Console.ReadKey();
@@ -39,6 +39,7 @@ namespace Blackjack
             {
                 while (true)
                 {
+
                     Graphics.UpdateBoard(players, currentPlayer);
 
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
@@ -64,47 +65,111 @@ namespace Blackjack
                 currentPlayer++;
             }
 
-            while (players[0].HandSum() < 17)
+            //! DEALER LOOP
+            while (Dealer.HandSum() < 17)
             {
-                if (players[0].HandSum() < 17)
+                if (Dealer.HandSum() < 17)
                 {
-                    Deck.DealCard(players[0]);
-                    Graphics.PrintAllPlayerCards(_dealer);
-                    Graphics.PrintAllPlayerCards(players);
+                    Deck.DealCard(Dealer);
                 }
-
-
-                //else if (players[0].HandSum() <= 21)
-                //{
-                //    for (int i = 1; i < players.Count; i++)
-                //    {
-                //        if (players[i].HandSum() <= players[0].HandSum())
-                //        {
-                //            players[i].Wallet = 0;
-                //        }
-                //        else
-                //        {
-                //            players[i].Wallet *= 2;
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    for (int i = 1; i < players.Count; i++)
-                //    {
-                //        if (players[i].HandSum() <= 21)
-                //        {
-                //            players[i].Wallet *= 2;
-                //        }
-                //    }
-                //}
+                Graphics.UpdateBoard(Dealer);
+                Thread.Sleep(1000);
             }
 
             CheckResults(players);
-        }
-        private static void CheckResults(List<Player> players)
-        {
 
+            foreach (Player player in players )
+            {
+                player.UpdateWallet();
+            }
+
+            Console.ReadKey();
+            RunGame(players);
+        }
+        private void CheckResults(List<Player> players)
+        {
+            foreach (var player in players)
+            {
+                if (player.GameState == GameState.BlackJack)
+                {
+                    //Player got blackjack in first deal
+                }
+                else if (player.HandSum() > Dealer.HandSum() && player.GameState != GameState.Loss)
+                {
+                    player.GameState = GameState.Win;
+                }
+                else
+                    player.GameState = GameState.Loss;
+            }
+        }
+
+        private void GetPlayerBets(List<Player> players)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            foreach (var player in players)
+            {
+                Console.SetCursorPosition(80, 30);
+                Console.Write($"Player {player.Name}, please enter your bet");
+                Console.SetCursorPosition(80, 32);
+                Console.Write($"                                ");
+
+
+                while (true)
+                {
+                    Console.SetCursorPosition(80, 31);
+                    Console.Write($"Bet: ");
+                    if (int.TryParse(Console.ReadLine(), out int bet))
+                    {
+                        if (bet < player.Wallet)
+                        {
+                            player.Bet = bet;
+                            player.Wallet -= player.Bet;
+                            Console.SetCursorPosition(80, 31);
+                            Console.Write($"                                      ");
+                            break;
+                        }
+                    }
+                    Console.SetCursorPosition(80, 31);
+                    Console.Write($"                                      ");
+                    Console.SetCursorPosition(80, 32);
+                    Console.Write($"Invalid input, please try again!");
+                }
+            }
+            Console.SetCursorPosition(80, 30);
+            Console.Write($"                                           ");
+        }
+
+        private void InitializeNewGame(List<Player> players)
+        {
+            Dealer = new();
+            Table = new();
+            foreach (Player player in players)
+            {
+                player.Hand.Clear();
+                if (player.Wallet == 0)
+                {
+
+                }
+            }
+            Console.Clear();
+        }
+
+        private void ShowDebugWallets(List<Player> players)
+        {
+            int cachedX = Console.CursorLeft;
+            int cachedY = Console.CursorTop;
+
+            int line = 47;
+            foreach (Player player in players)
+            {
+                Console.SetCursorPosition(1, line);
+                Console.Write($"{player.Name}: Bet:{player.Bet} Wallet:{player.Wallet}");
+                line++;
+            }
+
+            Console.SetCursorPosition(cachedX, cachedY);
         }
     }
 }
