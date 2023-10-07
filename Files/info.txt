@@ -1,0 +1,25 @@
+2023-10-07 17:11:30, Game ID [1]
+Mille was dealt a EightOfSpades, their hand is now worth 12
+Mille was dealt a FiveOfHearts, their hand is now worth 17
+Mille was dealt a AceOfClubs, their hand is now worth 18
+Kimmo was dealt a TwoOfClubs, their hand is now worth 12
+Kimmo was dealt a TwoOfSpades, their hand is now worth 14
+Kimmo was dealt a KingOfSpades, their hand is now worth 24
+Jesus was dealt a FourOfSpades, their hand is now worth 14
+Jesus was dealt a JackOfDiamonds, their hand is now worth 24
+The dealer was dealt a AceOfSpades, their hand is now worth 13
+The dealer was dealt a QueenOfHearts, their hand is now worth 23
+Mille, Win, wallet: 2000
+Kimmo, Loss, wallet: 0
+Jesus, Loss, wallet: 0
+2023-10-07 17:11:59, Game ID [1]
+Mille was dealt a AceOfSpades, their hand is now worth 17
+Mille was dealt a KingOfClubs, their hand is now worth 17
+Mille was dealt a AceOfDiamonds, their hand is now worth 18
+Kimmo was dealt a JackOfClubs, their hand is now worth 20
+Jesus was dealt a TenOfSpades, their hand is now worth 20
+The dealer was dealt a JackOfHearts, their hand is now worth 16
+The dealer was dealt a SevenOfHearts, their hand is now worth 23
+Mille, Win, wallet: 2000
+Kimmo, Win, wallet: 2000
+Jesus, Win, wallet: 2000

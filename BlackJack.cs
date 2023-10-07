@@ -9,14 +9,25 @@ namespace Blackjack
 {
     public class BlackJack
     {
+        private static int _gameId = 0;
+
+        public int GameId { get { return _gameId; } }
+        BlackJackGameHistory gameHistory;
         public Dealer Dealer { get; set; }
         public Graphics Table { get; set; }
+        public BlackJackGameHistory GameHistory { get; set; }
+        //public List<BlackJackGameHistory> GameHistoryList { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
-
+            //Blackjack game id 1 [tidpunkt för start]: spelare: .... bettade .... saldo....
+            //Vilka kort som gavs till vilken spelare [K, E] > [K, E, 10] > [K, E, 10, 5]
+            //Vilka kort som gavs till dealern
+            //GameState för varje spelare och eventuell vinst
+            //Sluttid
+            FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
             Table.PrintBoard();
-
+            
             // TODO WHAT THE FUCK IS THIS!?
             Thread.Sleep(500);
             int co = 2;
@@ -84,6 +95,8 @@ namespace Blackjack
             }
 
             Console.ReadKey();
+            Environment.Exit(0); //TODO remove later.
+            //GameHistory = new(players);
             RunGame(players);
         }
         private void CheckResults(List<Player> players)
@@ -147,6 +160,7 @@ namespace Blackjack
 
         private void InitializeNewGame(List<Player> players)
         {
+            int gameId = _gameId++;
             Dealer = new();
             Table = new();
             foreach (Player player in players)
@@ -154,7 +168,7 @@ namespace Blackjack
                 player.Hand.Clear();
                 if (player.Wallet == 0)
                 {
-
+                    // Fix error handling here.
                 }
             }
             Console.Clear();
