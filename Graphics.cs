@@ -1,8 +1,4 @@
-﻿using System.Reflection.Metadata;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml.Linq;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -71,16 +67,21 @@ namespace Blackjack
         /// Utilizes the PrintCard method to print out one card at a time while looping through
         /// the list of cards.
         /// </summary>
-        /// <param name="player"></param>
-        private static void PrintSinglePlayerCards(Player player)
+        /// <param name="participant"></param>
+        private static void PrintSinglePlayerCards(Participant participant)
         {
             int counter = 0;
             var vectors = ScalingVectors();
             // TODO startPosX 8 prints one card in a specific region!!!!
             // TODO startPosY 5 prints one card in a specific region!!!!
             // TODO Brädet är 28 kort brett och 8 kort högt.
-            int playerRegion = player.PlayerNumber;
-            List<Card> listOfCards = player.PlayerHand;
+            int playerRegion = 0;
+            if (participant is Player)
+            {
+                Player player = (Player)participant;
+                playerRegion = player.PlayerNumber;
+            }
+            List<Card> listOfCards = participant.Hand;
             int startPosX, startPosY;
 
             //This switch case decides where to print the cards. The region values are hard coded in a switch case.
@@ -92,11 +93,11 @@ namespace Blackjack
                     startPosY = 0;
                     break;
                 case 1: //player one on the right side
-                    startPosX = vectors.x.Length - player.PlayerHand.Count;
+                    startPosX = vectors.x.Length - participant.Hand.Count;
                     startPosY = vectors.y.Length / 2 - 1;
                     break;
                 case 2: // player two on the bottom
-                    startPosX = vectors.x.Length / 2 + 1 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 + 1 - participant.Hand.Count / 2;
                     startPosY = vectors.y.Length - 1;
                     break;
                 case 3: // player three on the left side
@@ -105,7 +106,7 @@ namespace Blackjack
                     break;
                 default:
                     //TODO fix error handling later.
-                    startPosX = vectors.x.Length / 2 - player.PlayerHand.Count / 2;
+                    startPosX = vectors.x.Length / 2 - participant.Hand.Count / 2;
                     startPosY = 5;
                     break;
             }
@@ -129,6 +130,11 @@ namespace Blackjack
             {
                 PrintSinglePlayerCards(player);
             }
+        }
+        public static void PrintAllPlayerCards(Dealer dealer)
+        {
+            Console.SetCursorPosition(0, 0);
+            PrintSinglePlayerCards(dealer);
         }
         /// <summary>
         /// Divides the playing board into different subparts.
@@ -286,7 +292,7 @@ namespace Blackjack
         //TODO does not work currently, but almost.
         public static void LogPlayerInfo(Player player)
         {
-            string handInfo = $"{player.Name} got dealt a {player.PlayerHand.Last().Title}, their hand is now worth {player.HandSum()}";
+            string handInfo = $"{player.Name} got dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
 
             Log.Add(handInfo);
 

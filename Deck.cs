@@ -68,15 +68,15 @@ namespace Blackjack
 
             return cardNumbers;
         }
-        public static void FirstDeal(List<Player> players)
+        public static void FirstDeal(List<Player> participants, Dealer dealer)
         {
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 1; j < players.Count; j++)
+                for (int j = 1; j < participants.Count; j++)
                 {
-                    Deck.DealCard(players[j]);
+                    Deck.DealCard(participants[j]);
                 }
-                Deck.DealCard(players[0]);
+                Deck.DealCard(dealer);
             }
         }
         public static void ShuffleDeck()
@@ -89,17 +89,9 @@ namespace Blackjack
                 (cards[j], cards[i]) = (cards[i], cards[j]);
             }
         }
-
-        public static void PrintAllCards()
+        public static void DealCard(Participant participant)
         {
-            foreach (Card card in cards)
-            {
-                Console.WriteLine($"[Card value: {card.Value}, {card.Title}]");
-            }
-        }
-        public static void DealCard(Player player)
-        {
-            player.PlayerHand.Add(cards[0]);
+            participant.Hand.Add(cards[0]);
             cards.RemoveAt(0);
         }
     }

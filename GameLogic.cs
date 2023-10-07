@@ -15,18 +15,17 @@ namespace Blackjack
             return false;
         }
 
-        public static bool CheckFor21(Player currentPlayer, out bool blackJack)
+        public static bool CheckForBlackJack(Player currentPlayer)
         {
-            blackJack = false;
             //This is a win condition
             if (currentPlayer.HandSum() == 21)
             {
                 //This is blackjack after first deal
-                if (currentPlayer.PlayerHand.Count == 2)
+                if (currentPlayer.Hand.Count == 2)
                 {
-                    blackJack = true;
+                    return true;
                 }
-                return true;
+
             }
             return false;
         }
