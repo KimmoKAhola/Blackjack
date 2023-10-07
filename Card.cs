@@ -21,7 +21,7 @@ namespace Blackjack
         {
             Title = title;
             Value = value;
-            CardGraphicWhileMoving = cardGraphic;
+            CardGraphic = cardGraphic;
             IsRed = _isRed;
         }
 
@@ -34,6 +34,7 @@ namespace Blackjack
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
+        public string CardGraphic { get; set; }
         public string CardGraphicWhileMoving { get; set; }
         public string CardGraphicWhileStationary { get; set; }
         public bool IsRed

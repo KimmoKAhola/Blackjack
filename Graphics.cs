@@ -176,7 +176,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18;
             int updatedXPosition;
-            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
+            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -186,7 +186,7 @@ namespace Blackjack
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
 
             string cardCornerTopLeft = "╭";
@@ -330,7 +330,7 @@ namespace Blackjack
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = card.CardGraphicWhileStationary.Substring(i * _cardWidth, _cardWidth);
             }
 
             for (int i = 0; i < numberOfCardsInStack; i++)

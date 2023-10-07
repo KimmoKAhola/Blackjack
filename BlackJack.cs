@@ -24,7 +24,7 @@ namespace Blackjack
 
             //TODO these lines are only for testing. Comment out when necessary when working in this class
             Thread.Sleep(4000);
-            int co = 10;
+            int co = 3;
             while (co > 0)
             {
             Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
