@@ -33,7 +33,7 @@ namespace Blackjack
         private static List<Card> GetNewAnimationDeck()
         {
             List<Card> cards = new List<Card>();
-            cards.Add(new Card(Card.allCardGraphics[52]));
+            cards.Add(new Card(Card.allCardGraphics[52], Card.allCardGraphics[53]));
             return cards;
         }
         //Only for testing edge cases
