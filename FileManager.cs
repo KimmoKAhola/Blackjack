@@ -45,12 +45,20 @@ namespace Blackjack
             }
         }
 
-        public static void SaveGameInfo(BlackJackGameHistory blackJackGameHistory) 
+        public static void GetPlayerWallet(string wallet)
+        {
+            using (StreamWriter writer = new StreamWriter(_filePath, append: true))
+            {
+                writer.WriteLine(wallet);
+            }
+        }
+
+        public static void SaveGameInfo(int gameId, BlackJackGameHistory blackJackGameHistory) 
         {
             using (StreamWriter writer = new StreamWriter(_filePath, append: true))
             {
                 DateTime startTime = blackJackGameHistory.TimeStamp;
-                writer.WriteLine(startTime);
+                writer.WriteLine($"{startTime}, Game ID [{gameId}]");
             }
         }
 

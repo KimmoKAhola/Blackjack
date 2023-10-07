@@ -9,6 +9,9 @@ namespace Blackjack
 {
     public class BlackJack
     {
+        private static int _gameId = 0;
+
+        public int GameId { get { return _gameId; } }
         BlackJackGameHistory gameHistory;
         public Dealer Dealer { get; set; }
         public Graphics Table { get; set; }
@@ -22,7 +25,7 @@ namespace Blackjack
             //Vilka kort som gavs till dealern
             //GameState för varje spelare och eventuell vinst
             //Sluttid
-            FileManager.SaveGameInfo(new BlackJackGameHistory(players));
+            FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
             Table.PrintBoard();
             
             // TODO WHAT THE FUCK IS THIS!?
@@ -92,7 +95,8 @@ namespace Blackjack
             }
 
             Console.ReadKey();
-            GameHistory = new(players);
+            Environment.Exit(0); //TODO remove later.
+            //GameHistory = new(players);
             RunGame(players);
         }
         private void CheckResults(List<Player> players)
@@ -156,6 +160,7 @@ namespace Blackjack
 
         private void InitializeNewGame(List<Player> players)
         {
+            int gameId = _gameId++;
             Dealer = new();
             Table = new();
             foreach (Player player in players)

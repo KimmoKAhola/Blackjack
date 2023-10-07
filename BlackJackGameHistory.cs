@@ -15,10 +15,5 @@ namespace Blackjack
         }
         public DateTime TimeStamp { get; set; }
         public List<Player> ListOfAllPlayers { get; set; }
-
-        //public override string ToString()
-        //{
-        //    return $"{ListOfAllPlayers}";
-        //}
     }
 }

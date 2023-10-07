@@ -292,7 +292,6 @@
         public static void LogPlayerInfo(Player player)
         {
             string handInfo = $"{player.Name} was dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
-
             _log.Add(handInfo);
             FileManager.GetHandInfo(handInfo);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Blackjack
             PlayerNumber = _playerCounter++;
             Wallet = 1000;
             GameState = GameState.Undecided;
-            Bet = 100;
+            Bet = 0;
         }
 
         public string Name { get; set; }
@@ -38,6 +39,7 @@ namespace Blackjack
             {
                 //Bet is already withdrawn from the wallet at this point
             }
+            FileManager.GetPlayerWallet($"{Name}, {GameState}, wallet: {Wallet}");
         }
     }
 }
