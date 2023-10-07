@@ -294,12 +294,14 @@
             string handInfo = $"{player.Name} was dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
 
             _log.Add(handInfo);
+            FileManager.GetHandInfo(handInfo);
         }
         public static void LogPlayerInfo(Dealer dealer)
         {
             string handInfo = $"The dealer was dealt a {dealer.Hand.Last().Title}, their hand is now worth {dealer.HandSum()}";
 
             _log.Add(handInfo);
+            FileManager.GetHandInfo(handInfo);
         }
         public static void UpdateBoard(List<Player> players, int currentPlayer)
         {

@@ -9,6 +9,7 @@ namespace Blackjack
 {
     public class BlackJack
     {
+        BlackJackGameHistory gameHistory;
         public Dealer Dealer { get; set; }
         public Graphics Table { get; set; }
         public BlackJackGameHistory GameHistory { get; set; }
@@ -16,9 +17,14 @@ namespace Blackjack
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
+            //Blackjack game id 1 [tidpunkt för start]: spelare: .... bettade .... saldo....
+            //Vilka kort som gavs till vilken spelare [K, E] > [K, E, 10] > [K, E, 10, 5]
+            //Vilka kort som gavs till dealern
+            //GameState för varje spelare och eventuell vinst
+            //Sluttid
             FileManager.SaveGameInfo(new BlackJackGameHistory(players));
             Table.PrintBoard();
-
+            
             // TODO WHAT THE FUCK IS THIS!?
             Thread.Sleep(500);
             int co = 2;
@@ -150,7 +156,6 @@ namespace Blackjack
 
         private void InitializeNewGame(List<Player> players)
         {
-            GameHistory.StartTimeStamp = DateTime.UtcNow;
             Dealer = new();
             Table = new();
             foreach (Player player in players)

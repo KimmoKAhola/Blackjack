@@ -10,12 +10,15 @@ namespace Blackjack
     {
         public BlackJackGameHistory(List<Player> listOfAllPlayers)
         {
-            StartTimeStamp = DateTime.UtcNow;
-            EndTimeStamp = DateTime.UtcNow;
+            TimeStamp = DateTime.UtcNow;
             ListOfAllPlayers = listOfAllPlayers;
         }
-        public DateTime StartTimeStamp { get; set; }
-        public DateTime EndTimeStamp { get; }
+        public DateTime TimeStamp { get; set; }
         public List<Player> ListOfAllPlayers { get; set; }
+
+        //public override string ToString()
+        //{
+        //    return $"{ListOfAllPlayers}";
+        //}
     }
 }
