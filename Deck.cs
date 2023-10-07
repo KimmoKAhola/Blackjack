@@ -40,7 +40,7 @@ namespace Blackjack
         private static List<Card> GetAceDeck()
         {
             List<Card> aceCards = new List<Card>();
-            for (int i = 0; i < 51; i++)
+            for (int i = 0; i < 52; i++)
             {
                 aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0]));
             }
