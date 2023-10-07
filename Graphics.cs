@@ -175,7 +175,7 @@ namespace Blackjack
             int startingXPosition = 5; // Hard coded values
             int startingYPosition = 25;
             int updatedXPosition;
-            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
+            int animationSpeed = 10; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -255,6 +255,7 @@ namespace Blackjack
                 }
             }
         }
+
         public static void UpdateLog()
         {
             var vectors = ScalingVectors();
