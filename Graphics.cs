@@ -12,6 +12,7 @@ namespace Blackjack
         private const int windowWidth = 195;
         private const int windowHeight = 45;
         private readonly static int _cardWidth = 7;
+        private readonly static int _cardHeight = 6;
         private static List<string> Log = new List<string>()
         {
             "",
@@ -157,29 +158,72 @@ namespace Blackjack
 
             return (vectorXValues, vectorYValues);
         }
-        public static void ShuffleAnimation(Card card)
+        /// <summary>
+        /// This method animates a single card over a distance
+        /// over the screen. Currently the starting position
+        /// for the animation is hard coded roughly in the middle.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="distance"></param>
+        public static void ShuffleAnimationForASingleCard(Card card, int distance)
         {
-            var vectors = ScalingVectors();
-            
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
-            int startingXPosition = 100;
+            //TODO Use this later on to express the starting positions as functions of a card.
+            //var vectors = ScalingVectors();  
+            Console.CursorVisible = true; // For debugging
+
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            //TODO sätt färgen till bakgrundsfärgen här. Blå färg för att skriva ut baksidan?
+
+            int startingXPosition = 100; // Hårdkodade
             int startingYPosition = 25;
+            int updatedXPosition;
+            int animationSpeed = 10; // Change this to play around with the animation speed. Values between 5 and 500 are "ok".
+
+
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
+            //Create a card array with blue strings. No graphic is needed.
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
 
-            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            for (int i = 0; i < distance; i++)
             {
-                //Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
-                Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
-                Console.Write(cardArray[yPosition]);
+                // distance motsvarar hur långt till höger vi vill animera korten
+                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                {
+                    //Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                    Console.Write(cardArray[yPosition]);
+                }
+                Console.SetCursorPosition(startingXPosition, startingYPosition);
+                for (int width = 0; width < _cardWidth; width++) // Bredd för ett kort
+                {
+                    for (int xPosition = 0; xPosition < _cardWidth - 1; xPosition++)
+                    {
+                        //This loop overwrites the leftmost column with dark green, our table color.
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
+                        Console.Write(" ");
+
+                    }
+                    Console.SetCursorPosition(startingXPosition + _cardWidth, startingYPosition);
+                    updatedXPosition = startingXPosition + _cardWidth;
+                    for (int yPosition = 0; yPosition <= _cardHeight; yPosition++)
+                    {
+                        //Loop för att skriva en ny rad längst till höger. Detta ska skapa en animation och få kortet att röra sig.
+                        Console.Write(" ");
+                        Console.SetCursorPosition(updatedXPosition, Console.CursorTop + 1);
+                        Console.BackgroundColor = ConsoleColor.White;
+                    }
+
+                    Thread.Sleep(animationSpeed);
+                    Console.SetCursorPosition(startingXPosition++, startingYPosition); // Update x Position
+                }
+                //Thread.Sleep(100); // Only needed for testing
             }
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void UpdateLog()
         {
@@ -197,7 +241,7 @@ namespace Blackjack
 
             for (int i = 3; i >= 0; i--)
             {
-                Console.SetCursorPosition(cursorLeft, Console.CursorTop+1);
+                Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
                 int spaces = 80 - Log[i].Length;
                 string padding = new string(' ', spaces);
                 Console.Write($"│{Log[i]}{padding}│");
@@ -206,7 +250,7 @@ namespace Blackjack
             Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
         }
-        
+
         //TODO does not work currently, but almost.
         public static void LogPlayerInfo(Player player)
         {
