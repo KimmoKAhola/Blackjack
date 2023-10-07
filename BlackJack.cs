@@ -65,7 +65,7 @@ namespace Blackjack
                 currentPlayer++;
             }
 
-            //! DEALER LOOP
+            // DEALER LOOP
             while (Dealer.HandSum() < 17)
             {
                 if (Dealer.HandSum() < 17)
@@ -98,6 +98,10 @@ namespace Blackjack
                 {
                     player.GameState = GameState.Win;
                 }
+                else if (player.GameState != GameState.Loss && Dealer.HandSum() > 21)
+                {
+                    player.GameState = GameState.Win;
+                }
                 else
                     player.GameState = GameState.Loss;
             }
@@ -122,7 +126,7 @@ namespace Blackjack
                     Console.Write($"Bet: ");
                     if (int.TryParse(Console.ReadLine(), out int bet))
                     {
-                        if (bet < player.Wallet)
+                        if (bet <= player.Wallet)
                         {
                             player.Bet = bet;
                             player.Wallet -= player.Bet;
