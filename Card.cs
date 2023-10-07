@@ -21,19 +21,21 @@ namespace Blackjack
         {
             Title = title;
             Value = value;
-            CardGraphic = cardGraphic;
+            CardGraphicWhileMoving = cardGraphic;
             IsRed = _isRed;
         }
 
-        public Card(string cardGraphic)
+        public Card(string cardGraphicWhileMoving, string cardGraphicWhileStationary)
         {
-            CardGraphic = cardGraphic;
+            CardGraphicWhileMoving = cardGraphicWhileMoving;
+            CardGraphicWhileStationary = cardGraphicWhileStationary;
         }
         private bool _isRed;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
-        public string CardGraphic { get; set; }
+        public string CardGraphicWhileMoving { get; set; }
+        public string CardGraphicWhileStationary { get; set; }
         public bool IsRed
         {
             get => _isRed;
