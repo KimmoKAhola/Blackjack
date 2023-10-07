@@ -42,7 +42,7 @@ namespace Blackjack
             List<Card> aceCards = new List<Card>();
             for (int i = 0; i < 52; i++)
             {
-                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0]));
+                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0], "♦"));
             }
             return aceCards;
         }
@@ -55,13 +55,20 @@ namespace Blackjack
             {
                 for (int i = 0; i <= 12; i++)
                 {
+                    string cardSymbol = "♠";
+                    if (j == 1)
+                        cardSymbol = "♥";
+                    else if (j == 2)
+                        cardSymbol = "♣";
+                    else if (j == 3)
+                        cardSymbol = "♦";
                     if (i < 9)
                     {
-                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1, Card.allCardGraphics[cardIndex]));
+                        cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], i + 1, Card.allCardGraphics[cardIndex], cardSymbol));
                         cardIndex++;
                         continue;
                     }
-                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10, Card.allCardGraphics[cardIndex]));
+                    cardNumbers.Add(new Card(Enum.GetNames(typeof(AllCards))[cardIndex], 10, Card.allCardGraphics[cardIndex], cardSymbol));
                     cardIndex++;
                 }
             }

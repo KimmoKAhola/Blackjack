@@ -17,12 +17,13 @@ namespace Blackjack
         /// <param name="title"></param>
         /// <param name="value"></param>
         /// <param name="cardGraphic"></param>
-        public Card(string title, int value, string cardGraphic)
+        public Card(string title, int value, string cardGraphic, string cardSymbol)
         {
             Title = title;
             Value = value;
             CardGraphic = cardGraphic;
             IsRed = _isRed;
+            CardSymbol = cardSymbol;
         }
 
         public Card(string cardGraphicWhileStationary, string cardGraphicWhileMoving)
@@ -42,5 +43,6 @@ namespace Blackjack
             get => _isRed;
             set => _isRed = (Title.Contains("Hearts") || Title.Contains("Diamond"));
         }
+        public string CardSymbol { get; set; }
     }
 }

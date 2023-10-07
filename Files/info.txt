@@ -23,3 +23,11 @@ The dealer was dealt a SevenOfHearts, their hand is now worth 23
 Mille, Win, wallet: 2000
 Kimmo, Win, wallet: 2000
 Jesus, Win, wallet: 2000
+2023-10-07 17:27:47, Game ID [1]
+2023-10-07 17:40:16, Game ID [1]
+2023-10-07 17:40:26, Game ID [1]
+2023-10-07 17:51:00, Game ID [1]
+2023-10-07 18:13:37, Game ID [1]
+Mille was dealt a QueenOfSpades, their hand is now worth 21
+Kimmo was dealt a FiveOfClubs, their hand is now worth 15
+2023-10-07 18:29:49, Game ID [1]

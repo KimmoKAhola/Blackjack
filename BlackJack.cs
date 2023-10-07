@@ -43,7 +43,6 @@ namespace Blackjack
             Deck.ShuffleDeck();
             Deck.FirstDeal(players, Dealer);
             Graphics.PrintAllPlayerCards(players);
-
             Console.ReadKey();
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
