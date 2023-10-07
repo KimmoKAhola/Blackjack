@@ -124,6 +124,7 @@ namespace Blackjack
         }
         public static void PrintAllPlayerCards(List<Player> players)
         {
+            Console.SetCursorPosition(0, 0);
             foreach (Player player in players)
             {
                 PrintSinglePlayerCards(player);
@@ -172,10 +173,10 @@ namespace Blackjack
             //var vectors = ScalingVectors();  
             //Console.CursorVisible = true; // For debugging
 
-            int startingXPosition = 5; // Hard coded values
-            int startingYPosition = 25;
+            int startingXPosition = 100; // Hard coded values
+            int startingYPosition = 18;
             int updatedXPosition;
-            int animationSpeed = 10; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
+            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -312,6 +313,37 @@ namespace Blackjack
             //    Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
             //    Console.Write(item);
             //}
+        }
+
+        public static void PrintAStackOfCards(Card card)
+        {
+            int startingXPosition = 97; // Hard coded values
+            int startingYPosition = 17;
+            int updatedXPosition, updatedYPosition;
+            int numberOfCardsInStack = 4;
+
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+
+            //Create a card array with blue strings. No graphic is needed.
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            for (int i = 0; i < numberOfCardsInStack; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                {
+                    Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
+                    Console.Write(cardArray[yPosition]);
+                }
+                updatedXPosition = startingXPosition++;
+                updatedYPosition = startingYPosition++;
+                Console.SetCursorPosition(startingXPosition, startingYPosition);
+            }
         }
     }
 }
