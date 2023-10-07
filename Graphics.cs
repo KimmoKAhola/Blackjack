@@ -176,7 +176,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18;
             int updatedXPosition;
-            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1 and 500 are "ok".
+            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -186,7 +186,7 @@ namespace Blackjack
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
 
             string cardCornerTopLeft = "╭";
@@ -317,10 +317,11 @@ namespace Blackjack
 
         public static void PrintAStackOfCards(Card card)
         {
-            int startingXPosition = 97; // Hard coded values
-            int startingYPosition = 17;
-            int updatedXPosition, updatedYPosition;
-            int numberOfCardsInStack = 4;
+            var vectors = ScalingVectors();
+            int startingXPosition = (int)vectors.x[vectors.x.Length / 2 - 1]; // Hard coded values
+            int startingYPosition = (int)vectors.y[vectors.y.Length / 2 - 1];
+            //int updatedXPosition, updatedYPosition;
+            int numberOfCardsInStack = 6;
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
@@ -329,7 +330,7 @@ namespace Blackjack
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = card.CardGraphicWhileStationary.Substring(i * _cardWidth, _cardWidth);
             }
 
             for (int i = 0; i < numberOfCardsInStack; i++)
@@ -340,9 +341,7 @@ namespace Blackjack
                     Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
                     Console.Write(cardArray[yPosition]);
                 }
-                updatedXPosition = startingXPosition++;
-                updatedYPosition = startingYPosition++;
-                Console.SetCursorPosition(startingXPosition, startingYPosition);
+                Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
         }
     }
