@@ -23,10 +23,17 @@ namespace Blackjack
             Table.PrintBoard();
 
             //TODO these lines are only for testing. Comment out when necessary when working in this class
-            Thread.Sleep(2000);
-            Graphics.ShuffleAnimationForASingleCard(Deck.AllCards[0], 25);
-            //Deck.ShuffleDeck();
-            //Deck.FirstDeal(players);
+            Thread.Sleep(4000);
+            int co = 2;
+            while (co > 0)
+            {
+            Graphics.PrintAStackOfCards(Deck.AllCards[0]);
+            Graphics.ShuffleAnimationForASingleCard(Deck.AllCards[0], 12);
+                co--;
+            }
+            Deck.ShuffleDeck();
+            Deck.FirstDeal(players);
+            Graphics.PrintAllPlayerCards(players);
 
             Console.ReadKey();
             int currentPlayer = 1;

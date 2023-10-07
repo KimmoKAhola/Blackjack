@@ -9,14 +9,19 @@ namespace Blackjack
 {
     public static class Deck
     {
-        //private static List<Card>? cards = GetNewDeck();
+        private static List<Card>? cards = GetNewDeck();
         //private static List<Card>? cards = GetAceDeck(); // Only for testing
-        private static List<Card> cards = GetAnimationDeck();
+        private static List<Card> animationCards = GetNewAnimationDeck();
 
         public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
             //get => cards = (cards == null) ? GetNewDeck() : cards;
+        }
+
+        public static List<Card> AnimationCards
+        {
+            get => animationCards ??= GetNewAnimationDeck();
         }
 
         /// <summary>
@@ -25,7 +30,7 @@ namespace Blackjack
         /// which is loaded from the last index of our card enum.
         /// </summary>
         /// <returns></returns>
-        private static List<Card> GetAnimationDeck()
+        private static List<Card> GetNewAnimationDeck()
         {
             List<Card> cards = new List<Card>();
             cards.Add(new Card(Card.allCardGraphics[52]));
