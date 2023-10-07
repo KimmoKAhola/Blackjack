@@ -34,12 +34,12 @@ namespace Blackjack
             Graphics.PrintAllPlayerCards(players);
 
             Console.ReadKey();
-            int currentPlayer = 1;
-            while (currentPlayer <= players.Count - 1)
+            int currentPlayer = 0;
+            while (currentPlayer < players.Count)
             {
                 while (true)
                 {
-                    UpdateBoard(players, currentPlayer);
+                    Graphics.UpdateBoard(players, currentPlayer);
 
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
                     {
@@ -101,13 +101,6 @@ namespace Blackjack
             }
 
             CheckResults(players);
-        }
-
-        private static void UpdateBoard(List<Player> players, int currentPlayer)
-        {
-            Graphics.PrintAllPlayerCards(players);
-            Graphics.LogPlayerInfo(players[currentPlayer]);
-            Graphics.UpdateLog();
         }
         private static void CheckResults(List<Player> players)
         {

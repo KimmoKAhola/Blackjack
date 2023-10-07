@@ -10,8 +10,10 @@
         private const int windowHeight = 45;
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
-        private static List<string> Log = new List<string>()
+        private static List<string> _log = new List<string>()
         {
+            "",
+            "",
             "",
             "",
             "",
@@ -270,19 +272,16 @@
             int startPosY = 1;
             Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
             int cursorLeft = Console.CursorLeft;
+            int lastInTheList = _log.Count() - 1;
 
-            if (Log.Count > 4)
-            {
-                Log.RemoveAt(0);
-            }
             Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
-            for (int i = 3; i >= 0; i--)
+            for (int i = lastInTheList; i >= (lastInTheList-5); i--)
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-                int spaces = 80 - Log[i].Length;
+                int spaces = 80 - _log[i].Length;
                 string padding = new string(' ', spaces);
-                Console.Write($"│{Log[i]}{padding}│");
+                Console.Write($"│{_log[i]}{padding}│");
             }
             Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
             Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
@@ -294,31 +293,13 @@
         {
             string handInfo = $"{player.Name} got dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
 
-            Log.Add(handInfo);
-
-
-            //var vectors = ScalingVectors();
-            //
-            //int startPosX = vectors.x.Length - 20;
-            //int startPosY = 0;
-            //
-            //Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
-            //List<string> infoList = new();
-            //
-            ////TODO change so that HandSum checks for aces in the hand.
-            //string info = $"The player {player.Name}, with id {player.PlayerNumber}, has the hand with value {player.HandSum()}"; 
-            //
-            //infoList.Add(info);
-            //foreach (Card card in player.PlayerHand)
-            //{
-            //    infoList.Add(($"[{card.Title} {card.Value}] "));
-            //}
-            //
-            //foreach (var item in infoList)
-            //{
-            //    Console.SetCursorPosition((int)vectors.x[startPosX], Console.CursorTop + 1);
-            //    Console.Write(item);
-            //}
+            _log.Add(handInfo);
+        }
+        public static void UpdateBoard(List<Player> players, int currentPlayer)
+        {
+            Graphics.PrintAllPlayerCards(players);
+            Graphics.LogPlayerInfo(players[currentPlayer]);
+            Graphics.UpdateLog();
         }
 
         public static void PrintAStackOfCards(Card card)

@@ -72,7 +72,7 @@ namespace Blackjack
         {
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 1; j < participants.Count; j++)
+                for (int j = 0; j < participants.Count; j++)
                 {
                     Deck.DealCard(participants[j]);
                 }

@@ -8,7 +8,7 @@ namespace Blackjack
 {
     public class Player : Participant
     {
-        private static int _playerCounter = 0;
+        private static int _playerCounter = 1;
         public Player(string name)
         {
             Name = name;
