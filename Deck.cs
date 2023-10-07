@@ -81,6 +81,8 @@ namespace Blackjack
         }
         public static void ShuffleDeck()
         {
+            cards = GetNewDeck();
+
             Random randomNum = new();
             for (int i = 51; i > 0; i--)
             {

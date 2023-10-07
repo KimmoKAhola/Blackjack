@@ -291,7 +291,13 @@
         //TODO does not work currently, but almost.
         public static void LogPlayerInfo(Player player)
         {
-            string handInfo = $"{player.Name} got dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
+            string handInfo = $"{player.Name} was dealt a {player.Hand.Last().Title}, their hand is now worth {player.HandSum()}";
+
+            _log.Add(handInfo);
+        }
+        public static void LogPlayerInfo(Dealer dealer)
+        {
+            string handInfo = $"The dealer was dealt a {dealer.Hand.Last().Title}, their hand is now worth {dealer.HandSum()}";
 
             _log.Add(handInfo);
         }
@@ -299,6 +305,12 @@
         {
             Graphics.PrintAllPlayerCards(players);
             Graphics.LogPlayerInfo(players[currentPlayer]);
+            Graphics.UpdateLog();
+        }
+        public static void UpdateBoard(Dealer dealer)
+        {
+            Graphics.PrintAllPlayerCards(dealer);
+            Graphics.LogPlayerInfo(dealer);
             Graphics.UpdateLog();
         }
 

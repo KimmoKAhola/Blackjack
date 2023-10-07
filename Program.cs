@@ -9,7 +9,7 @@
             Console.WindowWidth = 200;
             Console.CursorVisible = false;
 
-            BlackJack blackjack = new(new Graphics());
+            BlackJack blackjack = new();
 
             List<Player> allPlayers = new();
             allPlayers.Add(new Player("Mille"));
