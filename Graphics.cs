@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
 namespace Blackjack
@@ -174,7 +175,7 @@ namespace Blackjack
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             //TODO sätt färgen till bakgrundsfärgen här. Blå färg för att skriva ut baksidan?
 
-            int startingXPosition = 100; // Hårdkodade
+            int startingXPosition = 5; // Hårdkodade
             int startingYPosition = 25;
             int updatedXPosition;
             int animationSpeed = 10; // Change this to play around with the animation speed. Values between 5 and 500 are "ok".
@@ -188,7 +189,11 @@ namespace Blackjack
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
-
+            string cardCornerTopLeft = "╭";
+            string cardEdge = "│";
+            string cardCornerBottomLeft = "╰";
+            string cardCornerTopRight = "╮";
+            string cardCornerBottomRight = "╯";
             for (int i = 0; i < distance; i++)
             {
                 // distance motsvarar hur långt till höger vi vill animera korten
@@ -206,17 +211,59 @@ namespace Blackjack
                         //This loop overwrites the leftmost column with dark green, our table color.
                         Console.BackgroundColor = ConsoleColor.DarkGreen;
                         Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                        Console.Write(" ");
-
+                        if (xPosition == 0)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write(cardCornerTopLeft);
+                        }
+                        else if(xPosition == _cardWidth - 2)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write(cardCornerBottomLeft);
+                        }
+                        else
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write(cardEdge);
+                        }
                     }
-                    Console.SetCursorPosition(startingXPosition + _cardWidth, startingYPosition);
-                    updatedXPosition = startingXPosition + _cardWidth;
-                    for (int yPosition = 0; yPosition <= _cardHeight; yPosition++)
+                    Console.SetCursorPosition(startingXPosition + _cardWidth-1, startingYPosition+1);
+                    updatedXPosition = startingXPosition + _cardWidth-1;
+                    for (int yPosition = 0; yPosition < _cardHeight; yPosition++)
                     {
+                        if (yPosition == 0)
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.Write("─");
+                            Console.Write(cardCornerTopRight);
+                        }
+                        else if (yPosition == _cardWidth - 2)
+                        {
+                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            //Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write("─");
+                            Console.Write(cardCornerBottomRight);
+                        }
+                        else
+                        {
+                            //Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            //Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write(" ");
+                            Console.Write(cardEdge);
+                        }
                         //Loop för att skriva en ny rad längst till höger. Detta ska skapa en animation och få kortet att röra sig.
-                        Console.Write(" ");
+                        //Console.Write(" ");
                         Console.SetCursorPosition(updatedXPosition, Console.CursorTop + 1);
-                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
                     }
 
                     Thread.Sleep(animationSpeed);

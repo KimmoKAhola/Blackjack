@@ -24,7 +24,7 @@ namespace Blackjack
 
             //TODO these lines are only for testing. Comment out when necessary when working in this class
             Thread.Sleep(2000);
-            Graphics.ShuffleAnimationForASingleCard(Deck.AllCards[0], 10);
+            Graphics.ShuffleAnimationForASingleCard(Deck.AllCards[0], 25);
             //Deck.ShuffleDeck();
             //Deck.FirstDeal(players);
 
