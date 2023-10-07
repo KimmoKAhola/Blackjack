@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
-    public enum WinState
+    public enum GameState
     {
         Undecided = 1,
         Loss,

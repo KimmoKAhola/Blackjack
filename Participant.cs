@@ -10,17 +10,17 @@ namespace Blackjack
     {
         public Participant()
         {
-            PlayerHand = new List<Card>();
+            Hand = new List<Card>();
         }
 
-        public List<Card> PlayerHand { get; set; }
+        public List<Card> Hand { get; set; }
 
         public int HandSum()
         {
             int sum = 0;
             int aceCount = 0; // To keep track of the number of Aces
 
-            foreach (var card in PlayerHand)
+            foreach (var card in Hand)
             {
                 if (card.Title.Contains("Ace"))
                 {
