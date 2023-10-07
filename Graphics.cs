@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 namespace Blackjack
 {
@@ -8,9 +9,10 @@ namespace Blackjack
     /// </summary>
     public class Graphics
     {
-        public const int windowWidth = 195;
-        public const int windowHeight = 45;
-        public static List<string> Log = new List<string>()
+        private const int windowWidth = 195;
+        private const int windowHeight = 45;
+        private readonly static int _cardWidth = 7;
+        private static List<string> Log = new List<string>()
         {
             "",
             "",
@@ -39,7 +41,6 @@ namespace Blackjack
             Console.WriteLine(playingBoard);
         }
 
-        private readonly static int _cardWidth = 7;
         /// <summary>
         /// Prints a card at a certain position which is decided
         /// by two scaling vectors.
@@ -156,7 +157,30 @@ namespace Blackjack
 
             return (vectorXValues, vectorYValues);
         }
+        public static void ShuffleAnimation(Card card)
+        {
+            var vectors = ScalingVectors();
+            
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
+            int startingXPosition = 100;
+            int startingYPosition = 25;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
 
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                //Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                Console.Write(cardArray[yPosition]);
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+        }
         public static void UpdateLog()
         {
             var vectors = ScalingVectors();

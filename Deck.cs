@@ -9,14 +9,28 @@ namespace Blackjack
 {
     public static class Deck
     {
-        private static List<Card>? cards = GetNewDeck();
+        //private static List<Card>? cards = GetNewDeck();
         //private static List<Card>? cards = GetAceDeck(); // Only for testing
-
+        private static List<Card> cards = GetAnimationDeck();
 
         public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
             //get => cards = (cards == null) ? GetNewDeck() : cards;
+        }
+
+        //Only for testing animations
+        private static List<Card> GetAnimationDeck()
+        {
+            List<Card> cards = new List<Card>();
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 0; i < 51; i++)
+                {
+                    cards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0]));
+                }
+            }
+            return cards;
         }
         //Only for testing edge cases
         private static List<Card> GetAceDeck()
@@ -81,8 +95,8 @@ namespace Blackjack
         }
         public static void DealCard(Player player)
         {
-                player.PlayerHand.Add(cards[0]);
-                cards.RemoveAt(0);
+            player.PlayerHand.Add(cards[0]);
+            cards.RemoveAt(0);
         }
     }
 }

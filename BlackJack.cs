@@ -10,8 +10,6 @@ namespace Blackjack
     public class BlackJack
     {
         Player _dealer = new Player("William");
-
-        //Player _playerOne = new Player("Kimmo");
         public BlackJack(Graphics table)
         {
             Table = table;
@@ -19,13 +17,17 @@ namespace Blackjack
 
         //TODO Add loop so that each keypress deals a new card
         public Graphics Table { get; set; }
-        //public Player[] Player { get; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             players[0] = _dealer;
             Table.PrintBoard();
-            Deck.ShuffleDeck();
-            Deck.FirstDeal(players);
+
+            //TODO these lines are only for testing. Comment out when necessary when working in this class
+            Graphics.ShuffleAnimation(Deck.AllCards[0]);
+            //Deck.ShuffleDeck();
+            //Deck.FirstDeal(players);
+
+
             int currentPlayer = 1;
             while (currentPlayer <= players.Count-1)
             {
