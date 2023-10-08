@@ -184,15 +184,16 @@ namespace Blackjack
             Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2);
-            Thread.Sleep(500);
             GetPlayerBets(players);
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
+            Thread.Sleep(500);
             for (int i = 0; i < 2; i++)
             {
                 Graphics.EraseAPrintedCard(192 - 7 / 2 * i, 18);
                 Graphics.EraseAPrintedCard(107 + 7 / 2 * i, 39);
                 Graphics.EraseAPrintedCard(13 + 7 / 2 * i, 18);
             }
+            //Thread.Sleep(500);
         }
     }
 }

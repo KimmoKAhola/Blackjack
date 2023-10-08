@@ -410,16 +410,31 @@ namespace Blackjack
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateCardsInAllDirections(Card card, int numberOfCardsDealt)
+        public static void AnimateCardsInAllDirections(Card card, int numberOfCardsDealt, List<Player> players)
         {
+            //Loopa igenom alla
+            //om bet > 0
+            //ge x antal kort till den spelaren
+
             for (int i = 0; i < numberOfCardsDealt; i++)
             {
-                AnimateACardFromLeftToRight(card, 111 - _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //80 is working
-                AnimateACardFromTopToBottom(card, 100 + _cardWidth / 2 * i, 25, 15, _verticalAnimationSpeed); //22 is ok
-                AnimateACardFromRightToLeft(card, 80 + _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //75 is working
-                AnimateACardFromBottomToTop(card, 100 + _cardWidth / 2 * i, 16, 10, _verticalAnimationSpeed); //12 is ok
+                foreach (Player player in players)
+                {
+                    if (player.Bet > 0)
+                    {
+                        if (player.PlayerNumber == 1)
+                            AnimateACardFromLeftToRight(card, 111 - _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 1
+                        if (player.PlayerNumber == 2)
+                            AnimateACardFromTopToBottom(card, 100 + _cardWidth / 2 * i, 25, 15, _verticalAnimationSpeed); //Player 2
+                        if (player.PlayerNumber == 3)
+                            AnimateACardFromRightToLeft(card, 80 + _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 3
+                    }
+                }
+                AnimateACardFromBottomToTop(card, 100 + _cardWidth / 2 * i, 16, 10, _verticalAnimationSpeed); //Dealer
             }
         }
+
+
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
