@@ -207,7 +207,7 @@ namespace Blackjack
                 Console.Write(greenString);
 
                 Console.SetCursorPosition(startingXPosition, ++startingYPosition);
-                Thread.Sleep(_verticalAnimationSpeed);
+                Thread.Sleep(verticalAnimationSpeed);
             }
         }
         public static void AnimateACardFromBottomToTop(Card card, int distance, int verticalAnimationSpeed)
@@ -242,7 +242,7 @@ namespace Blackjack
                 }
 
                 Console.SetCursorPosition(startingXPosition, --startingYPosition);
-                Thread.Sleep(_verticalAnimationSpeed);
+                Thread.Sleep(verticalAnimationSpeed);
             }
         }
         public static void AnimateACardFromRightToLeft(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAimationSpeed)
@@ -286,7 +286,7 @@ namespace Blackjack
 
                 Console.SetCursorPosition(startingXPosition--, startingYPosition);
 
-                Thread.Sleep(_horizontalAnimationSpeed);
+                Thread.Sleep(horizontalAimationSpeed);
             }
         }
         public static void AnimateACardFromLeftToRight(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAnimationSpeed)
@@ -332,7 +332,7 @@ namespace Blackjack
 
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
 
-                Thread.Sleep(_horizontalAnimationSpeed);
+                Thread.Sleep(horizontalAnimationSpeed);
             }
         }
         public static void UpdateLog()
