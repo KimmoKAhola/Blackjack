@@ -246,7 +246,7 @@ namespace Blackjack
         }
         public static void AnimateACardFromRightToLeft(Card card, int distance)
         {
-            int startingXPosition = 100; // Hard coded values
+            int startingXPosition = 80; // Hard coded values
             int startingYPosition = 18;
             
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -422,9 +422,9 @@ namespace Blackjack
         }
         public static void AnimateCardsInAllDirections(Card card)
         {
-            AnimateACardFromLeftToRight(card, 85); //11 and 12 are almost ok.
+            AnimateACardFromLeftToRight(card, 80); //80 is working
             AnimateACardFromTopToBottom(card, 22); //22 is ok
-            AnimateACardFromRightToLeft(card, 100);
+            AnimateACardFromRightToLeft(card, 75); //75 is working
             AnimateACardFromBottomToTop(card, 12); //12 is ok
         }
         public static void PrintPlayerTitleAndSum(Participant participant)
