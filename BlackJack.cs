@@ -21,7 +21,7 @@ namespace Blackjack
             //Vilka kort som gavs till dealern
             //GameState för varje spelare och eventuell vinst
             //Sluttid
-            FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
+            FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
 
             // TODO WHAT THE FUCK IS THIS!?
@@ -92,7 +92,6 @@ namespace Blackjack
 
             Console.ReadKey();
             Environment.Exit(0); //TODO remove later.
-            //GameHistory = new(players);
             RunGame(players);
         }
         private void CheckResults(List<Player> players)

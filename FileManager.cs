@@ -30,11 +30,11 @@ namespace Blackjack
             }
         }
 
-        public static void SaveStartTimeStamp(BlackJackGameHistory blackJackGameHistory)
+        public static void SaveStartTimeStamp(int gameId)
         {
             using StreamWriter writer = new(_filePath, append: true);
-            DateTime startTime = blackJackGameHistory.TimeStamp;
-            writer.WriteLine(startTime);
+            DateTime startTime = DateTime.Now;
+            writer.WriteLine($"Round start time: {startTime}---match id [{gameId}]");
         }
 
         public static void SaveHandInfo(string handInfo)
@@ -52,14 +52,5 @@ namespace Blackjack
             using StreamWriter writer = new(_filePath, append: true);
             writer.WriteLine(wallet);
         }
-
-        public static void SaveGameInfo(int gameId, BlackJackGameHistory blackJackGameHistory) 
-        {
-            using StreamWriter writer = new(_filePath, append: true);
-            DateTime startTime = blackJackGameHistory.TimeStamp;
-            writer.WriteLine($"{startTime}, Game ID [{gameId}]");
-        }
-
-
     }
 }
