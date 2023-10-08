@@ -21,7 +21,7 @@ namespace Blackjack
             Graphics.PrintBoard();
             GameSetup(players);
             ShowDebugWallets(players);
-            Deck.FirstDeal(players, Dealer);
+            
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
             {
@@ -186,6 +186,7 @@ namespace Blackjack
             Thread.Sleep(500);
             GetPlayerBets(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
+            Deck.FirstDeal(players, Dealer);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Blackjack
 
             foreach (var card in Hand)
             {
-                if (card.Title.Contains("Ace"))
+                if (card.Title.Contains("A"))
                 {
                     aceCount++;
                     card.Value = 11;
