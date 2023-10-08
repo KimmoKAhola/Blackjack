@@ -271,7 +271,6 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18; // 18 as start value originally.
             int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
-            Console.CursorVisible = true;
             //Create a card array with blue strings. No graphic is needed.
 
             string[] cardArray = new string[6];
@@ -305,7 +304,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18; // 18 as start value originally.
             int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
-            Console.CursorVisible = true;
+            
             //Create a card array with blue strings. No graphic is needed.
 
             string[] cardArray = new string[6];
