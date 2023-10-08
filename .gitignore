@@ -363,5 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Ignore local text files and folders
-Files/
 MatchHistory/
