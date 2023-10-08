@@ -12,11 +12,7 @@ namespace Blackjack
         private static int _gameId = 0;
 
         public int GameId { get { return _gameId; } }
-        BlackJackGameHistory gameHistory;
         public Dealer Dealer { get; set; }
-        public Graphics Table { get; set; }
-        public BlackJackGameHistory GameHistory { get; set; }
-        //public List<BlackJackGameHistory> GameHistoryList { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
@@ -25,19 +21,20 @@ namespace Blackjack
             //Vilka kort som gavs till dealern
             //GameState för varje spelare och eventuell vinst
             //Sluttid
-            FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
-            Table.PrintBoard();
-            
+            FileManager.SaveStartTimeStamp(GameId);
+            Graphics.PrintBoard();
+
             // TODO WHAT THE FUCK IS THIS!?
-            //Thread.Sleep(500);
-            //int co = 2;
+            Thread.Sleep(500);
+            int co = 2;
             //while (co > 0)
             //{
-            //    Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-            //    Graphics.ShuffleAnimationForASingleCard(Deck.AnimationCards[0], 12);
-            //    co--;
+            //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+            //Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
+                co--;
             //}
-
+            Console.ReadKey();
             GetPlayerBets(players);
             ShowDebugWallets(players);
             Deck.ShuffleDeck();
@@ -95,7 +92,6 @@ namespace Blackjack
 
             Console.ReadKey();
             Environment.Exit(0); //TODO remove later.
-            //GameHistory = new(players);
             RunGame(players);
         }
         private void CheckResults(List<Player> players)
@@ -161,7 +157,6 @@ namespace Blackjack
         {
             int gameId = _gameId++;
             Dealer = new();
-            Table = new();
             foreach (Player player in players)
             {
                 player.Hand.Clear();
