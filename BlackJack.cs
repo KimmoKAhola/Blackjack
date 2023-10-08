@@ -20,10 +20,9 @@ namespace Blackjack
             //Console.CursorVisible = true;
             FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
-            FunMethod();
             GameSetup(players);
             ShowDebugWallets(players);
-            
+
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
             {
@@ -105,6 +104,7 @@ namespace Blackjack
                 else if (player.GameState != GameState.Loss && Dealer.HandSum() > 21)
                 {
                     player.GameState = GameState.Win;
+                    FunMethod();
                 }
                 else
                     player.GameState = GameState.Loss;
