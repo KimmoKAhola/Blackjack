@@ -27,17 +27,17 @@ namespace Blackjack
             //Sluttid
             FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
             Table.PrintBoard();
-            
+
             // TODO WHAT THE FUCK IS THIS!?
-            //Thread.Sleep(500);
-            //int co = 2;
+            Thread.Sleep(500);
+            int co = 2;
             //while (co > 0)
             //{
-            //    Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-            //    Graphics.ShuffleAnimationForASingleCard(Deck.AnimationCards[0], 12);
-            //    co--;
+                //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+                Graphics.AnimateACardFromTopToBottom(Deck.AnimationCards[0], 35);
+                co--;
             //}
-
+            Console.ReadKey();
             GetPlayerBets(players);
             ShowDebugWallets(players);
             Deck.ShuffleDeck();

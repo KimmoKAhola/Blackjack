@@ -177,7 +177,7 @@ namespace Blackjack
         /// </summary>
         /// <param name="card"></param>
         /// <param name="distance"></param>
-        public static void ShuffleAnimationForASingleCard(Card card, int distance)
+        public static void AnimateACardFromLeftToRight(Card card, int distance)
         {
             //TODO Use this later on to express the starting positions as functions of a card.
             //var vectors = ScalingVectors();  
@@ -266,7 +266,43 @@ namespace Blackjack
                 }
             }
         }
+        public static void AnimateACardFromTopToBottom(Card card, int distance)
+        {
+            int startingXPosition = 100; // Hard coded values
+            int startingYPosition = 5; // 18 as start value originally.
+            int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            Console.CursorVisible = true;
+            //Create a card array with blue strings. No graphic is needed.
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+            }
+            string greenString = new(' ', _cardWidth);
 
+            for (int i = 0; i < distance; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                {
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                    Console.Write(cardArray[yPosition]);
+                }
+                int oldTopCursorPosition = Console.CursorTop - _cardHeight;
+                if (i > 1)
+                {
+                    Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    Console.Write(greenString);
+                }
+                Console.SetCursorPosition(startingXPosition, startingYPosition++);
+                Thread.Sleep(animationSpeed);
+    
+
+            }
+        }
         public static void UpdateLog()
         {
             var vectors = ScalingVectors();
@@ -278,7 +314,7 @@ namespace Blackjack
 
             Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
-            for (int i = lastInTheList; i >= (lastInTheList-5); i--)
+            for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
                 int spaces = 80 - _log[i].Length;
