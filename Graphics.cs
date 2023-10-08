@@ -14,7 +14,7 @@ namespace Blackjack
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
-        private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length-1]-_cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
+        private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0] + _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
@@ -434,6 +434,69 @@ namespace Blackjack
             AnimateACardFromLeftToRight(card, 11); //11 and 12 are almost ok.
             AnimateACardFromTopToBottom(card, 22); //22 is ok
             AnimateACardFromBottomToTop(card, 12); //12 is ok
+        }
+
+        public static void PrintPlayerTitleAndSum(Participant participant)
+        {
+            int startXPos = 0;
+            int startYPos = 0;
+            double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.HandSum());
+            if (participant is Player)
+            {
+                //20
+                Player player = (Player)participant;
+                switch (player.PlayerNumber)
+                {
+                    case 1:
+                        startXPos = _playerOneRegion._xPosition - 15;
+                        startYPos = _playerOneRegion._yPosition - 2;
+                        break;
+                    case 2:
+                        startXPos = _playerTwoRegion._xPosition - 15;
+                        startYPos = _playerTwoRegion._yPosition - 2;
+                        break;
+                    case 3:
+                        startXPos = _playerThreeRegion._xPosition -7;
+                        startYPos = _playerThreeRegion._yPosition - 2;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                string playerHeader = $"{player.Name}'s hand: {participant.HandSum()}";
+                string headerGreenString = new(' ', playerHeader.Length);
+                string chanceString = $"Chance of success: ~{(chanceOfSuccess * 100):F0}%";
+
+                //if (chanceOfSuccess % 1 == 0)
+                //    chanceString = $"Chance of success: ~{(chanceOfSuccess * 100):F0}%";
+
+                string chanceGreenString = new(' ', 24);
+
+                Console.SetCursorPosition(startXPos, startYPos);
+                Console.Write(headerGreenString);
+                Console.SetCursorPosition(startXPos, startYPos);
+                Console.Write(playerHeader);
+
+                Console.SetCursorPosition(startXPos, startYPos + 1);
+                Console.Write(chanceGreenString);
+                Console.SetCursorPosition(startXPos, startYPos + 1);
+                Console.Write(chanceString);
+            }
+            else if (participant is Dealer)
+            {
+                startXPos = _dealerRegion._xPosition - 10;
+                startYPos = _dealerRegion._yPosition + 1 + _cardHeight;
+
+                string dealerHeader = $"Dealer's hand: {participant.HandSum()}";
+                string greenString = new(' ', dealerHeader.Length);
+
+                Console.SetCursorPosition(startXPos, startYPos);
+                Console.WriteLine(greenString);
+                Console.SetCursorPosition(startXPos, startYPos);
+                Console.Write(dealerHeader);
+            }
+            Console.SetCursorPosition(1, 1);
         }
     }
 }
