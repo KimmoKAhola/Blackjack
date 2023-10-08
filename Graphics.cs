@@ -15,7 +15,7 @@ namespace Blackjack
         private readonly static int _cardHeight = 6;
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
-        private readonly static int _shuffleAnimationSpeed = 4; // shuffleanimationspeed
+        private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
@@ -393,13 +393,10 @@ namespace Blackjack
             Graphics.LogPlayerInfo(dealer);
             Graphics.UpdateLog();
         }
-        public static void PrintAStackOfCards(Card card)
+        public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
-            int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
-            int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
-
-            int numberOfCardsInStack = 9;
-
+            //int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
+            //int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -410,7 +407,7 @@ namespace Blackjack
                 cardArray[i] = card.CardGraphicWhileStationary.Substring(i * _cardWidth, _cardWidth);
             }
 
-            for (int i = 0; i < numberOfCardsInStack; i++)
+            for (int i = 0; i <= numberOfCardsInStack; i++)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
@@ -494,8 +491,8 @@ namespace Blackjack
         public static void AnimateDeckShuffle(Card card)
         {
             Thread.Sleep(2000);
-            PrintAStationaryCard(card, 78, 18);
-            PrintAStationaryCard(card, 124, 18);
+            PrintAStackOfCards(card, 77, 18, 2);
+            PrintAStackOfCards(card, 124, 18, 2);
             Thread.Sleep(2000);
 
             int co = 30;
@@ -505,9 +502,11 @@ namespace Blackjack
                 AnimateACardFromRightToLeft(card, 15, 110, 18, _shuffleAnimationSpeed);
                 co--;
             }
+            EraseAPrintedCard(77, 18);
             EraseAPrintedCard(78, 18);
             EraseAPrintedCard(124, 18);
-            PrintAStackOfCards(card);
+            EraseAPrintedCard(125, 18);
+            PrintAStackOfCards(card, (int)vectors._x[vectors._x.Length / 2 - 1],(int)vectors._y[vectors._y.Length / 2 - 1], 9);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
