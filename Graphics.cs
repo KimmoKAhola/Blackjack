@@ -340,6 +340,52 @@ namespace Blackjack
                 Thread.Sleep(animationSpeed);
             }
         }
+
+        public static void AnimateACardFromRightToLeft(Card card, int distance)
+        {
+            int startingXPosition = 100; // Hard coded values
+            int startingYPosition = 18;
+            int animationSpeed = 7; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            Console.CursorVisible = true;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+
+            //Create a card array with blue strings. No graphic is needed.
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphicWhileStationary.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            for (int i = 0; i < distance; i++)
+            {
+                for (int yPosition = 0; yPosition < _cardWidth; yPosition++)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    if (yPosition < _cardWidth - 1)
+                    {
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                        Console.Write(cardArray[yPosition]);
+                    }
+                    else
+                    {
+                        if (i != 0)
+                        {
+                            for (int j = 0; j < _cardHeight; j++)
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                                Console.Write(" ");
+                                Console.SetCursorPosition(startingXPosition + _cardWidth, Console.CursorTop - 1);
+                            }
+                        }
+                    }
+                }
+
+                Console.SetCursorPosition(startingXPosition--, startingYPosition);
+
+                Thread.Sleep(animationSpeed);
+            }
+        }
         public static void UpdateLog()
         {
             var vectors = ScalingVectors();
@@ -456,7 +502,7 @@ namespace Blackjack
                         startYPos = _playerTwoRegion._yPosition - 2;
                         break;
                     case 3:
-                        startXPos = _playerThreeRegion._xPosition -7;
+                        startXPos = _playerThreeRegion._xPosition - 7;
                         startYPos = _playerThreeRegion._yPosition - 2;
                         break;
 
