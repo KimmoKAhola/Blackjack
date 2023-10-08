@@ -12,11 +12,7 @@ namespace Blackjack
         private static int _gameId = 0;
 
         public int GameId { get { return _gameId; } }
-        BlackJackGameHistory gameHistory;
         public Dealer Dealer { get; set; }
-        public Graphics Table { get; set; }
-        public BlackJackGameHistory GameHistory { get; set; }
-        //public List<BlackJackGameHistory> GameHistoryList { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
@@ -26,7 +22,7 @@ namespace Blackjack
             //GameState för varje spelare och eventuell vinst
             //Sluttid
             FileManager.SaveGameInfo(GameId, new BlackJackGameHistory(players));
-            Table.PrintBoard();
+            Graphics.PrintBoard();
 
             // TODO WHAT THE FUCK IS THIS!?
             Thread.Sleep(500);
@@ -162,7 +158,6 @@ namespace Blackjack
         {
             int gameId = _gameId++;
             Dealer = new();
-            Table = new();
             foreach (Player player in players)
             {
                 player.Hand.Clear();

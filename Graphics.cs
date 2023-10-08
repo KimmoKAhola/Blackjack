@@ -7,7 +7,7 @@ namespace Blackjack
     /// Creates a playing board for the black jack table.
     ///
     /// </summary>
-    public class Graphics
+    public static class Graphics
     {
         private const int windowWidth = 195;
         private const int windowHeight = 45;
@@ -29,7 +29,7 @@ namespace Blackjack
         /// 50 and 200 on the console
         /// and 40, 190 on the playing board.
         /// </summary>
-        public void PrintBoard()
+        public static void PrintBoard()
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.White;
@@ -75,7 +75,6 @@ namespace Blackjack
         /// <param name="participant"></param>
         private static void PrintSinglePlayerCards(Participant participant)
         {
-            int counter = 0;
             var vectors = ScalingVectors();
             // TODO startPosX 8 prints one card in a specific region!!!!
             // TODO startPosY 5 prints one card in a specific region!!!!
