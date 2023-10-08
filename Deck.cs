@@ -130,5 +130,22 @@ namespace Blackjack
             participant.Hand.Add(cards[0]);
             cards.RemoveAt(0);
         }
+
+        public static double CalculateChanceOfSuccess(int HandSum)
+        {
+            int bustCards = 0;
+            foreach (Card card in cards)
+            {
+                if (HandSum + card.Value > 21)
+                {
+                    bustCards++;
+                }
+            }
+
+            double probabilityOfBust = (double)bustCards / cards.Count;
+            double chanceOfSuccess = 1 - probabilityOfBust;
+
+            return Math.Round(chanceOfSuccess, 2);
+        }
     }
 }

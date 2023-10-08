@@ -35,7 +35,6 @@ namespace Blackjack
             Deck.ShuffleDeck();
             Deck.FirstDeal(players, Dealer);
             Graphics.PrintAllPlayerCards(players);
-            Console.ReadKey();
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
             {
@@ -43,6 +42,7 @@ namespace Blackjack
                 {
 
                     Graphics.UpdateBoard(players, currentPlayer);
+                    Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
 
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
                     {
@@ -58,12 +58,16 @@ namespace Blackjack
 
                     char response;
                     Console.Write("Want another card broski?");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     response = Console.ReadKey().KeyChar;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
                     if (response != ' ')
                         break;
 
                     Deck.DealCard(players[currentPlayer]);
                 }
+                Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
                 currentPlayer++;
             }
 
@@ -180,3 +184,4 @@ namespace Blackjack
         }
     }
 }
+
