@@ -13,6 +13,11 @@ namespace Blackjack
         private const int windowHeight = 45;
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
+        private static (double[] _x, double[] _y) vectors = ScalingVectors();
+        private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length-1]-_cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
+        private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
+        private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0] + _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
+        private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
         private static List<string> _log = new List<string>()
         {
             "",
@@ -93,20 +98,20 @@ namespace Blackjack
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = vectors.x.Length / 2 + 1; //- player.PlayerHand.Count / 2;
-                    startPosY = 0;
+                    startPosX = _dealerRegion._xPosition; //- player.PlayerHand.Count / 2;
+                    startPosY = _dealerRegion._yPosition;
                     break;
                 case 1: //player one on the right side
-                    startPosX = vectors.x.Length - participant.Hand.Count;
-                    startPosY = vectors.y.Length / 2 - 1;
+                    startPosX = _playerOneRegion._xPosition - participant.Hand.Count;
+                    startPosY = _playerOneRegion._yPosition;
                     break;
                 case 2: // player two on the bottom
-                    startPosX = vectors.x.Length / 2 + 1 - participant.Hand.Count / 2;
-                    startPosY = vectors.y.Length - 1;
+                    startPosX = _playerTwoRegion._xPosition - participant.Hand.Count / 2;
+                    startPosY = _playerTwoRegion._yPosition;
                     break;
                 case 3: // player three on the left side
-                    startPosX = (int)vectors.x[0];
-                    startPosY = vectors.y.Length / 2 - 1;
+                    startPosX = _playerThreeRegion._xPosition;
+                    startPosY = _playerThreeRegion._yPosition;
                     break;
                 default:
                     //TODO fix error handling later.
@@ -117,12 +122,12 @@ namespace Blackjack
 
             foreach (Card card in listOfCards)
             {
-                double[] xValues = vectors.x;
-                double[] yValues = vectors.y;
-                Console.SetCursorPosition((int)xValues[startPosX], (int)yValues[startPosY]);
+                //double[] xValues = vectors.x;
+                //double[] yValues = vectors.y;
+                Console.SetCursorPosition(startPosX, startPosY);
                 PrintASingleCard(card);
 
-                startPosX++;
+                startPosX += (int)(_cardWidth / 2);
 
             }
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -304,7 +309,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18; // 18 as start value originally.
             int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
-            
+
             //Create a card array with blue strings. No graphic is needed.
 
             string[] cardArray = new string[6];

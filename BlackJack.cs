@@ -21,22 +21,23 @@ namespace Blackjack
             //Vilka kort som gavs till dealern
             //GameState för varje spelare och eventuell vinst
             //Sluttid
-            FileManager.SaveStartTimeStamp(GameId);
+            
+            //FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
 
             // TODO WHAT THE FUCK IS THIS!?
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
             int co = 2;
             //while (co > 0)
             //{
             //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
             //Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
+            //Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
                 co--;
             //}
-            Console.ReadKey();
-            GetPlayerBets(players);
-            ShowDebugWallets(players);
+            //Console.ReadKey();
+            //GetPlayerBets(players);
+            //ShowDebugWallets(players);
             Deck.ShuffleDeck();
             Deck.FirstDeal(players, Dealer);
             Graphics.PrintAllPlayerCards(players);
