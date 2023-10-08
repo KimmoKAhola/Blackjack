@@ -395,8 +395,8 @@ namespace Blackjack
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
-            //int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
-            //int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
+            //x = 100 for rough middle.
+            //y = 18 for rough middle position
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
