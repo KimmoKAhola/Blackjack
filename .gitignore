@@ -362,5 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Ignore local folders and files
+# Ignore local text files and folders
 MatchHistory/
