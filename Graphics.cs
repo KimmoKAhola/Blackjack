@@ -301,6 +301,42 @@ namespace Blackjack
                 Thread.Sleep(animationSpeed);
             }
         }
+        public static void AnimateACardFromBottomToTop(Card card, int distance)
+        {
+            int startingXPosition = 100; // Hard coded values
+            int startingYPosition = 40; // 18 as start value originally.
+            int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            Console.CursorVisible = true;
+            //Create a card array with blue strings. No graphic is needed.
+
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+            }
+            string greenString = new(' ', _cardWidth);
+
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            for (int i = 0; i < distance; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                for (int yPosition = _cardHeight - 1; yPosition >= 0; yPosition--)
+                {
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop - 1); // start with a cursorposition at 25
+                    Console.Write(cardArray[yPosition]);
+                }
+                int oldTopCursorPosition = Console.CursorTop + _cardHeight;
+                if (i >= 1)
+                {
+                    Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    Console.Write(greenString);
+                }
+
+                Console.SetCursorPosition(startingXPosition, --startingYPosition);
+                Thread.Sleep(animationSpeed);
+            }
+        }
         public static void UpdateLog()
         {
             var vectors = ScalingVectors();

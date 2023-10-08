@@ -34,7 +34,7 @@ namespace Blackjack
             //while (co > 0)
             //{
                 //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-                Graphics.AnimateACardFromTopToBottom(Deck.AnimationCards[0], 20);
+                Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30);
                 co--;
             //}
             Console.ReadKey();
