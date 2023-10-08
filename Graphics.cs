@@ -15,7 +15,7 @@ namespace Blackjack
         private readonly static int _cardHeight = 6;
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
-        private readonly static int _shuffleAnimationSpeed = 2; // shuffleanimationspeed
+        private readonly static int _shuffleAnimationSpeed = 4; // shuffleanimationspeed
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
@@ -51,7 +51,6 @@ namespace Blackjack
             playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
             Console.WriteLine(playingBoard);
         }
-
         /// <summary>
         /// Prints a card at a certain position which is decided
         /// by two scaling vectors.
@@ -74,7 +73,6 @@ namespace Blackjack
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-
         /// <summary>
         /// A method that prints out the whole player hand.
         /// Utilizes the PrintCard method to print out one card at a time while looping through
@@ -361,7 +359,6 @@ namespace Blackjack
             Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
         }
-        //TODO does not work currently, but almost.
         public static void LogPlayerInfo(Player player)
         {
             string cardSymbol = player.Hand.Last().CardSymbol;
@@ -496,18 +493,20 @@ namespace Blackjack
         }
         public static void AnimateDeckShuffle(Card card)
         {
+            Thread.Sleep(2000);
+            PrintAStationaryCard(card, 78, 18);
+            PrintAStationaryCard(card, 124, 18);
+            Thread.Sleep(2000);
 
-            PrintAStationaryCard(card, (int)vectors._x[vectors._x.Length / 2 - 1], (int)vectors._y[vectors._y.Length / 2 - 1]);
-            Console.ReadKey();
-            EraseAPrintedCard((int)vectors._x[vectors._x.Length / 2 - 1], (int)vectors._y[vectors._y.Length / 2 - 1]);
-            Console.ReadKey();
-            int co = 15;
+            int co = 30;
             while (co > 0)
             {
                 AnimateACardFromLeftToRight(card, 15, 80, 18, _shuffleAnimationSpeed);
                 AnimateACardFromRightToLeft(card, 15, 110, 18, _shuffleAnimationSpeed);
                 co--;
             }
+            EraseAPrintedCard(78, 18);
+            EraseAPrintedCard(124, 18);
             PrintAStackOfCards(card);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
@@ -531,10 +530,8 @@ namespace Blackjack
                 Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
                 Console.Write(cardArray[yPosition]);
             }
-            //Console.SetCursorPosition(startingXPosition++, startingYPosition);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-
         public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
