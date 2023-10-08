@@ -432,6 +432,13 @@ namespace Blackjack
                 }
                 AnimateACardFromBottomToTop(card, 100 + _cardWidth / 2 * i, 16, 10, _verticalAnimationSpeed); //Dealer
             }
+            Thread.Sleep(500);
+            for (int i = 0; i < numberOfCardsDealt; i++)
+            {
+                EraseAPrintedCard(192 - 7 / 2 * i, 18);
+                EraseAPrintedCard(107 + 7 / 2 * i, 39);
+                EraseAPrintedCard(13 + 7 / 2 * i, 18);
+            }
         }
 
 
