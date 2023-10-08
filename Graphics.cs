@@ -13,8 +13,9 @@ namespace Blackjack
         private const int windowHeight = 45;
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
-        private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
+        //private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
+        private readonly static int _horizontalAnimationSpeed = 3; // shuffleanimationspeed
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
@@ -244,11 +245,11 @@ namespace Blackjack
                 Thread.Sleep(_verticalAnimationSpeed);
             }
         }
-        public static void AnimateACardFromRightToLeft(Card card, int distance)
+        public static void AnimateACardFromRightToLeft(Card card, int distance, int startingXPosition, int startingYPosition)
         {
-            int startingXPosition = 80; // Hard coded values
-            int startingYPosition = 18;
-            
+            //int startingXPosition = 80; // Hard coded values
+            //int startingYPosition = 18;
+
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -288,10 +289,10 @@ namespace Blackjack
                 Thread.Sleep(_horizontalAnimationSpeed);
             }
         }
-        public static void AnimateACardFromLeftToRight(Card card, int distance)
+        public static void AnimateACardFromLeftToRight(Card card, int distance, int startingXPosition, int startingYPosition)
         {
-            int startingXPosition = 100; // Hard coded values
-            int startingYPosition = 18;
+            //int startingXPosition = 100; // Hard coded values
+            //int startingYPosition = 18;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -316,7 +317,7 @@ namespace Blackjack
                     {
                         if (i != 0)
                         {
-                            int oldX = startingXPosition-1;
+                            int oldX = startingXPosition - 1;
                             //int updY = 
                             for (int j = 0; j < _cardHeight; j++)
                             {
@@ -397,7 +398,7 @@ namespace Blackjack
             int startingXPosition = (int)vectors.x[vectors.x.Length / 2 - 1]; // Hard coded values
             int startingYPosition = (int)vectors.y[vectors.y.Length / 2 - 1];
             //int updatedXPosition, updatedYPosition;
-            int numberOfCardsInStack = 6;
+            int numberOfCardsInStack = 9;
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
@@ -422,9 +423,9 @@ namespace Blackjack
         }
         public static void AnimateCardsInAllDirections(Card card)
         {
-            AnimateACardFromLeftToRight(card, 80); //80 is working
+            AnimateACardFromLeftToRight(card, 80, 100, 18); //80 is working
             AnimateACardFromTopToBottom(card, 22); //22 is ok
-            AnimateACardFromRightToLeft(card, 75); //75 is working
+            AnimateACardFromRightToLeft(card, 75, 100, 18); //75 is working
             AnimateACardFromBottomToTop(card, 12); //12 is ok
         }
         public static void PrintPlayerTitleAndSum(Participant participant)
@@ -489,5 +490,17 @@ namespace Blackjack
             }
             Console.SetCursorPosition(1, 1);
         }
+        public static void AnimateDeckShuffle(Card card)
+        {
+            int co = 15;
+            while (co > 0)
+            {
+                AnimateACardFromLeftToRight(card, 15, 80, 18);
+                AnimateACardFromRightToLeft(card, 15, 110, 18);
+                co--;
+            }
+            PrintAStackOfCards(card);
+        }
+
     }
 }
