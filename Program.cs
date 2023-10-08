@@ -1,4 +1,5 @@
-﻿namespace Blackjack
+﻿using System.Media;
+namespace Blackjack
 {
     internal class Program
     {
@@ -10,6 +11,7 @@
             Console.CursorVisible = false;
             FileManager.CreateDirectory();
             FileManager.CreateFile();
+            
 
             BlackJack blackjack = new();
 
