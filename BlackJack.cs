@@ -16,22 +16,19 @@ namespace Blackjack
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
-            
+
             //FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
 
             // TODO WHAT THE FUCK IS THIS!?
-            //Thread.Sleep(500);
+            Thread.Sleep(4000);
             int co = 2;
-            //while (co > 0)
-            //{
-            //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-            //Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
-            Console.ReadKey();
-            Graphics.AnimateACardFromRightToLeft(Deck.AnimationCards[0], 70);
-            Console.ReadKey();
+            while (co > 0)
+            {
+                Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+                Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
                 co--;
-            //}
+            }
             //Console.ReadKey();
             //GetPlayerBets(players);
             //ShowDebugWallets(players);
@@ -87,7 +84,7 @@ namespace Blackjack
 
             CheckResults(players);
 
-            foreach (Player player in players )
+            foreach (Player player in players)
             {
                 player.UpdateWallet();
             }
