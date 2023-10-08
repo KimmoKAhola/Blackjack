@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Blackjack
             //Console.CursorVisible = true;
             FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
+            FunMethod();
             GameSetup(players);
             ShowDebugWallets(players);
             
@@ -187,6 +189,17 @@ namespace Blackjack
             GetPlayerBets(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
             Deck.FirstDeal(players, Dealer);
+        }
+
+        private void FunMethod()
+        {
+            string soundFilePath = "../../../Files/KACHING.WAV";
+            if (OperatingSystem.IsWindows())
+            {
+                SoundPlayer soundPlayer = new SoundPlayer(soundFilePath);
+                soundPlayer.Load();
+                soundPlayer.Play();
+            }
         }
     }
 }
