@@ -96,9 +96,11 @@ namespace Blackjack
                 if (player.GameState == GameState.BlackJack)
                 {
                     //Player got blackjack in first deal
+                    FunMethod();
                 }
                 else if (player.HandSum() > Dealer.HandSum() && player.GameState != GameState.Loss)
                 {
+                    FunMethod();
                     player.GameState = GameState.Win;
                 }
                 else if (player.GameState != GameState.Loss && Dealer.HandSum() > 21)
