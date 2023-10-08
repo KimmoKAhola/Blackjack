@@ -271,10 +271,10 @@ namespace Blackjack
         {
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18; // 18 as start value originally.
-            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
-            //Console.CursorVisible = true;
+            int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            Console.CursorVisible = true;
             //Create a card array with blue strings. No graphic is needed.
-            //Console.BackgroundColor = ConsoleColor.DarkBlue;
+
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -292,13 +292,12 @@ namespace Blackjack
                     Console.Write(cardArray[yPosition]);
                 }
                 int oldTopCursorPosition = Console.CursorTop - _cardHeight;
-                if (i > 1)
-                {
-                    Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
-                    Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    Console.Write(greenString);
-                }
-                Console.SetCursorPosition(startingXPosition, startingYPosition++);
+
+                Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Write(greenString);
+
+                Console.SetCursorPosition(startingXPosition, ++startingYPosition);
                 Thread.Sleep(animationSpeed);
             }
         }
