@@ -16,29 +16,12 @@ namespace Blackjack
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
-
-            //FileManager.SaveStartTimeStamp(GameId);
+            //Console.CursorVisible = true;
+            FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
-
-            // TODO WHAT THE FUCK IS THIS!?
-            Thread.Sleep(500);
-            //int co = 2;
-            //while (co > 0)
-            //{
-            //    Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-            //    Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
-            //    co--;
-            //}
-
-            Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
-
-
-            Console.ReadKey();
-            //GetPlayerBets(players);
-            //ShowDebugWallets(players);
-            Deck.ShuffleDeck();
+            GameSetup(players);
+            ShowDebugWallets(players);
             Deck.FirstDeal(players, Dealer);
-            Graphics.PrintAllPlayerCards(players);
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
             {
@@ -75,6 +58,11 @@ namespace Blackjack
                 currentPlayer++;
             }
 
+            //Erase the dealer's card
+            Graphics.EraseAPrintedCard(107, 0);
+            Graphics.UpdateBoard(Dealer);
+            //Dramatic pause
+            Thread.Sleep(1000);
             // DEALER LOOP
             while (Dealer.HandSum() < 17)
             {
@@ -92,9 +80,12 @@ namespace Blackjack
             {
                 player.UpdateWallet();
             }
-
-            Console.ReadKey();
-            Environment.Exit(0); //TODO remove later.
+            //TODO add a prompt here. Continue? J/N
+            char response2 = Console.ReadKey().KeyChar;
+            if (response2 != ' ')
+            {
+                Environment.Exit(0); //TODO remove later.
+            }
             RunGame(players);
         }
         private void CheckResults(List<Player> players)
@@ -185,6 +176,21 @@ namespace Blackjack
             }
 
             Console.SetCursorPosition(cachedX, cachedY);
+        }
+
+        private void GameSetup(List<Player> players)
+        {
+            Thread.Sleep(1500);
+            Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
+            Deck.ShuffleDeck();
+            Thread.Sleep(500);
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
+            Thread.Sleep(500);
+            GetPlayerBets(players);
+            Thread.Sleep(500);
+            Graphics.EraseAPrintedCard(192, 18);
+            Graphics.EraseAPrintedCard(107, 39);
+            Graphics.EraseAPrintedCard(13, 18);
         }
     }
 }

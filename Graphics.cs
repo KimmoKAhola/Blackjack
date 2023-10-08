@@ -176,12 +176,8 @@ namespace Blackjack
 
             return (vectorXValues, vectorYValues);
         }
-        public static void AnimateACardFromTopToBottom(Card card, int distance, int verticalAnimationSpeed)
+        public static void AnimateACardFromTopToBottom(Card card, int startingXPosition, int startingYPosition, int distance, int verticalAnimationSpeed)
         {
-            int startingXPosition = 100; // Hard coded values
-            int startingYPosition = 18; // 18 as start value originally.
-            //Create a card array with blue strings. No graphic is needed.
-
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -209,13 +205,8 @@ namespace Blackjack
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromBottomToTop(Card card, int distance, int verticalAnimationSpeed)
+        public static void AnimateACardFromBottomToTop(Card card, int startingXPosition, int startingYPosition, int distance, int verticalAnimationSpeed)
         {
-            int startingXPosition = 100; // Hard coded values
-            int startingYPosition = 18; // 18 as start value originally.
-
-            //Create a card array with blue strings. No graphic is needed.
-
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -245,7 +236,7 @@ namespace Blackjack
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromRightToLeft(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAimationSpeed)
+        public static void AnimateACardFromRightToLeft(Card card, int startingXPosition, int startingYPosition, int distance, int horizontalAimationSpeed)
         {
             //int startingXPosition = 80; // Hard coded values
             //int startingYPosition = 18;
@@ -290,7 +281,7 @@ namespace Blackjack
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromLeftToRight(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAnimationSpeed)
+        public static void AnimateACardFromLeftToRight(Card card, int startingXPosition, int startingYPosition, int distance, int horizontalAnimationSpeed)
         {
             //int startingXPosition = 100; // Hard coded values
             //int startingYPosition = 18;
@@ -421,10 +412,10 @@ namespace Blackjack
         }
         public static void AnimateCardsInAllDirections(Card card)
         {
-            AnimateACardFromLeftToRight(card, 80, 100, 18, _horizontalAnimationSpeed); //80 is working
-            AnimateACardFromTopToBottom(card, 22, _verticalAnimationSpeed); //22 is ok
-            AnimateACardFromRightToLeft(card, 75, 100, 18, _horizontalAnimationSpeed); //75 is working
-            AnimateACardFromBottomToTop(card, 12, _verticalAnimationSpeed); //12 is ok
+            AnimateACardFromLeftToRight(card, 111, 18, 75, _horizontalAnimationSpeed); //80 is working
+            AnimateACardFromTopToBottom(card, 100, 25, 15, _verticalAnimationSpeed); //22 is ok
+            AnimateACardFromRightToLeft(card, 80, 18, 75, _horizontalAnimationSpeed); //75 is working
+            AnimateACardFromBottomToTop(card, 100, 16, 10, _verticalAnimationSpeed); //12 is ok
         }
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
@@ -498,15 +489,15 @@ namespace Blackjack
             int co = 30;
             while (co > 0)
             {
-                AnimateACardFromLeftToRight(card, 15, 80, 18, _shuffleAnimationSpeed);
-                AnimateACardFromRightToLeft(card, 15, 110, 18, _shuffleAnimationSpeed);
+                AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
+                AnimateACardFromRightToLeft(card, 110, 18, 15, _shuffleAnimationSpeed);
                 co--;
             }
             EraseAPrintedCard(77, 18);
             EraseAPrintedCard(78, 18);
             EraseAPrintedCard(124, 18);
             EraseAPrintedCard(125, 18);
-            PrintAStackOfCards(card, (int)vectors._x[vectors._x.Length / 2 - 1],(int)vectors._y[vectors._y.Length / 2 - 1], 9);
+            PrintAStackOfCards(card, 96, 18, 8);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
@@ -534,7 +525,6 @@ namespace Blackjack
         public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.CursorVisible = true;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
