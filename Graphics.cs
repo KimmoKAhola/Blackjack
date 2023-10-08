@@ -209,6 +209,7 @@ namespace Blackjack
                 Console.SetCursorPosition(startingXPosition, ++startingYPosition);
                 Thread.Sleep(verticalAnimationSpeed);
             }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void AnimateACardFromBottomToTop(Card card, int distance, int verticalAnimationSpeed)
         {
@@ -244,6 +245,7 @@ namespace Blackjack
                 Console.SetCursorPosition(startingXPosition, --startingYPosition);
                 Thread.Sleep(verticalAnimationSpeed);
             }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void AnimateACardFromRightToLeft(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAimationSpeed)
         {
@@ -288,6 +290,7 @@ namespace Blackjack
 
                 Thread.Sleep(horizontalAimationSpeed);
             }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void AnimateACardFromLeftToRight(Card card, int distance, int startingXPosition, int startingYPosition, int horizontalAnimationSpeed)
         {
@@ -334,6 +337,7 @@ namespace Blackjack
 
                 Thread.Sleep(horizontalAnimationSpeed);
             }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void UpdateLog()
         {
@@ -394,10 +398,9 @@ namespace Blackjack
         }
         public static void PrintAStackOfCards(Card card)
         {
-            var vectors = ScalingVectors();
-            int startingXPosition = (int)vectors.x[vectors.x.Length / 2 - 1]; // Hard coded values
-            int startingYPosition = (int)vectors.y[vectors.y.Length / 2 - 1];
-            //int updatedXPosition, updatedYPosition;
+            int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
+            int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
+
             int numberOfCardsInStack = 9;
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -420,6 +423,7 @@ namespace Blackjack
                 }
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void AnimateCardsInAllDirections(Card card)
         {
@@ -492,6 +496,11 @@ namespace Blackjack
         }
         public static void AnimateDeckShuffle(Card card)
         {
+
+            PrintAStationaryCard(card, (int)vectors._x[vectors._x.Length / 2 - 1], (int)vectors._y[vectors._y.Length / 2 - 1]);
+            Console.ReadKey();
+            EraseAPrintedCard((int)vectors._x[vectors._x.Length / 2 - 1], (int)vectors._y[vectors._y.Length / 2 - 1]);
+            Console.ReadKey();
             int co = 15;
             while (co > 0)
             {
@@ -500,7 +509,47 @@ namespace Blackjack
                 co--;
             }
             PrintAStackOfCards(card);
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+        }
+        public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
+        {
+            //int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
+            //int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
+
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphicWhileStationary.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
+                Console.Write(cardArray[yPosition]);
+            }
+            //Console.SetCursorPosition(startingXPosition++, startingYPosition);
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
 
+        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.CursorVisible = true;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = new string(' ', _cardWidth);
+            }
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(cardArray[yPosition]);
+            }
+        }
     }
 }
