@@ -187,7 +187,7 @@ namespace Blackjack
             int startingXPosition = 100; // Hard coded values
             int startingYPosition = 18;
             int updatedXPosition;
-            int animationSpeed = 5; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            int animationSpeed = 3; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
 
 
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -304,7 +304,7 @@ namespace Blackjack
         public static void AnimateACardFromBottomToTop(Card card, int distance)
         {
             int startingXPosition = 100; // Hard coded values
-            int startingYPosition = 40; // 18 as start value originally.
+            int startingYPosition = 18; // 18 as start value originally.
             int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
             Console.CursorVisible = true;
             //Create a card array with blue strings. No graphic is needed.
@@ -424,6 +424,13 @@ namespace Blackjack
                 }
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
+        }
+
+        public static void AnimateCardsInAllDirections(Card card)
+        {
+            AnimateACardFromLeftToRight(card, 12); //12 is ok, 13 is too far.
+            AnimateACardFromTopToBottom(card, 22); //22 is ok
+            AnimateACardFromBottomToTop(card, 12); //12 is ok
         }
     }
 }

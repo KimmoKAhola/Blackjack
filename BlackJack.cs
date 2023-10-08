@@ -33,8 +33,9 @@ namespace Blackjack
             int co = 2;
             //while (co > 0)
             //{
-                //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-                Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30);
+            //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+            //Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
                 co--;
             //}
             Console.ReadKey();
