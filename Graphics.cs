@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Text;
 
 namespace Blackjack
 {
@@ -269,12 +270,11 @@ namespace Blackjack
         public static void AnimateACardFromTopToBottom(Card card, int distance)
         {
             int startingXPosition = 100; // Hard coded values
-            int startingYPosition = 5; // 18 as start value originally.
-            int animationSpeed = 2; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
-            Console.CursorVisible = true;
+            int startingYPosition = 18; // 18 as start value originally.
+            int animationSpeed = 1; // Change this to play around with the animation speed. Values between 1-3 and 5 are "ok".
+            //Console.CursorVisible = true;
             //Create a card array with blue strings. No graphic is needed.
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            //Console.BackgroundColor = ConsoleColor.DarkBlue;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -282,6 +282,7 @@ namespace Blackjack
             }
             string greenString = new(' ', _cardWidth);
 
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
             for (int i = 0; i < distance; i++)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -299,8 +300,6 @@ namespace Blackjack
                 }
                 Console.SetCursorPosition(startingXPosition, startingYPosition++);
                 Thread.Sleep(animationSpeed);
-    
-
             }
         }
         public static void UpdateLog()
