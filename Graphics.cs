@@ -431,7 +431,7 @@ namespace Blackjack
 
         public static void AnimateCardsInAllDirections(Card card)
         {
-            AnimateACardFromLeftToRight(card, 12); //12 is ok, 13 is too far.
+            AnimateACardFromLeftToRight(card, 11); //11 and 12 are almost ok.
             AnimateACardFromTopToBottom(card, 22); //22 is ok
             AnimateACardFromBottomToTop(card, 12); //12 is ok
         }

@@ -539,3 +539,109 @@ The dealer was dealt a [10♥], their hand is now worth 24
 Mille, Loss, wallet: 1000
 Kimmo, Loss, wallet: 1000
 Jesus, Loss, wallet: 1000
+[FIRST DEAL]~~~~~~
+Mille was dealt a [6♠]
+Kimmo was dealt a [8♦]
+Jesus was dealt a [K♦]
+The dealer was dealt a [6♥]
+Mille was dealt a [8♠]
+Kimmo was dealt a [8♥]
+Jesus was dealt a [9♠]
+The dealer was dealt a [J♥]
+
+[FIRST DEAL]~~~~~~
+Mille was dealt a [A♣]
+Kimmo was dealt a [6♦]
+Jesus was dealt a [5♦]
+The dealer was dealt a [K♠]
+Mille was dealt a [A♥]
+Kimmo was dealt a [10♥]
+Jesus was dealt a [Q♥]
+The dealer was dealt a [2♥]
+
+MILLE was dealt a [A♥], their hand is now worth 2
+MILLE was dealt a [J♠], their hand is now worth 12
+MILLE was dealt a [9♦], their hand is now worth 21
+MILLE was dealt a [A♦], their hand is now worth 22
+KIMMO was dealt a [10♥], their hand is now worth 16
+KIMMO was dealt a [6♣], their hand is now worth 22
+JESUS was dealt a [Q♥], their hand is now worth 15
+JESUS was dealt a [Q♦], their hand is now worth 25
+The dealer was dealt a [K♥], their hand is now worth 22
+Mille, Loss, wallet: 1000
+Kimmo, Loss, wallet: 1000
+Jesus, Loss, wallet: 1000
+[FIRST DEAL]~~~~~~
+Mille was dealt a [K♦]
+Kimmo was dealt a [3♥]
+Jesus was dealt a [9♦]
+The dealer was dealt a [7♦]
+Mille was dealt a [Q♥]
+Kimmo was dealt a [J♦]
+Jesus was dealt a [4♥]
+The dealer was dealt a [5♠]
+
+MILLE was dealt a [Q♥], their hand is now worth 20
+MILLE was dealt a [3♠], their hand is now worth 23
+KIMMO was dealt a [J♦], their hand is now worth 13
+KIMMO was dealt a [2♥], their hand is now worth 15
+KIMMO was dealt a [9♠], their hand is now worth 24
+JESUS was dealt a [4♥], their hand is now worth 13
+JESUS was dealt a [J♥], their hand is now worth 23
+The dealer was dealt a [10♥], their hand is now worth 22
+Mille, Loss, wallet: 1000
+Kimmo, Loss, wallet: 1000
+Jesus, Loss, wallet: 1000
+[FIRST DEAL]~~~~~~
+Mille was dealt a [A♥]
+Kimmo was dealt a [4♣]
+Jesus was dealt a [Q♠]
+The dealer was dealt a [7♥]
+Mille was dealt a [4♥]
+Kimmo was dealt a [5♥]
+Jesus was dealt a [8♣]
+The dealer was dealt a [7♠]
+
+[FIRST DEAL]~~~~~~
+Mille was dealt a [9♦]
+Kimmo was dealt a [10♣]
+Jesus was dealt a [4♠]
+The dealer was dealt a [4♥]
+Mille was dealt a [5♥]
+Kimmo was dealt a [9♠]
+Jesus was dealt a [J♣]
+The dealer was dealt a [5♠]
+
+MILLE was dealt a [5♥], their hand is now worth 14
+MILLE was dealt a [J♠], their hand is now worth 24
+KIMMO was dealt a [9♠], their hand is now worth 19
+[FIRST DEAL]~~~~~~
+Mille was dealt a [A♥]
+Kimmo was dealt a [A♣]
+Jesus was dealt a [A♠]
+The dealer was dealt a [5♥]
+Mille was dealt a [7♣]
+Kimmo was dealt a [Q♦]
+Jesus was dealt a [10♦]
+The dealer was dealt a [2♣]
+
+[FIRST DEAL]~~~~~~
+Mille was dealt a [6♠]
+Kimmo was dealt a [Q♦]
+Jesus was dealt a [5♣]
+The dealer was dealt a [8♥]
+Mille was dealt a [9♠]
+Kimmo was dealt a [8♣]
+Jesus was dealt a [6♣]
+The dealer was dealt a [6♥]
+
+[FIRST DEAL]~~~~~~
+Mille was dealt a [K♦]
+Kimmo was dealt a [Q♦]
+Jesus was dealt a [10♥]
+The dealer was dealt a [6♦]
+Mille was dealt a [9♥]
+Kimmo was dealt a [Q♥]
+Jesus was dealt a [8♣]
+The dealer was dealt a [J♥]
+

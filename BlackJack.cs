@@ -16,11 +16,6 @@ namespace Blackjack
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
-            //Blackjack game id 1 [tidpunkt för start]: spelare: .... bettade .... saldo....
-            //Vilka kort som gavs till vilken spelare [K, E] > [K, E, 10] > [K, E, 10, 5]
-            //Vilka kort som gavs till dealern
-            //GameState för varje spelare och eventuell vinst
-            //Sluttid
             
             //FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
@@ -30,9 +25,8 @@ namespace Blackjack
             int co = 2;
             //while (co > 0)
             //{
-            //Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
-            //Graphics.AnimateACardFromBottomToTop(Deck.AnimationCards[0], 30
-            //Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
+            Graphics.PrintAStackOfCards(Deck.AnimationCards[0]);
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0]);
                 co--;
             //}
             //Console.ReadKey();
