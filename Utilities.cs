@@ -37,5 +37,54 @@ namespace Blackjack
 
             return players;
         }
+
+        private static string GetPadding(string input, int spaces)
+        {
+            spaces -= input.Length;
+            string padding = new(' ', spaces);
+
+            string output = input + padding;
+            return output;
+        }
+
+        public static void DisplayGameSummary(List<Player> players)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(75, 20);
+            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
+            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.Write($"│                   GAME SUMMARY                                        │");
+            foreach (var player in players)
+            {
+                Console.SetCursorPosition(75, Console.CursorTop + 1);
+                int namePadding = 10;
+                int outcomePadding = 10;
+                int betPadding = 15;
+                int walletPadding = 15;
+                string paddedName = GetPadding(player.Name, namePadding);
+                string outcome = GetPadding($"[{Enum.GetName(player.GameState)}]", outcomePadding);
+                string wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
+
+                string betResult;
+                if (player.GameState == GameState.BLACKJACK)
+                    betResult = $"+{(player.Bet * 2).ToString("C2")}";
+                else if (player.GameState == GameState.WIN)
+                    betResult = $"+{player.Bet.ToString("C2")}";
+                else
+                    betResult = $"-{player.Bet.ToString("C2")}";
+
+                betResult = GetPadding(betResult, betPadding);
+
+
+                Console.Write($"│ {paddedName} {outcome} {betResult} Remaining funds:{wallet} │");
+            }
+            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.Write($"│                             Play again?                               │");
+            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.Write($"│                                Y/N:                                   │");
+            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+        }
     }
 }

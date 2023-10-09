@@ -34,13 +34,13 @@ namespace Blackjack
 
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
                     {
-                        players[currentPlayer].GameState = GameState.BlackJack;
+                        players[currentPlayer].GameState = GameState.BLACKJACK;
                         break;
                     }
 
                     if (GameLogic.CheckForBust(players[currentPlayer]))
                     {
-                        players[currentPlayer].GameState = GameState.Loss;
+                        //players[currentPlayer].GameState = GameState.LOSS;
                         break;
                     }
 
@@ -67,10 +67,8 @@ namespace Blackjack
             // DEALER LOOP
             while (Dealer.HandSum() < 17)
             {
-                if (Dealer.HandSum() < 17)
-                {
-                    Deck.DealCard(Dealer);
-                }
+                Deck.DealCard(Dealer);
+
                 Graphics.UpdateBoard(Dealer);
                 Thread.Sleep(1000);
             }
@@ -81,9 +79,11 @@ namespace Blackjack
             {
                 player.UpdateWallet();
             }
-            //TODO add a prompt here. Continue? J/N
+
+            Utilities.DisplayGameSummary(players);
+
             char response2 = Console.ReadKey().KeyChar;
-            if (response2 != ' ')
+            if (response2 == 'n' && response2 == 'N')
             {
                 Environment.Exit(0); //TODO remove later.
             }
@@ -93,23 +93,27 @@ namespace Blackjack
         {
             foreach (var player in players)
             {
-                if (player.GameState == GameState.BlackJack)
+                if (player.GameState == GameState.BLACKJACK)
                 {
                     //Player got blackjack in first deal
                     FunMethod();
                 }
-                else if (player.HandSum() > Dealer.HandSum() && player.GameState != GameState.Loss)
+                else if (player.HandSum() > 21)
+                {
+                    player.GameState = GameState.LOSS;
+                }
+                else if (Dealer.HandSum() > 21)
                 {
                     FunMethod();
-                    player.GameState = GameState.Win;
+                    player.GameState = GameState.WIN;
                 }
-                else if (player.GameState != GameState.Loss && Dealer.HandSum() > 21)
+                else if (player.HandSum() > Dealer.HandSum())
                 {
-                    player.GameState = GameState.Win;
+                    player.GameState = GameState.WIN;
                     FunMethod();
                 }
                 else
-                    player.GameState = GameState.Loss;
+                    player.GameState = GameState.LOSS;
             }
         }
 

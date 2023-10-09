@@ -8,9 +8,9 @@ namespace Blackjack
 {
     public enum GameState
     {
-        Undecided = 1,
-        Loss,
-        Win,
-        BlackJack
+        UNDECIDED = 1,
+        LOSS,
+        WIN,
+        BLACKJACK
     }
 }

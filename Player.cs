@@ -15,7 +15,7 @@ namespace Blackjack
             Name = name;
             PlayerNumber = _playerCounter++;
             Wallet = buyIn;
-            GameState = GameState.Undecided;
+            GameState = GameState.UNDECIDED;
             Bet = 0;
         }
 
@@ -27,11 +27,11 @@ namespace Blackjack
 
         public void UpdateWallet()
         {
-            if (GameState == GameState.BlackJack)
+            if (GameState == GameState.BLACKJACK)
             {
                 Wallet += Bet * 3;
             }
-            else if (GameState == GameState.Win)
+            else if (GameState == GameState.WIN)
             {
                 Wallet += Bet * 2;
             }
