@@ -10,11 +10,11 @@ namespace Blackjack
     public class Player : Participant
     {
         private static int _playerCounter = 1;
-        public Player(string name)
+        public Player(string name, int buyIn)
         {
             Name = name;
             PlayerNumber = _playerCounter++;
-            Wallet = 1000;
+            Wallet = buyIn;
             GameState = GameState.Undecided;
             Bet = 0;
         }

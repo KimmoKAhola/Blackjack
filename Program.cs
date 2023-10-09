@@ -15,12 +15,7 @@ namespace Blackjack
 
             BlackJack blackjack = new();
 
-            List<Player> allPlayers = new();
-            allPlayers.Add(new Player("Mille"));
-            allPlayers.Add(new Player("Kimmo"));
-            allPlayers.Add(new Player("Jesus"));
-
-            blackjack.RunGame(allPlayers);
+            blackjack.RunGame(Utilities.GetPlayers());
         }
     }
 }
