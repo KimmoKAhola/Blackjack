@@ -21,7 +21,6 @@ namespace Blackjack
             FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
             GameSetup(players);
-            ShowDebugWallets(players);
 
             int currentPlayer = 0;
             while (currentPlayer < players.Count)
@@ -45,7 +44,6 @@ namespace Blackjack
                     }
 
                     char response;
-                    Console.Write("Want another card broski?");
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     response = Console.ReadKey().KeyChar;
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -133,7 +131,7 @@ namespace Blackjack
                 while (true)
                 {
                     Console.SetCursorPosition(80, 31);
-                    Console.Write($"Bet: ");
+                    Console.Write($"BET: ");
                     if (int.TryParse(Console.ReadLine(), out int bet))
                     {
                         if (bet <= player.Wallet)
@@ -172,6 +170,7 @@ namespace Blackjack
 
         private void ShowDebugWallets(List<Player> players)
         {
+            Console.ResetColor();
             int cachedX = Console.CursorLeft;
             int cachedY = Console.CursorTop;
 
@@ -192,6 +191,7 @@ namespace Blackjack
             Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
+            ShowDebugWallets(players);
             GetPlayerBets(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
             Deck.FirstDeal(players, Dealer);

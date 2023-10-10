@@ -12,7 +12,6 @@ namespace Blackjack
             FileManager.CreateDirectory();
             FileManager.CreateFile();
             
-
             BlackJack blackjack = new();
 
             blackjack.RunGame(Utilities.GetPlayers());
