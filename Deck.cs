@@ -136,7 +136,14 @@ namespace Blackjack
             int bustCards = 0;
             foreach (Card card in cards)
             {
-                if (HandSum + card.Value > 21)
+                int cardValue = card.Value;
+
+                if (card.Title.Contains("A"))
+                {
+                    cardValue = 1;
+                }
+
+                if (HandSum + cardValue > 21)
                 {
                     bustCards++;
                 }

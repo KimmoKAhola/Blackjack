@@ -441,8 +441,6 @@ namespace Blackjack
                 EraseAPrintedCard(107 + _cardWidth / 2 * i, 0); //TODO INTE HÄR
             }
         }
-
-
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
@@ -512,7 +510,7 @@ namespace Blackjack
             PrintAStackOfCards(card, 124, 18, 2);
             Thread.Sleep(2000);
 
-            int co = 30;
+            int co = 10;
             while (co > 0)
             {
                 AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
