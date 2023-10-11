@@ -471,7 +471,7 @@ namespace Blackjack
 
                 string playerHeader = $"{player.Name}'s hand: {participant.HandSum()}";
                 string headerGreenString = new(' ', playerHeader.Length);
-                string chanceString = $"Chance of success: ~{(chanceOfSuccess * 100):F0}%";
+                string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
 
                 //if (chanceOfSuccess % 1 == 0)
                 //    chanceString = $"Chance of success: ~{(chanceOfSuccess * 100):F0}%";

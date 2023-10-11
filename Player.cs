@@ -39,7 +39,7 @@ namespace Blackjack
             {
                 //Bet is already withdrawn from the wallet at this point
             }
-            FileManager.SavePlayerWallet($"{Name}, {GameState}, wallet: {Wallet}");
+            FileManager.SavePlayerWallet($"{Name}, {GameState}, WALLET: {Wallet}");
         }
     }
 }

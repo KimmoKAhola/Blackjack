@@ -18,9 +18,9 @@ namespace Blackjack
                 {
                     Console.Clear();
                     Console.SetCursorPosition(75, 20);
-                    Console.WriteLine($"Player {i + 1}, Please enter your name and buy-in, seperated by a space");
+                    Console.WriteLine($"PLAYER {i + 1}, PLEASE ENTER YOUR NAME AND BUY-IN, SEPARATED BY A SPACE");
                     Console.SetCursorPosition(75, 21);
-                    Console.Write($"Input: ");
+                    Console.Write($"INPUT: ");
 
                     string input = Console.ReadLine();
                     string[] values = input.Split(' ');
@@ -28,7 +28,7 @@ namespace Blackjack
 
                     if (values.Length >= 2 && int.TryParse(values[1], out int buyIn))
                     {
-                        players.Add(new(name, buyIn));
+                        players.Add(new(name.ToUpper(), buyIn));
                         break;
                     }
                 }
@@ -49,12 +49,12 @@ namespace Blackjack
 
         public static void DisplayGameSummary(List<Player> players)
         {
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(75, 20);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(75, Console.CursorTop + 1);
-            Console.Write($"│                   GAME SUMMARY                                        │");
+            Console.Write($"│                              GAME SUMMARY                             │");
             foreach (var player in players)
             {
                 Console.SetCursorPosition(75, Console.CursorTop + 1);
@@ -77,14 +77,16 @@ namespace Blackjack
                 betResult = GetPadding(betResult, betPadding);
 
 
-                Console.Write($"│ {paddedName} {outcome} {betResult} Remaining funds:{wallet} │");
+                Console.Write($"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │");
             }
             Console.SetCursorPosition(75, Console.CursorTop + 1);
-            Console.Write($"│                             Play again?                               │");
+            Console.Write($"│                               PLAY AGAIN?                             │");
             Console.SetCursorPosition(75, Console.CursorTop + 1);
-            Console.Write($"│                                Y/N:                                   │");
+            Console.Write($"│                                  Y/N                                  │");
             Console.SetCursorPosition(75, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+
+            Console.ResetColor();
         }
     }
 }
