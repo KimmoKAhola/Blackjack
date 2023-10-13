@@ -9,13 +9,6 @@ namespace Blackjack
 {
     public static class GameLogic
     {
-
-        public static bool WinCondition()
-        {
-
-            return false;
-        }
-
         public static bool CheckForBlackJack(Player currentPlayer)
         {
             //This is a win condition
@@ -26,7 +19,6 @@ namespace Blackjack
                 {
                     return true;
                 }
-
             }
             return false;
         }
@@ -40,5 +32,43 @@ namespace Blackjack
             }
             return false;
         }
+        public static void CheckResults(List<Player> players, Dealer dealer)
+        {
+            foreach (var player in players)
+            {
+                if (player.GameState == GameState.BLACKJACK)
+                {
+                    //Player got blackjack in first deal
+                    BlackJack.FunMethod();
+                }
+                else if (player.HandSum() > 21)
+                {
+                    player.GameState = GameState.LOSS;
+                }
+                else if (dealer.HandSum() > 21)
+                {
+                    BlackJack.FunMethod();
+                    player.GameState = GameState.WIN;
+                }
+                else if (player.HandSum() > dealer.HandSum())
+                {
+                    player.GameState = GameState.WIN;
+                    BlackJack.FunMethod();
+                }
+                else
+                    player.GameState = GameState.LOSS;
+            }
+        }
+        public static void DealersTurn(Dealer dealer)
+        {
+            while (dealer.HandSum() < 17)
+            {
+                Deck.DealCard(dealer);
+
+                Graphics.UpdateBoard(dealer);
+                Thread.Sleep(1000);
+            }
+        }
     }
+
 }
