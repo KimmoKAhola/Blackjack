@@ -5,6 +5,7 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
+            //test
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WindowHeight = 50;
             Console.WindowWidth = 200;
