@@ -62,16 +62,10 @@ namespace Blackjack
             Graphics.UpdateBoard(Dealer);
             //Dramatic pause
             Thread.Sleep(1000);
-            // DEALER LOOP
-            while (Dealer.HandSum() < 17)
-            {
-                Deck.DealCard(Dealer);
 
-                Graphics.UpdateBoard(Dealer);
-                Thread.Sleep(1000);
-            }
+            GameLogic.DealersTurn(Dealer);
 
-            CheckResults(players);
+            GameLogic.CheckResults(players, Dealer);
 
             foreach (Player player in players)
             {
@@ -86,33 +80,6 @@ namespace Blackjack
                 Environment.Exit(0); //TODO remove later.
             }
             RunGame(players);
-        }
-        private void CheckResults(List<Player> players)
-        {
-            foreach (var player in players)
-            {
-                if (player.GameState == GameState.BLACKJACK)
-                {
-                    //Player got blackjack in first deal
-                    FunMethod();
-                }
-                else if (player.HandSum() > 21)
-                {
-                    player.GameState = GameState.LOSS;
-                }
-                else if (Dealer.HandSum() > 21)
-                {
-                    FunMethod();
-                    player.GameState = GameState.WIN;
-                }
-                else if (player.HandSum() > Dealer.HandSum())
-                {
-                    player.GameState = GameState.WIN;
-                    FunMethod();
-                }
-                else
-                    player.GameState = GameState.LOSS;
-            }
         }
 
         private void GetPlayerBets(List<Player> players)
@@ -197,7 +164,7 @@ namespace Blackjack
             Deck.FirstDeal(players, Dealer);
         }
 
-        private void FunMethod()
+        public static void FunMethod()
         {
             string soundFilePath = "../../../Files/KACHING.WAV";
             if (OperatingSystem.IsWindows())
