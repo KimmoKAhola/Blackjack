@@ -357,9 +357,17 @@ namespace Blackjack
             int cardSum = player.HandSum();
             string playerName = player.Name.ToUpper();
 
+            string completePlayerHand = $"";
+            for (int playerHandIndex = 0; playerHandIndex < player.Hand.Count; playerHandIndex++)
+            {
+                completePlayerHand += player.Hand[playerHandIndex].Title + player.Hand[playerHandIndex].CardSymbol + ", ";
+            }
+            completePlayerHand = completePlayerHand.TrimEnd(',', ' ');
+            completePlayerHand = "[" + completePlayerHand + "]";
             string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
             _log.Add(handInfo);
-            FileManager.SaveHandInfo(handInfo);
+            completePlayerHand = playerName + "\n" + completePlayerHand;
+            FileManager.SaveHandInfo(completePlayerHand);
         }
         public static void LogPlayerInfo(Dealer dealer)
         {
