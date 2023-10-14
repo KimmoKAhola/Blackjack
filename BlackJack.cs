@@ -32,6 +32,11 @@ namespace Blackjack
                         break;
                     }
 
+                    if (GameLogic.CheckForSplit(players[currentPlayer]))
+                    {
+                        players[currentPlayer].LatestAction = PlayerAction.SPLIT;
+                    }
+
                     if (GameLogic.CheckForBust(players[currentPlayer]))
                     {
                         players[currentPlayer].LatestAction = PlayerAction.BUST;
