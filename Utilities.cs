@@ -59,7 +59,6 @@
             return output;
         }
 
-
         public static void DisplayGameSummary(List<Player> players)
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -114,6 +113,23 @@
             Console.Write($"│{paddedPlayerPrompt}│");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+        }
+        public static void PromptPlayerSplit(Player player)
+        {
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(65, 30);
+            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            string paddedPlayerPrompt = GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71);
+            Console.Write($"│{paddedPlayerPrompt}│");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"│                 Do you wish to split? PRESS <y> or <N>                │");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
