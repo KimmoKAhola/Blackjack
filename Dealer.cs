@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
     /// This class inherits from the Player class
@@ -13,10 +7,19 @@ namespace Blackjack
     /// </summary>
     public class Dealer : Participant
     {
-        public Dealer()
+        private static Dealer instance = null;
+        private Dealer()
         {
-            
+
         }
 
+        public static Dealer Instance
+        {
+            get
+            {
+                instance ??= new Dealer();
+                return instance;
+            }
+        }
     }
 }
