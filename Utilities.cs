@@ -79,9 +79,9 @@
                 string wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
 
                 string betResult;
-                if (player.GameState == GameState.BLACKJACK)
+                if (player.GameState == HandState.BLACKJACK)
                     betResult = $"+{(player.Bet * 2).ToString("C2")}";
-                else if (player.GameState == GameState.WIN)
+                else if (player.GameState == HandState.WIN)
                     betResult = $"+{player.Bet.ToString("C2")}";
                 else
                     betResult = $"-{player.Bet.ToString("C2")}";

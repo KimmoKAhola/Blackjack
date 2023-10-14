@@ -8,7 +8,7 @@
             Name = name;
             PlayerNumber = _playerCounter++;
             Wallet = buyIn;
-            GameState = GameState.UNDECIDED;
+
             Bet = 0;
         }
 
@@ -16,15 +16,15 @@
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
         public int Bet { get; set; }
-        public GameState GameState { get; set; }
+        public HandState GameState { get; set; }
 
         public void UpdateWallet()
         {
-            if (GameState == GameState.BLACKJACK)
+            if (GameState == HandState.BLACKJACK)
             {
                 Wallet += Bet * 3;
             }
-            else if (GameState == GameState.WIN)
+            else if (GameState == HandState.WIN)
             {
                 Wallet += Bet * 2;
             }

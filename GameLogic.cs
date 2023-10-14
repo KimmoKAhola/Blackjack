@@ -12,7 +12,7 @@
 
                 if (CheckForBlackJack(player))
                 {
-                    player.GameState = GameState.BLACKJACK;
+                    player.GameState = HandState.BLACKJACK;
                     player.LatestAction = PlayerAction.BLACKJACK;
                     Utilities.SavePlayerAction(player);
                     break;
@@ -100,28 +100,28 @@
         {
             foreach (var player in players)
             {
-                if (player.GameState == GameState.BLACKJACK)
+                if (player.GameState == HandState.BLACKJACK)
                 {
                     //Player got blackjack in first deal
                     BlackJack.FunMethod();
                 }
                 else if (player.HandSum() > 21)
                 {
-                    player.GameState = GameState.LOSS;
+                    player.GameState = HandState.LOSS;
                 }
                 else if (Dealer.Instance.HandSum() > 21)
                 {
                     BlackJack.FunMethod();
                     Dealer.Instance.LatestAction = PlayerAction.BUST;
-                    player.GameState = GameState.WIN;
+                    player.GameState = HandState.WIN;
                 }
                 else if (player.HandSum() > Dealer.Instance.HandSum())
                 {
-                    player.GameState = GameState.WIN;
+                    player.GameState = HandState.WIN;
                     BlackJack.FunMethod();
                 }
                 else
-                    player.GameState = GameState.LOSS;
+                    player.GameState = HandState.LOSS;
             }
         }
         public static void DealersTurn()
