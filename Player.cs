@@ -15,16 +15,19 @@
         public int Wallet { get; set; }
         public void UpdateWallet()
         {
-            if (GameState == HandState.BLACKJACK)
+            foreach (var hand in Hands)
             {
-                Wallet += Bet * 3;
-            }
-            else if (GameState == HandState.WIN)
-            {
-                Wallet += Bet * 2;
-            }
+                if (hand.HandState == HandState.BLACKJACK)
+                {
+                    Wallet += hand.Bet * 3;
+                }
+                else if (hand.HandState == HandState.WIN)
+                {
+                    Wallet += hand.Bet * 2;
+                }
 
-            FileManager.SavePlayerWallet($"{Name}, {GameState}, WALLET: {Wallet}");
+                FileManager.SavePlayerWallet($"{Name}, {hand.HandState}, WALLET: {Wallet}");
+            }
         }
     }
 }
