@@ -8,8 +8,9 @@
             {
                 Utilities.SavePlayerAction(player); //first deal
                 Graphics.PrintPlayerTitleAndSum(player);
+                //Removed UpdateBoard() from here and let it stay in BlackJack.RunGame(), may need to be put back?
 
-                if (GameLogic.CheckForBlackJack(player))
+                if (CheckForBlackJack(player))
                 {
                     player.GameState = GameState.BLACKJACK;
                     player.LatestAction = PlayerAction.BLACKJACK;
@@ -17,12 +18,12 @@
                     break;
                 }
 
-                if (GameLogic.CheckForSplit(player))
+                if (CheckForSplit(player))
                 {
                     player.LatestAction = PlayerAction.SPLIT;
                 }
 
-                if (GameLogic.CheckForBust(player))
+                if (CheckForBust(player))
                 {
                     player.LatestAction = PlayerAction.BUST;
                     Utilities.SavePlayerAction(player);
