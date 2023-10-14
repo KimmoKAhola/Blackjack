@@ -15,10 +15,12 @@ namespace Blackjack
             GameSetup(players);
 
             int currentPlayer = 0;
+            int first = 0;
             while (currentPlayer < players.Count)
             {
                 while (true)
                 {
+                    Utilities.SavePlayerAction(players[currentPlayer]); //first deal
                     Graphics.UpdateBoard(players, currentPlayer);
                     Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
 
@@ -26,12 +28,14 @@ namespace Blackjack
                     {
                         players[currentPlayer].GameState = GameState.BLACKJACK;
                         players[currentPlayer].LatestAction = PlayerAction.BLACKJACK;
+                        Utilities.SavePlayerAction(players[currentPlayer]);
                         break;
                     }
 
                     if (GameLogic.CheckForBust(players[currentPlayer]))
                     {
                         players[currentPlayer].LatestAction = PlayerAction.BUST;
+                        Utilities.SavePlayerAction(players[currentPlayer]);
                         break;
                     }
 
@@ -43,19 +47,22 @@ namespace Blackjack
                     if (response != ' ')
                     {
                         players[currentPlayer].LatestAction = PlayerAction.STAND;
+                        Utilities.SavePlayerAction(players[currentPlayer]);
                         break;
                     }
 
                     Deck.DealCard(players[currentPlayer]);
                     players[currentPlayer].LatestAction = PlayerAction.HIT;
+                    Utilities.SavePlayerAction(players[currentPlayer]);
                 }
                 Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
                 currentPlayer++;
+                first++;
             }
 
             //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
-            Graphics.UpdateBoard(Dealer.Instance);
+            Graphics.UpdateBoard();
             //Dramatic pause
             Thread.Sleep(1000);
 
@@ -156,6 +163,7 @@ namespace Blackjack
             ShowDebugWallets(players);
             GetPlayerBets(players);
             Deck.FirstDeal(players);
+            Utilities.SaveFirstDealInfo(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
         }
 
