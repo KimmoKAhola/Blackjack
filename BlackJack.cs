@@ -14,57 +14,12 @@ namespace Blackjack
             Graphics.PrintBoard();
             GameSetup(players);
 
-            int currentPlayer = 0;
-            int first = 0;
-            while (currentPlayer < players.Count)
+            foreach (var player in players)
             {
-                while (true)
-                {
-                    Utilities.SavePlayerAction(players[currentPlayer]); //first deal
-                    Graphics.UpdateBoard(players, currentPlayer);
-                    Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
-
-                    if (GameLogic.CheckForBlackJack(players[currentPlayer]))
-                    {
-                        players[currentPlayer].GameState = GameState.BLACKJACK;
-                        players[currentPlayer].LatestAction = PlayerAction.BLACKJACK;
-                        Utilities.SavePlayerAction(players[currentPlayer]);
-                        break;
-                    }
-
-                    if (GameLogic.CheckForSplit(players[currentPlayer]))
-                    {
-                        players[currentPlayer].LatestAction = PlayerAction.SPLIT;
-                    }
-
-                    if (GameLogic.CheckForBust(players[currentPlayer]))
-                    {
-                        players[currentPlayer].LatestAction = PlayerAction.BUST;
-                        Utilities.SavePlayerAction(players[currentPlayer]);
-                        break;
-                    }
-
-                    Utilities.PromptPlayer(players[currentPlayer]);
-                    char response;
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    response = Console.ReadKey().KeyChar;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    if (response != ' ')
-                    {
-                        players[currentPlayer].LatestAction = PlayerAction.STAND;
-                        Utilities.SavePlayerAction(players[currentPlayer]);
-                        break;
-                    }
-
-                    Deck.DealCard(players[currentPlayer]);
-                    players[currentPlayer].LatestAction = PlayerAction.HIT;
-                    Utilities.SavePlayerAction(players[currentPlayer]);
-                }
-                Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
-                currentPlayer++;
-                first++;
+                GameLogic.PlayersTurn(player);
+                Graphics.UpdateBoard(players, player);
             }
+
 
             //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);

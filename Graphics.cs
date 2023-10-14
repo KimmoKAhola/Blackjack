@@ -368,10 +368,10 @@
             _log.Add(handInfo);
             //FileManager.SaveHandInfo(handInfo);
         }
-        public static void UpdateBoard(List<Player> players, int currentPlayer)
+        public static void UpdateBoard(List<Player> players, Player player)
         {
             Graphics.PrintAllPlayerCards(players);
-            Graphics.LogPlayerInfo(players[currentPlayer]);
+            Graphics.LogPlayerInfo(player);
             Graphics.UpdateLog();
         }
         public static void UpdateBoard()
