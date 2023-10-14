@@ -34,6 +34,8 @@ namespace Blackjack
         {
             CardGraphicWhileMoving = cardGraphicWhileMoving;
         }
+
+        //private Tuple<int, int> _latestCardCursorPosition;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
@@ -41,5 +43,6 @@ namespace Blackjack
         public string CardGraphicWhileMoving { get; set; }
         public bool IsRed {get; set;}
         public string CardSymbol { get; set; }
+        public (int LatestXPosition, int LatestYPosition) LatestCardPosition { get; set; }
     }
 }
