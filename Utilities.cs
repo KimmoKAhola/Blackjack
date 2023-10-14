@@ -28,8 +28,11 @@ namespace Blackjack
 
                     if (values.Length >= 2 && int.TryParse(values[1], out int buyIn))
                     {
-                        players.Add(new(name.ToUpper(), buyIn));
-                        break;
+                        if (buyIn > 0)
+                        {
+                            players.Add(new(name.ToUpper(), buyIn));
+                            break;
+                        }
                     }
                 }
 
