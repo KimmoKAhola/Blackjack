@@ -515,7 +515,7 @@ namespace Blackjack
             PrintAStackOfCards(card, 124, 18, 2);
             Thread.Sleep(2000);
 
-            int co = 1; // 10
+            int co = 10; // 10
             while (co > 0)
             {
                 AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
@@ -526,7 +526,9 @@ namespace Blackjack
             EraseAPrintedCard(78, 18);
             EraseAPrintedCard(124, 18);
             EraseAPrintedCard(125, 18);
-            PrintAStackOfCards(card, 96, 18, 8);
+            int numberOfCardsInStack = 8;
+            int cardStackXStartingPosition = 96 - _cardWidth / 2 + numberOfCardsInStack;
+            PrintAStackOfCards(card, cardStackXStartingPosition, 18, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
