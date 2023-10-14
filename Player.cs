@@ -8,16 +8,11 @@
             Name = name;
             PlayerNumber = _playerCounter++;
             Wallet = buyIn;
-
-            Bet = 0;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
-        public int Bet { get; set; }
-        public HandState GameState { get; set; }
-
         public void UpdateWallet()
         {
             if (GameState == HandState.BLACKJACK)
