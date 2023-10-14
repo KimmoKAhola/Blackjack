@@ -53,7 +53,7 @@
         public static bool CheckForSplit(Player player)
         {
             Hand firstHand = player.Hands[0];
-            if (player.Hands.Count == 1 && firstHand.Cards.Count == 2)
+            if (player.Hands.Count == 1 && firstHand.Cards.Count == 2 && player.Wallet >= player.Hands[0].Bet)
             {
                 if (firstHand.Cards[0].Value == firstHand.Cards[1].Value)
                 {
@@ -66,6 +66,7 @@
                         {
                             player.Hands.Add(new());
                             player.Hands[1].Cards = new() { firstHand.Cards[1] };
+                            player.Hands[1].Bet = player.Hands[2].Bet;
                             firstHand.Cards.RemoveAt(1);
                             return true;
                         }
