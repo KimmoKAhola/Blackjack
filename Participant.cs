@@ -9,7 +9,7 @@
         }
 
         public List<Card> Hand { get; set; }
-        public List<Card> SplitHand { get; set; }
+        public List<Card>? SplitHand { get; set; }
         public PlayerAction LatestAction { get; set; }
         public int HandSum()
         {
