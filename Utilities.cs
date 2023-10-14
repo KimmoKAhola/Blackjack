@@ -1,4 +1,11 @@
-﻿namespace Blackjack
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Blackjack
 {
     public static class Utilities
     {
@@ -119,6 +126,46 @@
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
+        }
+
+        public static void SavePlayerAction(Player player)
+        {
+            string cardSymbol = player.Hand.Last().CardSymbol;
+            string lastCard = player.Hand.Last().Title;
+            int cardSum = player.HandSum();
+            string playerName = player.Name.ToUpper();
+
+            string completePlayerHand = $"";
+            for (int playerHandIndex = 0; playerHandIndex < player.Hand.Count; playerHandIndex++)
+            {
+                completePlayerHand += player.Hand[playerHandIndex].Title + player.Hand[playerHandIndex].CardSymbol + ", ";
+            }
+            completePlayerHand = "[" + completePlayerHand.TrimEnd(',', ' ') + "]";
+
+            if (player.LatestAction == 0)
+            {
+                completePlayerHand = playerName + "'s starting hand\n" + completePlayerHand; //This is the first deal
+            }
+            if (player.LatestAction == PlayerAction.HIT)
+            {
+                completePlayerHand = player.LatestAction.ToString() + $" > {lastCard}{cardSymbol}" + "\n" + completePlayerHand;
+            }
+            if (player.LatestAction == PlayerAction.STAND)
+            {
+                completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + player.HandSum() + "]";
+            }
+            if (player.LatestAction == PlayerAction.BUST)
+            {
+                completePlayerHand = PlayerAction.BUST.ToString() + " - SUM [" + player.HandSum() + "]";
+            }
+            FileManager.SaveHandInfo(completePlayerHand);
+        }
+
+        public static void SaveFirstDealInfo(List<Player> players)
+        {
+            string temp = "FIRST DEAL TEMP FIX LATER";
+
+            FileManager.SaveHandInfo(temp);
         }
     }
 }
