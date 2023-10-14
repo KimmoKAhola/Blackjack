@@ -2,6 +2,33 @@
 {
     public static class GameLogic
     {
+        public static bool CheckForSplit(Player currentPlayer)
+        {
+            if (currentPlayer.Hand.Count == 2)
+            {
+                if (currentPlayer.Hand[0].Value == currentPlayer.Hand[1].Value)
+                {
+                    Utilities.PromptPlayerSplit(currentPlayer);
+
+                    while (true)
+                    {
+                        char response = Console.ReadKey(false).KeyChar;
+                        if (response == 'y' || response == 'Y')
+                        {
+                            currentPlayer.SplitHand = new() { currentPlayer.Hand[1] };
+                            currentPlayer.Hand.RemoveAt(1);
+                            return true;
+                        }
+                        else if (response == 'n' || response == 'N')
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
         public static bool CheckForBlackJack(Player currentPlayer)
         {
             //This is a win condition
@@ -15,7 +42,6 @@
             }
             return false;
         }
-
         public static bool CheckForBust(Player currentPlayer)
         {
             //This is if the players hand exceeds 21 
