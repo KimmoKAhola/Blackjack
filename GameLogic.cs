@@ -107,7 +107,7 @@
                     if (hand.HandState == HandState.BLACKJACK)
                     {
                         //Player got blackjack in first deal
-                        BlackJack.FunMethod();
+                        Sounds.WinSound();
                     }
                     else if (hand.HandSum() > 21)
                     {
@@ -115,14 +115,14 @@
                     }
                     else if (Dealer.Instance.Hands[0].HandSum() > 21)
                     {
-                        BlackJack.FunMethod();
+                        Sounds.WinSound();
                         Dealer.Instance.LatestAction = PlayerAction.BUST;
                         hand.HandState = HandState.WIN;
                     }
                     else if (hand.HandSum() > Dealer.Instance.Hands[0].HandSum())
                     {
                         hand.HandState = HandState.WIN;
-                        BlackJack.FunMethod();
+                        Sounds.WinSound();
                     }
                     else
                         hand.HandState = HandState.LOSS;
