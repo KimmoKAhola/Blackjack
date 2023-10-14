@@ -1,5 +1,4 @@
-﻿using System.Media;
-namespace Blackjack
+﻿namespace Blackjack
 {
     internal class Program
     {
@@ -10,10 +9,12 @@ namespace Blackjack
             Console.WindowWidth = 200;
             FileManager.CreateDirectory();
             FileManager.CreateFile();
-            
+
             BlackJack blackjack = new();
 
             blackjack.RunGame(Utilities.GetPlayers());
+            //tjena hej!
+            //hejsan
         }
     }
 }
