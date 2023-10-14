@@ -25,12 +25,13 @@ namespace Blackjack
                     if (GameLogic.CheckForBlackJack(players[currentPlayer]))
                     {
                         players[currentPlayer].GameState = GameState.BLACKJACK;
+                        players[currentPlayer].LatestAction = PlayerAction.BLACKJACK;
                         break;
                     }
 
                     if (GameLogic.CheckForBust(players[currentPlayer]))
                     {
-                        //players[currentPlayer].GameState = GameState.LOSS;
+                        players[currentPlayer].LatestAction = PlayerAction.BUST;
                         break;
                     }
 
@@ -40,9 +41,13 @@ namespace Blackjack
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
                     if (response != ' ')
+                    {
+                        players[currentPlayer].LatestAction = PlayerAction.STAND;
                         break;
+                    }
 
                     Deck.DealCard(players[currentPlayer]);
+                    players[currentPlayer].LatestAction = PlayerAction.HIT;
                 }
                 Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
                 currentPlayer++;

@@ -41,6 +41,7 @@
                 else if (Dealer.Instance.HandSum() > 21)
                 {
                     BlackJack.FunMethod();
+                    Dealer.Instance.LatestAction = PlayerAction.BUST;
                     player.GameState = GameState.WIN;
                 }
                 else if (player.HandSum() > Dealer.Instance.HandSum())
@@ -57,10 +58,12 @@
             while (Dealer.Instance.HandSum() < 17)
             {
                 Deck.DealCard(Dealer.Instance);
+                Dealer.Instance.LatestAction = PlayerAction.HIT;
 
                 Graphics.UpdateBoard(Dealer.Instance);
                 Thread.Sleep(1000);
             }
+            Dealer.Instance.LatestAction = PlayerAction.STAND;
         }
     }
 

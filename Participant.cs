@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public class Participant
     {
@@ -14,7 +8,7 @@ namespace Blackjack
         }
 
         public List<Card> Hand { get; set; }
-
+        public PlayerAction LatestAction { get; set; }
         public int HandSum()
         {
             int sum = 0;
