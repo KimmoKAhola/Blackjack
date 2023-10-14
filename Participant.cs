@@ -4,11 +4,11 @@
     {
         public Participant()
         {
-            Hand = new List<Card>();
+            Hands = new List<Hand>();
             SplitHand = null;
         }
 
-        public List<Card> Hand { get; set; }
+        public List<Hand> Hands { get; set; }
         public List<Card>? SplitHand { get; set; }
         public PlayerAction LatestAction { get; set; }
     }

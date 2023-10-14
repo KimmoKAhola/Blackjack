@@ -1,6 +1,6 @@
 ﻿namespace Blackjack
 {
-    internal class Hand
+    public class Hand
     {
         public Hand()
         {
