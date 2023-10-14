@@ -85,7 +85,7 @@ namespace Blackjack
             RunGame(players);
         }
 
-        private void GetPlayerBets(List<Player> players)
+        private static void GetPlayerBets(List<Player> players)
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -121,9 +121,10 @@ namespace Blackjack
             }
             Console.SetCursorPosition(80, 30);
             Console.Write($"                                           ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private void InitializeNewGame(List<Player> players)
+        private static void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;
             foreach (Player player in players)
@@ -137,7 +138,7 @@ namespace Blackjack
             Console.Clear();
         }
 
-        private void ShowDebugWallets(List<Player> players)
+        private static void ShowDebugWallets(List<Player> players)
         {
             Console.ResetColor();
             int cachedX = Console.CursorLeft;
@@ -154,7 +155,7 @@ namespace Blackjack
             Console.SetCursorPosition(cachedX, cachedY);
         }
 
-        private void GameSetup(List<Player> players)
+        private static void GameSetup(List<Player> players)
         {
             Thread.Sleep(1500);
             Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
