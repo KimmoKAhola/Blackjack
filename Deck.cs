@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public static class Deck
     {
@@ -81,11 +74,11 @@ namespace Blackjack
                         }
                         else
                         {
-                            card.Title = (i+1).ToString();
+                            card.Title = (i + 1).ToString();
                             card.Value = i + 1;
                             card.CardGraphic = Card.allCardGraphics[cardIndex];
                         }
-                        cardNumbers.Add(card);    
+                        cardNumbers.Add(card);
                         cardIndex++;
                         continue;
                     }
@@ -98,7 +91,7 @@ namespace Blackjack
             }
             return cardNumbers;
         }
-        public static void FirstDeal(List<Player> participants, Dealer dealer)
+        public static void FirstDeal(List<Player> participants)
         {
             string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
             for (int i = 0; i < 2; i++)
@@ -108,8 +101,8 @@ namespace Blackjack
                     DealCard(participants[j]);
                     firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
                 }
-                DealCard(dealer);
-                firstDealInfo += $"The dealer was dealt a [{dealer.Hand.Last().Title}{dealer.Hand.Last().CardSymbol}]\n";
+                DealCard(Dealer.Instance);
+                firstDealInfo += $"The dealer was dealt a [{Dealer.Instance.Hand.Last().Title}{Dealer.Instance.Hand.Last().CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
         }

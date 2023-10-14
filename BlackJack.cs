@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Media;
 
 namespace Blackjack
 {
     public class BlackJack
     {
         private static int _gameId = 0;
-
         public int GameId { get { return _gameId; } }
-        public Dealer Dealer { get; set; }
         public void RunGame(List<Player> players) //skicka in en lista med spelare sen
         {
             InitializeNewGame(players);
@@ -27,7 +19,6 @@ namespace Blackjack
             {
                 while (true)
                 {
-
                     Graphics.UpdateBoard(players, currentPlayer);
                     Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
 
@@ -59,13 +50,13 @@ namespace Blackjack
 
             //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
-            Graphics.UpdateBoard(Dealer);
+            Graphics.UpdateBoard(Dealer.Instance);
             //Dramatic pause
             Thread.Sleep(1000);
 
-            GameLogic.DealersTurn(Dealer);
+            GameLogic.DealersTurn();
 
-            GameLogic.CheckResults(players, Dealer);
+            GameLogic.CheckResults(players);
 
             foreach (Player player in players)
             {
@@ -75,7 +66,7 @@ namespace Blackjack
             Utilities.DisplayGameSummary(players);
 
             char response2 = Console.ReadKey().KeyChar;
-            if (response2 == 'n' && response2 == 'N')
+            if (response2 == 'n' || response2 == 'N')
             {
                 Environment.Exit(0); //TODO remove later.
             }
@@ -123,7 +114,6 @@ namespace Blackjack
         private void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;
-            Dealer = new();
             foreach (Player player in players)
             {
                 player.Hand.Clear();
@@ -161,7 +151,7 @@ namespace Blackjack
             ShowDebugWallets(players);
             GetPlayerBets(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
-            Deck.FirstDeal(players, Dealer);
+            Deck.FirstDeal(players);
         }
 
         public static void FunMethod()
