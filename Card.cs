@@ -30,9 +30,8 @@ namespace Blackjack
             CardSymbol = cardSymbol;
         }
 
-        public Card(string cardGraphicWhileStationary, string cardGraphicWhileMoving)
+        public Card(string cardGraphicWhileMoving)
         {
-            CardGraphicWhileStationary = cardGraphicWhileStationary;
             CardGraphicWhileMoving = cardGraphicWhileMoving;
         }
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
@@ -40,7 +39,6 @@ namespace Blackjack
         public int Value { get; set; }
         public string CardGraphic { get; set; }
         public string CardGraphicWhileMoving { get; set; }
-        public string CardGraphicWhileStationary { get; set; }
         public bool IsRed {get; set;}
         public string CardSymbol { get; set; }
     }
