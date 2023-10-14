@@ -10,7 +10,6 @@
             Wallet = buyIn;
             GameState = GameState.UNDECIDED;
             Bet = 0;
-
         }
 
         public string Name { get; set; }
@@ -29,10 +28,7 @@
             {
                 Wallet += Bet * 2;
             }
-            else
-            {
-                //Bet is already withdrawn from the wallet at this point
-            }
+
             FileManager.SavePlayerWallet($"{Name}, {GameState}, WALLET: {Wallet}");
         }
     }
