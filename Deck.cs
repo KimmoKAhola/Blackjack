@@ -98,11 +98,11 @@
             {
                 for (int j = 0; j < participants.Count; j++)
                 {
-                    DealCard(participants[j]);
-                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
+                    DealCard(participants[j].Hands[0]);
+                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hands[0].Cards.Last().Title}{participants[j].Hands[0].Cards.Last().CardSymbol}]\n";
                 }
-                DealCard(Dealer.Instance);
-                firstDealInfo += $"The dealer was dealt a [{Dealer.Instance.Hand.Last().Title}{Dealer.Instance.Hand.Last().CardSymbol}]\n";
+                DealCard(Dealer.Instance.Hands[0]);
+                firstDealInfo += $"The dealer was dealt a [{Dealer.Instance.Hands[0].Cards.Last().Title}{Dealer.Instance.Hands[0].Cards.Last().CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
         }
@@ -118,9 +118,9 @@
                 (cards[j], cards[i]) = (cards[i], cards[j]);
             }
         }
-        public static void DealCard(Participant participant)
+        public static void DealCard(Hand hand)
         {
-            participant.Hand.Add(cards[0]);
+            hand.Cards.Add(cards[0]);
             cards.RemoveAt(0);
         }
 
