@@ -99,7 +99,7 @@ namespace Blackjack
             switch (playerRegion)
             {
                 case 0: //dealer on the top
-                    startPosX = _dealerRegion._xPosition; //- player.PlayerHand.Count / 2;
+                    startPosX = _dealerRegion._xPosition + _cardWidth / 2; //103, 106
                     startPosY = _dealerRegion._yPosition;
                     break;
                 case 1: //player one on the right side
@@ -430,15 +430,20 @@ namespace Blackjack
                             AnimateACardFromRightToLeft(card, 80 + _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 3
                     }
                 }
-                AnimateACardFromBottomToTop(card, 100 + _cardWidth / 2 * i, 16, 10, _verticalAnimationSpeed); //Dealer
+                //_dealerRegion._xPosition + _cardWidth/2
+                AnimateACardFromBottomToTop(card, _dealerRegion._xPosition - _cardWidth / 2 + _cardWidth / 2 * i, 16, 10, _verticalAnimationSpeed); //Dealer
             }
+            int tempCursorPositionX = Console.CursorLeft + (int)(_cardWidth);
+            int tempCursorPositionY = Console.CursorTop - _cardHeight;
+            Console.SetCursorPosition(tempCursorPositionX, tempCursorPositionY);
+            PrintASingleCard(Deck.AllCards[0]); //TODO This should be the dealers second card
             Thread.Sleep(500);
             for (int i = 0; i < numberOfCardsDealt; i++)
             {
                 EraseAPrintedCard(192 - _cardWidth / 2 * i, 18);
                 EraseAPrintedCard(107 + _cardWidth / 2 * i, 39);
                 EraseAPrintedCard(13 + _cardWidth / 2 * i, 18);
-                EraseAPrintedCard(107 + _cardWidth / 2 * i, 0); //TODO INTE HÄR
+                //EraseAPrintedCard(107 + _cardWidth / 2 * i, 0); //Issue #31 solved here
             }
         }
         public static void PrintPlayerTitleAndSum(Participant participant)
@@ -510,7 +515,7 @@ namespace Blackjack
             PrintAStackOfCards(card, 124, 18, 2);
             Thread.Sleep(2000);
 
-            int co = 10;
+            int co = 1; // 10
             while (co > 0)
             {
                 AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);

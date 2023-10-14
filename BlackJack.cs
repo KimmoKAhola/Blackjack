@@ -57,7 +57,7 @@ namespace Blackjack
                 currentPlayer++;
             }
 
-            //Erase the dealer's card
+            //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
             Graphics.UpdateBoard(Dealer);
             //Dramatic pause
