@@ -443,7 +443,7 @@ namespace Blackjack
                 EraseAPrintedCard(192 - _cardWidth / 2 * i, 18);
                 EraseAPrintedCard(107 + _cardWidth / 2 * i, 39);
                 EraseAPrintedCard(13 + _cardWidth / 2 * i, 18);
-                //EraseAPrintedCard(107 + _cardWidth / 2 * i, 0); //TODO INTE HÄR
+                //EraseAPrintedCard(107 + _cardWidth / 2 * i, 0); //Issue #31 solved here
             }
         }
         public static void PrintPlayerTitleAndSum(Participant participant)
