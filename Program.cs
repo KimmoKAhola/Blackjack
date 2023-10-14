@@ -8,7 +8,6 @@ namespace Blackjack
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WindowHeight = 50;
             Console.WindowWidth = 200;
-            Console.CursorVisible = false;
             FileManager.CreateDirectory();
             FileManager.CreateFile();
             

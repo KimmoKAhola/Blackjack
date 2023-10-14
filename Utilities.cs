@@ -11,7 +11,7 @@ namespace Blackjack
         public static List<Player> GetPlayers()
         {
             List<Player> players = new();
-
+            Console.CursorVisible = true;
             for (int i = 0; i < 3; i++)
             {
                 while (true)
@@ -34,7 +34,7 @@ namespace Blackjack
                 }
 
             }
-
+            Console.CursorVisible = false;
             return players;
         }
 
