@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public class Player : Participant
     {
@@ -17,6 +10,7 @@ namespace Blackjack
             Wallet = buyIn;
             GameState = GameState.UNDECIDED;
             Bet = 0;
+
         }
 
         public string Name { get; set; }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public static class GameLogic
     {
@@ -32,7 +25,7 @@ namespace Blackjack
             }
             return false;
         }
-        public static void CheckResults(List<Player> players, Dealer dealer)
+        public static void CheckResults(List<Player> players)
         {
             foreach (var player in players)
             {
@@ -45,12 +38,12 @@ namespace Blackjack
                 {
                     player.GameState = GameState.LOSS;
                 }
-                else if (dealer.HandSum() > 21)
+                else if (Dealer.Instance.HandSum() > 21)
                 {
                     BlackJack.FunMethod();
                     player.GameState = GameState.WIN;
                 }
-                else if (player.HandSum() > dealer.HandSum())
+                else if (player.HandSum() > Dealer.Instance.HandSum())
                 {
                     player.GameState = GameState.WIN;
                     BlackJack.FunMethod();
@@ -59,13 +52,13 @@ namespace Blackjack
                     player.GameState = GameState.LOSS;
             }
         }
-        public static void DealersTurn(Dealer dealer)
+        public static void DealersTurn()
         {
-            while (dealer.HandSum() < 17)
+            while (Dealer.Instance.HandSum() < 17)
             {
-                Deck.DealCard(dealer);
+                Deck.DealCard(Dealer.Instance);
 
-                Graphics.UpdateBoard(dealer);
+                Graphics.UpdateBoard(Dealer.Instance);
                 Thread.Sleep(1000);
             }
         }

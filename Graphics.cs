@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using System.Text;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -144,7 +141,7 @@ namespace Blackjack
         public static void PrintAllPlayerCards(Dealer dealer)
         {
             Console.SetCursorPosition(0, 0);
-            PrintSinglePlayerCards(dealer);
+            PrintSinglePlayerCards(Dealer.Instance);
         }
         /// <summary>
         /// Divides the playing board into different subparts.
@@ -371,9 +368,9 @@ namespace Blackjack
         }
         public static void LogPlayerInfo(Dealer dealer)
         {
-            string cardSymbol = dealer.Hand.Last().CardSymbol;
-            string lastCard = dealer.Hand.Last().Title;
-            int cardSum = dealer.HandSum();
+            string cardSymbol = Dealer.Instance.Hand.Last().CardSymbol;
+            string lastCard = Dealer.Instance.Hand.Last().Title;
+            int cardSum = Dealer.Instance.HandSum();
 
             string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
 
@@ -388,8 +385,8 @@ namespace Blackjack
         }
         public static void UpdateBoard(Dealer dealer)
         {
-            Graphics.PrintAllPlayerCards(dealer);
-            Graphics.LogPlayerInfo(dealer);
+            Graphics.PrintAllPlayerCards(Dealer.Instance);
+            Graphics.LogPlayerInfo(Dealer.Instance);
             Graphics.UpdateLog();
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
@@ -485,9 +482,6 @@ namespace Blackjack
                 string playerHeader = $"{player.Name}'s hand: {participant.HandSum()}";
                 string headerGreenString = new(' ', playerHeader.Length);
                 string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
-
-                //if (chanceOfSuccess % 1 == 0)
-                //    chanceString = $"Chance of success: ~{(chanceOfSuccess * 100):F0}%";
 
                 string chanceGreenString = new(' ', 24);
 
