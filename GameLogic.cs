@@ -60,7 +60,7 @@
                 Deck.DealCard(Dealer.Instance);
                 Dealer.Instance.LatestAction = PlayerAction.HIT;
 
-                Graphics.UpdateBoard(Dealer.Instance);
+                Graphics.UpdateBoard();
                 Thread.Sleep(1000);
             }
             Dealer.Instance.LatestAction = PlayerAction.STAND;
