@@ -13,8 +13,6 @@
             BlackJack blackjack = new();
 
             blackjack.RunGame(Utilities.GetPlayers());
-            //tjena hej!
-            //hejsan
         }
     }
 }
