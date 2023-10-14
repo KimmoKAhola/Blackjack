@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public static class Utilities
     {
@@ -99,11 +92,11 @@ namespace Blackjack
 
                 Console.Write($"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │");
             }
-            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"│                               PLAY AGAIN?                             │");
-            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"│                                  Y/N                                  │");
-            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
