@@ -39,6 +39,7 @@ namespace Blackjack
                         break;
                     }
 
+                    Utilities.PromptPlayer(players[currentPlayer]);
                     char response;
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     response = Console.ReadKey().KeyChar;

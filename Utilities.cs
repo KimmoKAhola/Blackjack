@@ -50,18 +50,34 @@ namespace Blackjack
             string output = input + padding;
             return output;
         }
+        private static string GetCenteredPadding(string input, int spaces)
+        {
+            spaces -= input.Length;
+            string firstPadding = new(' ', spaces / 2);
+
+            if (input.Length % 2 == 0)
+            {
+                spaces++;
+            }
+
+            string secondPadding = new(' ', spaces / 2);
+
+            string output = firstPadding + input + secondPadding;
+            return output;
+        }
+
 
         public static void DisplayGameSummary(List<Player> players)
         {
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(75, 20);
+            Console.SetCursorPosition(65, 20);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(75, Console.CursorTop + 1);
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"│                              GAME SUMMARY                             │");
             foreach (var player in players)
             {
-                Console.SetCursorPosition(75, Console.CursorTop + 1);
+                Console.SetCursorPosition(65, Console.CursorTop + 1);
                 int namePadding = 10;
                 int outcomePadding = 10;
                 int betPadding = 15;
@@ -90,7 +106,26 @@ namespace Blackjack
             Console.SetCursorPosition(75, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.ResetColor();
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+        }
+
+        public static void PromptPlayer(Player player)
+        {
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(65, 30);
+            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            string paddedPlayerPrompt = GetCenteredPadding($"{player.Name}'S TURN", 71);
+            Console.Write($"│{paddedPlayerPrompt}│");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
         }
 
         public static void SavePlayerAction(Player player)
