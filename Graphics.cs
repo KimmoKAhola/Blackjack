@@ -174,9 +174,10 @@
 
             return (vectorXValues, vectorYValues);
         }
-        public static void AnimateACardFromTopToBottom(Card card, int distance)
+        public static void AnimateACardFromTopToBottom(Card card)
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
+            int distance = startingXPosition - _playerOneRegion._xPosition; //TODO needs some fine tuning.
             //int startingXPosition = _cardAnimationStartingPosition._animationStartingXPosition;
             //int startingYPosition = _cardAnimationStartingPosition._animationStartingYPosition;
             string[] cardArray = new string[6];
@@ -206,8 +207,9 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromBottomToTop(Card card, int distance)
+        public static void AnimateACardFromBottomToTop(Card card)
         {
+            int distance = startingYPosition - _playerTwoRegion._yPosition;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -237,11 +239,11 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromRightToLeft(Card card, int distance)
+        public static void AnimateACardFromRightToLeft(Card card)
         {
             //int startingXPosition = 80; // Hard coded values
             //int startingYPosition = 18;
-
+            int distance = _playerThreeRegion._xPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -282,10 +284,11 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromLeftToRight(Card card, int distance)
+        public static void AnimateACardFromLeftToRight(Card card)
         {
             //int startingXPosition = 100; // Hard coded values
             //int startingYPosition = 18;
+            int distance = startingXPosition - _playerOneRegion._xPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
