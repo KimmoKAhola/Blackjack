@@ -13,6 +13,7 @@
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
+        private static (int _animationStartingXPosition, int _animationStartingYPosition) _cardAnimationStartingPosition = (101, 18);
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
@@ -173,12 +174,15 @@
 
             return (vectorXValues, vectorYValues);
         }
-        public static void AnimateACardFromTopToBottom(Card card, int startingXPosition, int startingYPosition, int distance, int verticalAnimationSpeed)
+        public static void AnimateACardFromTopToBottom(Card card, int distance)
         {
+            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
+            //int startingXPosition = _cardAnimationStartingPosition._animationStartingXPosition;
+            //int startingYPosition = _cardAnimationStartingPosition._animationStartingYPosition;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
             string greenString = new(' ', _cardWidth);
 
@@ -198,11 +202,11 @@
                 Console.Write(greenString);
 
                 Console.SetCursorPosition(startingXPosition, ++startingYPosition);
-                Thread.Sleep(verticalAnimationSpeed);
+                Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromBottomToTop(Card card, int startingXPosition, int startingYPosition, int distance, int verticalAnimationSpeed)
+        public static void AnimateACardFromBottomToTop(Card card, int distance)
         {
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -229,11 +233,11 @@
                 }
 
                 Console.SetCursorPosition(startingXPosition, --startingYPosition);
-                Thread.Sleep(verticalAnimationSpeed);
+                Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromRightToLeft(Card card, int startingXPosition, int startingYPosition, int distance, int horizontalAimationSpeed)
+        public static void AnimateACardFromRightToLeft(Card card, int distance)
         {
             //int startingXPosition = 80; // Hard coded values
             //int startingYPosition = 18;
@@ -274,11 +278,11 @@
 
                 Console.SetCursorPosition(startingXPosition--, startingYPosition);
 
-                Thread.Sleep(horizontalAimationSpeed);
+                Thread.Sleep(_horizontalAimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromLeftToRight(Card card, int startingXPosition, int startingYPosition, int distance, int horizontalAnimationSpeed)
+        public static void AnimateACardFromLeftToRight(Card card, int distance)
         {
             //int startingXPosition = 100; // Hard coded values
             //int startingYPosition = 18;
@@ -321,7 +325,7 @@
 
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
 
-                Thread.Sleep(horizontalAnimationSpeed);
+                Thread.Sleep(_horizontalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
@@ -421,7 +425,11 @@
                         if (player.PlayerNumber == 1)
                             AnimateACardFromLeftToRight(card, 111 - _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 1
                         if (player.PlayerNumber == 2)
-                            AnimateACardFromTopToBottom(card, 100 + _cardWidth / 2 * i, 25, 15, _verticalAnimationSpeed); //Player 2
+                        {
+                            AnimateACardFromTopToBottom(card, 22); //Player 2
+                            //AnimateACardFromTopToBottom(card, 100 + _cardWidth / 2 * i, 25, 15, _verticalAnimationSpeed);
+                            card.LatestCardPosition = (100 + _cardWidth / 2, 18);
+                        }
                         if (player.PlayerNumber == 3)
                             AnimateACardFromRightToLeft(card, 80 + _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 3
                     }
@@ -520,8 +528,7 @@
             EraseAPrintedCard(124, 18);
             EraseAPrintedCard(125, 18);
             int numberOfCardsInStack = 8;
-            int cardStackXStartingPosition = 96 - _cardWidth / 2 + numberOfCardsInStack;
-            PrintAStackOfCards(card, cardStackXStartingPosition, 18, numberOfCardsInStack);
+            PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition-_cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
@@ -560,6 +567,55 @@
                 Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
                 Console.Write(cardArray[yPosition]);
             }
+        }
+        public static void AnimateACardFromLeftToRightTEST(Card card, int distance, int horizontalAnimationSpeed)
+        {
+            //int startingXPosition = 100; // Hard coded values
+            //int startingYPosition = 18;
+            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+
+            //Create a card array with blue strings. No graphic is needed.
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+            }
+
+            for (int i = 0; i < distance; i++)
+            {
+                for (int yPosition = 0; yPosition < _cardWidth; yPosition++)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    if (yPosition < _cardWidth - 1)
+                    {
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                        Console.Write(cardArray[yPosition]);
+                    }
+                    else
+                    {
+                        if (i != 0)
+                        {
+                            int oldX = startingXPosition - 1;
+                            //int updY = 
+                            for (int j = 0; j < _cardHeight; j++)
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                                Console.SetCursorPosition(oldX, Console.CursorTop);
+                                Console.Write(" ");
+                                Console.SetCursorPosition(oldX, Console.CursorTop - 1);
+                            }
+                        }
+                    }
+                }
+
+                Console.SetCursorPosition(startingXPosition++, startingYPosition);
+
+                Thread.Sleep(horizontalAnimationSpeed);
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            card.LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
         }
     }
 }

@@ -4,30 +4,11 @@
     {
         private static List<Card>? cards = GetNewDeck();
         //private static List<Card>? cards = GetAceDeck(); // Only for testing
-        private static List<Card> animationCards = GetNewAnimationDeck();
 
         public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
             //get => cards = (cards == null) ? GetNewDeck() : cards;
-        }
-
-        public static List<Card> AnimationCards
-        {
-            get => animationCards ??= GetNewAnimationDeck();
-        }
-
-        /// <summary>
-        /// This deck is only used for testing animations. Uses a card
-        /// which has a blue background and a background graphic
-        /// which is loaded from the last index of our card enum.
-        /// </summary>
-        /// <returns></returns>
-        private static List<Card> GetNewAnimationDeck()
-        {
-            List<Card> cards = new List<Card>();
-            cards.Add(new Card(Card.allCardGraphics[52]));
-            return cards;
         }
         //Only for testing edge cases
         private static List<Card> GetAceDeck()
@@ -99,6 +80,18 @@
                 for (int j = 0; j < participants.Count; j++)
                 {
                     DealCard(participants[j]);
+                    var temp = (Player)participants[j];
+                    switch (temp.PlayerNumber)
+                    {
+                        case 1:
+
+                            break;
+                        case 2:
+                            Graphics.AnimateACardFromTopToBottom(temp.Hand.Last(), 18);
+                            break;
+                        case 3:
+                            break;
+                    }
                     firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
                 }
                 DealCard(Dealer.Instance);

@@ -158,14 +158,14 @@ namespace Blackjack
         private static void GameSetup(List<Player> players)
         {
             Thread.Sleep(1500);
-            Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
+            Graphics.AnimateDeckShuffle(Deck.AllCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
             ShowDebugWallets(players);
             GetPlayerBets(players);
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
+            //Graphics.AnimateCardsInAllDirections(Deck.AllCards[0], 2, players);
         }
 
         public static void FunMethod()

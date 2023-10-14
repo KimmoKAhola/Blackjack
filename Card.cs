@@ -11,7 +11,8 @@ namespace Blackjack
     {
         public Card()
         {
-
+            CardGraphicWhileMoving = allCardGraphics[52];
+            LatestCardPosition = (101, 18);
         }
         /// <summary>
         /// Card constructor.
@@ -28,19 +29,19 @@ namespace Blackjack
             CardGraphic = cardGraphic;
             IsRed = false;
             CardSymbol = cardSymbol;
+            CardGraphicWhileMoving = allCardGraphics[52];
         }
 
-        public Card(string cardGraphicWhileMoving)
-        {
-            CardGraphicWhileMoving = cardGraphicWhileMoving;
-        }
+        //public Card(string cardGraphicWhileMoving)
+        //{
+        //    CardGraphicWhileMoving = cardGraphicWhileMoving;
+        //}
 
-        //private Tuple<int, int> _latestCardCursorPosition;
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }
         public string CardGraphic { get; set; }
-        public string CardGraphicWhileMoving { get; set; }
+        public string CardGraphicWhileMoving { get; }
         public bool IsRed {get; set;}
         public string CardSymbol { get; set; }
         public (int LatestXPosition, int LatestYPosition) LatestCardPosition { get; set; }
