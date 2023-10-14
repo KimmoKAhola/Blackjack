@@ -58,7 +58,6 @@ namespace Blackjack
                 Console.SetCursorPosition(80, 32);
                 Console.Write($"                                ");
 
-
                 while (true)
                 {
                     Console.SetCursorPosition(80, 31);
