@@ -150,8 +150,8 @@ namespace Blackjack
             Thread.Sleep(500);
             ShowDebugWallets(players);
             GetPlayerBets(players);
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
             Deck.FirstDeal(players);
+            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
         }
 
         public static void FunMethod()

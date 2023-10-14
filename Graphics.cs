@@ -138,7 +138,7 @@
                 PrintSinglePlayerCards(player);
             }
         }
-        public static void PrintAllPlayerCards(Dealer dealer)
+        public static void PrintAllDealerCards()
         {
             Console.SetCursorPosition(0, 0);
             PrintSinglePlayerCards(Dealer.Instance);
@@ -366,7 +366,7 @@
             completePlayerHand = playerName + "\n" + completePlayerHand;
             FileManager.SaveHandInfo(completePlayerHand);
         }
-        public static void LogPlayerInfo(Dealer dealer)
+        public static void LogDealerInfo()
         {
             string cardSymbol = Dealer.Instance.Hand.Last().CardSymbol;
             string lastCard = Dealer.Instance.Hand.Last().Title;
@@ -383,10 +383,10 @@
             Graphics.LogPlayerInfo(players[currentPlayer]);
             Graphics.UpdateLog();
         }
-        public static void UpdateBoard(Dealer dealer)
+        public static void UpdateBoard()
         {
-            Graphics.PrintAllPlayerCards(Dealer.Instance);
-            Graphics.LogPlayerInfo(Dealer.Instance);
+            Graphics.PrintAllDealerCards();
+            Graphics.LogDealerInfo();
             Graphics.UpdateLog();
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
@@ -441,7 +441,7 @@
             int tempCursorPositionX = Console.CursorLeft + (int)(_cardWidth);
             int tempCursorPositionY = Console.CursorTop - _cardHeight;
             Console.SetCursorPosition(tempCursorPositionX, tempCursorPositionY);
-            PrintASingleCard(Deck.AllCards[0]); //TODO This should be the dealers second card
+            PrintASingleCard(Dealer.Instance.Hand[1]); //TODO This should be the dealers second card
             Thread.Sleep(500);
             for (int i = 0; i < numberOfCardsDealt; i++)
             {
