@@ -21,7 +21,6 @@
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0], (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
-
         public static void AnimateACardFromBottomToTop(Hand hand)
         {
             (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
@@ -282,12 +281,12 @@
         }
         public static void PrintLog()
         {
-            var vectors = ScalingVectors();
+            var (x, y) = ScalingVectors();
             int startPosX = 1;
             int startPosY = 1;
-            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+            Console.SetCursorPosition((int)x[startPosX], (int)y[startPosY]);
             int cursorLeft = Console.CursorLeft;
-            int lastInTheList = Utilities.log.Count() - 1;
+            int lastInTheList = Utilities.log.Count - 1;
 
             Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
@@ -309,7 +308,6 @@
             double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.Hands[0].HandSum());
             if (participant is Player)
             {
-                //20
                 Player player = (Player)participant;
                 switch (player.PlayerNumber)
                 {
