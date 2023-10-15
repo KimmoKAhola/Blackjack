@@ -245,8 +245,6 @@
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
-            //x = 100 for rough middle.
-            //y = 18 for rough middle position
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -388,14 +386,11 @@
         }
         public static void UpdateDealerBoard()
         {
-            //Graphics.PrintASingleCard();
             Utilities.LogDealerInfo();
             Graphics.PrintLog();
         }
         public static void UpdateBoard()
         {
-            //Graphics.PrintSinglePlayerCards(player);
-            //Graphics.PrintASingleCard(player.Hands[0]);
             Graphics.PrintLog();
         }
     }
