@@ -194,12 +194,10 @@
         }
         public static void AnimateDeckShuffle(Card card)
         {
-            Thread.Sleep(2000);
             PrintAStackOfCards(card, 77, 18, 2);
             PrintAStackOfCards(card, 124, 18, 2);
-            Thread.Sleep(2000);
 
-            int co = 10; // 10
+            int co = 10;
             while (co > 0)
             {
                 //AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
@@ -208,11 +206,8 @@
                 //AnimateACardFromRightToLeft(card);
                 co--;
             }
-            EraseAPrintedCard(77, 18);
-            EraseAPrintedCard(78, 18);
-            EraseAPrintedCard(124, 18);
-            EraseAPrintedCard(125, 18);
-            int numberOfCardsInStack = 8;
+            
+            int numberOfCardsInStack = 3; // 8 is standard
             PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }

@@ -17,14 +17,10 @@
                 GameLogic.PlayersTurn(player);
             }
 
-            //Erase the dealer's card //TODO here we have an error when erasing cards.
-            Graphics.EraseAPrintedCard(107, 0);
             Graphics.UpdateDealerBoard();
             //Dramatic pause
             Thread.Sleep(1000);
-
             GameLogic.DealersTurn();
-
             GameLogic.CheckResults(players);
 
             foreach (Player player in players)
