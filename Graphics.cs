@@ -72,7 +72,7 @@
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards.Last().CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
 
             for (int i = 0; i < distance; i++)
@@ -163,7 +163,7 @@
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards.Last().CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
             string greenString = new(' ', _cardWidth);
 
