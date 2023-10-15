@@ -4,7 +4,10 @@
     {
         public Participant()
         {
-            Hands = new List<Hand>();
+            Hands = new List<Hand>()
+            {
+                new()
+            };
         }
 
         public List<Hand> Hands { get; set; }

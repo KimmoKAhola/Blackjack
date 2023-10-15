@@ -8,6 +8,7 @@
         {
             InitializeNewGame(players);
             FileManager.SaveStartTimeStamp(GameId);
+            Console.Clear();
             Graphics.PrintBoard();
             GameSetup(players);
 
@@ -15,7 +16,6 @@
             {
                 GameLogic.PlayersTurn(player);
             }
-
 
             //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
@@ -85,6 +85,7 @@
             int gameId = _gameId++;
             foreach (Player player in players)
             {
+
                 player.Hands[0].Cards.Clear();
                 if (player.Wallet == 0)
                 {
@@ -94,6 +95,7 @@
                 {
                     player.Hands.RemoveAt(1);
                 }
+
             }
             Console.Clear();
         }
