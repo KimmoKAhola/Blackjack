@@ -114,13 +114,13 @@
                 switch (temp.PlayerNumber)
                 {
                     case 1:
-                        Graphics.AnimateACardFromLeftToRight(hand.Cards.Last());
+                        Graphics.AnimateACardFromLeftToRight(hand);
                         break;
                     case 2:
-                        Graphics.AnimateACardFromTopToBottom(hand.Cards.Last());
+                        Graphics.AnimateACardFromTopToBottom(hand);
                         break;
                     case 3:
-                        Graphics.AnimateACardFromRightToLeft(hand.Cards.Last());
+                        Graphics.AnimateACardFromRightToLeft(hand);
                         break;
                 }
             }

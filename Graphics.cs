@@ -13,191 +13,15 @@
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
+        private readonly static int _cardFlipDelay = 500;
         private static (int _animationStartingXPosition, int _animationStartingYPosition) _cardAnimationStartingPosition = (101, 18);
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
-        private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0] + _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
+        private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0], (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
 
-        /// <summary>
-        /// Prints out a square with rounded corners.
-        /// Hard coded values for window height and width
-        /// 50 and 200 on the console
-        /// and 40, 190 on the playing board.
-        /// </summary>
-        public static void PrintBoard()
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.White;
-            char line = '─';
-            string playingBoard = "╭" + new string(line, windowWidth) + "╮";
-            char playingBoardBorder = '│';
-            for (int i = 0; i < windowHeight; i++)
-            {
-                playingBoard += "\n" + playingBoardBorder + new string(' ', windowWidth) + playingBoardBorder;
-            }
-            playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
-            Console.WriteLine(playingBoard);
-        }
-        /// <summary>
-        /// Prints a card at a certain position which is decided
-        /// by two scaling vectors.
-        /// </summary>
-        /// <param name="card"></param>
-        private static void PrintASingleCard(Card card)
-        {
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth - 1; i++)
-            {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
-            }
-
-            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-            {
-                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
-                Console.Write(cardArray[yPosition]);
-            }
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
-        /// <summary>
-        /// A method that prints out the whole player hand.
-        /// Utilizes the PrintCard method to print out one card at a time while looping through
-        /// the list of cards.
-        /// </summary>
-        /// <param name="participant"></param>
-        private static void PrintSinglePlayerCards(Participant participant)
-        {
-            var vectors = ScalingVectors();
-            // TODO startPosX 8 prints one card in a specific region!!!!
-            // TODO startPosY 5 prints one card in a specific region!!!!
-            // TODO Brädet är 28 kort brett och 8 kort högt.
-            int playerRegion = 0;
-            if (participant is Player)
-            {
-                Player player = (Player)participant;
-                playerRegion = player.PlayerNumber;
-            }
-            List<Card> listOfCards = participant.Hands[0].Cards;
-            int startPosX, startPosY;
-
-            //This switch case decides where to print the cards. The region values are hard coded in a switch case.
-            // The middle can be found by vectors.x.Length / 2 + 1. The +1 is because we have an odd size on the window width (27 cards wide)
-            switch (playerRegion)
-            {
-                case 0: //dealer on the top
-                    startPosX = _dealerRegion._xPosition + _cardWidth / 2; //103, 106
-                    startPosY = _dealerRegion._yPosition;
-                    break;
-                case 1: //player one on the right side
-                    startPosX = _playerOneRegion._xPosition - participant.Hands[0].Cards.Count;
-                    startPosY = _playerOneRegion._yPosition;
-                    break;
-                case 2: // player two on the bottom
-                    startPosX = _playerTwoRegion._xPosition - participant.Hands[0].Cards.Count / 2;
-                    startPosY = _playerTwoRegion._yPosition;
-                    break;
-                case 3: // player three on the left side
-                    startPosX = _playerThreeRegion._xPosition;
-                    startPosY = _playerThreeRegion._yPosition;
-                    break;
-                default:
-                    //TODO fix error handling later.
-                    startPosX = vectors.x.Length / 2 - participant.Hands[0].Cards.Count / 2;
-                    startPosY = 5;
-                    break;
-            }
-
-            foreach (Card card in listOfCards)
-            {
-                //double[] xValues = vectors.x;
-                //double[] yValues = vectors.y;
-                Console.SetCursorPosition(startPosX, startPosY);
-                PrintASingleCard(card);
-
-                startPosX += (int)(_cardWidth / 2);
-
-            }
-            Console.ForegroundColor = ConsoleColor.Yellow;
-        }
-        public static void PrintAllPlayerCards(List<Player> players)
-        {
-            Console.SetCursorPosition(0, 0);
-            foreach (Player player in players)
-            {
-                PrintSinglePlayerCards(player);
-            }
-        }
-        public static void PrintAllDealerCards()
-        {
-            Console.SetCursorPosition(0, 0);
-            PrintSinglePlayerCards(Dealer.Instance);
-        }
-        /// <summary>
-        /// Divides the playing board into different subparts.
-        /// These subparts are then used to decide where to draw the card graphics.
-        /// The subparts are a function of windowSize / cardSize in both
-        /// x and y direction.
-        /// </summary>
-        /// <returns></returns>
-        public static (double[] x, double[] y) ScalingVectors()
-        {
-            double cardHeight = _cardHeight;
-            double cardWidth = _cardWidth;
-
-            double stepsInXDirection = (windowWidth + cardWidth / 2) / cardWidth * 2;
-            double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
-
-            double[] vectorXValues = new double[(int)stepsInXDirection];
-            double[] vectorYValues = new double[(int)stepsInYDirection];
-
-            for (int i = 0; i < vectorXValues.Length; i++)
-            {
-                vectorXValues[i] = i * cardWidth / 2 + 2;
-            }
-
-            for (int i = 0; i < vectorYValues.Length; i++)
-            {
-                vectorYValues[i] = i * cardHeight / 2;
-            }
-
-            return (vectorXValues, vectorYValues);
-        }
-        public static void AnimateACardFromTopToBottom(Card card)
-        {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _playerTwoRegion._yPosition - startingYPosition; //TODO needs some fine tuning.
-            Console.ForegroundColor = ConsoleColor.White;
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth - 1; i++)
-            {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
-            }
-            string greenString = new(' ', _cardWidth);
-
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
-            for (int i = 0; i < distance; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-                {
-                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                    Console.Write(cardArray[yPosition]);
-                }
-                int oldTopCursorPosition = Console.CursorTop - _cardHeight;
-
-                Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.Write(greenString);
-
-                Console.SetCursorPosition(startingXPosition, ++startingYPosition);
-                Thread.Sleep(_verticalAnimationSpeed);
-            }
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
         public static void AnimateACardFromBottomToTop(Card card)
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
@@ -233,10 +57,11 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromRightToLeft(Card card)
+        public static void AnimateACardFromLeftToRight(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _cardAnimationStartingPosition._animationStartingXPosition - _playerThreeRegion._xPosition;
+            (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
+
+            int distance = _playerOneRegion._xPosition - startingXPosition - (hand.Cards.Count * _cardWidth / 2);
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -244,49 +69,7 @@
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
-            }
-
-            for (int i = 0; i < distance; i++)
-            {
-                for (int yPosition = 0; yPosition < _cardWidth; yPosition++)
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                    if (yPosition < _cardWidth - 1)
-                    {
-                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                        Console.Write(cardArray[yPosition]);
-                    }
-                    else
-                    {
-                        if (i != 0)
-                        {
-                            for (int j = 0; j < _cardHeight; j++)
-                            {
-                                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                                Console.Write(" ");
-                                Console.SetCursorPosition(startingXPosition + _cardWidth, Console.CursorTop - 1);
-                            }
-                        }
-                    }
-                }
-                Console.SetCursorPosition(startingXPosition--, startingYPosition);
-                Thread.Sleep(_horizontalAnimationSpeed);
-            }
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-        }
-        public static void AnimateACardFromLeftToRight(Card card)
-        {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _playerOneRegion._xPosition - startingXPosition;
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
-
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.ForegroundColor = ConsoleColor.White;
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth - 1; i++)
-            {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
 
             for (int i = 0; i < distance; i++)
@@ -318,40 +101,148 @@
                 Thread.Sleep(_horizontalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
+            PrintASingleCard(hand.Cards.Last());
         }
-        public static void PrintLog()
+        public static void AnimateACardFromRightToLeft(Hand hand)
         {
-            var vectors = ScalingVectors();
-            int startPosX = 1;
-            int startPosY = 1;
-            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
-            int cursorLeft = Console.CursorLeft;
-            int lastInTheList = Utilities.log.Count() - 1;
+            (int startingXPosition, int startingYPosition) = (hand.Cards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.Cards.Last().LatestCardPosition.LatestYPosition);
+            int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.Cards.Count;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
 
-            Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
-
-            for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
             {
-                Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-                int spaces = 80 - Utilities.log[i].Length;
-                string padding = new string(' ', spaces);
-                Console.Write($"│{Utilities.log[i]}{padding}│");
+                cardArray[i] = hand.Cards.Last().CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
-            Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-            Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
+            for (int i = 0; i < distance; i++)
+            {
+                for (int yPosition = 0; yPosition < _cardWidth; yPosition++)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    if (yPosition < _cardWidth - 1)
+                    {
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
+                        Console.Write(cardArray[yPosition]);
+                    }
+                    else
+                    {
+                        if (i != 0)
+                        {
+                            for (int j = 0; j < _cardHeight; j++)
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                                Console.Write(" ");
+                                Console.SetCursorPosition(startingXPosition + _cardWidth, Console.CursorTop - 1);
+                            }
+                        }
+                    }
+                }
+                Console.SetCursorPosition(startingXPosition--, startingYPosition);
+                Thread.Sleep(_horizontalAnimationSpeed);
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
+            PrintASingleCard(hand.Cards.Last());
         }
+        public static void AnimateACardFromTopToBottom(Hand hand)
+        {
+            (int startingXPosition, int startingYPosition) = (hand.Cards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.Cards.Last().LatestCardPosition.LatestYPosition);
+            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
 
-        public static void UpdateBoard(Player player)
-        {
-            Graphics.PrintSinglePlayerCards(player);
-            Graphics.PrintLog();
+            int distance = _playerTwoRegion._yPosition - startingYPosition;
+            Console.ForegroundColor = ConsoleColor.White;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+            }
+            string greenString = new(' ', _cardWidth);
+
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            for (int i = 0; i < distance; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                {
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
+                    Console.Write(cardArray[yPosition]);
+                }
+                int oldTopCursorPosition = Console.CursorTop - _cardHeight;
+
+                Console.SetCursorPosition(startingXPosition, oldTopCursorPosition);
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Write(greenString);
+
+                Console.SetCursorPosition(startingXPosition, ++startingYPosition);
+                Thread.Sleep(_verticalAnimationSpeed);
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            //hand.Cards[0].LatestCardPosition = (hand.Cards[0].LatestCardPosition.LatestXPosition + _cardWidth / 2, hand.Cards[0].LatestCardPosition.LatestYPosition);
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - 1);
+            PrintASingleCard(hand.Cards.Last());
         }
-        public static void UpdateDealerBoard()
+        public static void AnimateDeckShuffle(Card card)
         {
-            Graphics.PrintAllDealerCards();
-            Utilities.LogDealerInfo();
-            Graphics.PrintLog();
+            Thread.Sleep(2000);
+            PrintAStackOfCards(card, 77, 18, 2);
+            PrintAStackOfCards(card, 124, 18, 2);
+            Thread.Sleep(2000);
+
+            int co = 10; // 10
+            while (co > 0)
+            {
+                //AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
+                //AnimateACardFromLeftToRight(card);
+                //AnimateACardFromRightToLeft(card, 110, 18, 15, _shuffleAnimationSpeed);
+                //AnimateACardFromRightToLeft(card);
+                co--;
+            }
+            EraseAPrintedCard(77, 18);
+            EraseAPrintedCard(78, 18);
+            EraseAPrintedCard(124, 18);
+            EraseAPrintedCard(125, 18);
+            int numberOfCardsInStack = 8;
+            PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+        }
+        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = new string(' ', _cardWidth);
+            }
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(cardArray[yPosition]);
+            }
+        }
+        private static void PrintASingleCard(Card card)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
+            string[] cardArray = new string[6];
+            for (int i = 0; i < _cardWidth - 1; i++)
+            {
+                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+            }
+            Console.SetCursorPosition(card.LatestCardPosition.LatestXPosition + _cardWidth, card.LatestCardPosition.LatestYPosition);
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(cardArray[yPosition]);
+            }
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
@@ -378,44 +269,42 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        //public static void AnimateCardsInAllDirections(Card card, int numberOfCardsDealt, List<Player> players)
-        //{
-        //    //This method is now tied to the card dealing methods.
+        public static void PrintBoard()
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
+            char line = '─';
+            string playingBoard = "╭" + new string(line, windowWidth) + "╮";
+            char playingBoardBorder = '│';
+            for (int i = 0; i < windowHeight; i++)
+            {
+                playingBoard += "\n" + playingBoardBorder + new string(' ', windowWidth) + playingBoardBorder;
+            }
+            playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
+            Console.WriteLine(playingBoard);
+        }
+        public static void PrintLog()
+        {
+            var vectors = ScalingVectors();
+            int startPosX = 1;
+            int startPosY = 1;
+            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+            int cursorLeft = Console.CursorLeft;
+            int lastInTheList = Utilities.log.Count() - 1;
 
-        //    for (int i = 0; i < numberOfCardsDealt; i++)
-        //    {
-        //        foreach (Player player in players)
-        //        {
-        //            if (player.Bet > 0)
-        //            {
-        //                if (player.PlayerNumber == 1)
-        //                {
-        //                    AnimateACardFromLeftToRight(card);
-        //                }
-        //                if (player.PlayerNumber == 2)
-        //                {
-        //                    AnimateACardFromTopToBottom(card);
-        //                }
-        //                if (player.PlayerNumber == 3)
-        //                {
-        //                    AnimateACardFromRightToLeft(card);
-        //                }
-        //            }
-        //        }
-        //        AnimateACardFromBottomToTop(card);
-        //    }
-        //    int tempCursorPositionX = Console.CursorLeft + (int)(_cardWidth);
-        //    int tempCursorPositionY = Console.CursorTop - _cardHeight;
-        //    Console.SetCursorPosition(tempCursorPositionX, tempCursorPositionY);
-        //    PrintASingleCard(Dealer.Instance.Hand[1]); 
-        //    Thread.Sleep(500);
-        //    for (int i = 0; i < numberOfCardsDealt; i++)
-        //    {
-        //        EraseAPrintedCard(192 - _cardWidth / 2 * i, 18);
-        //        EraseAPrintedCard(107 + _cardWidth / 2 * i, 39);
-        //        EraseAPrintedCard(13 + _cardWidth / 2 * i, 18);
-        //    }
-        //}
+            Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
+
+            for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
+            {
+                Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
+                int spaces = 80 - Utilities.log[i].Length;
+                string padding = new string(' ', spaces);
+                Console.Write($"│{Utilities.log[i]}{padding}│");
+            }
+            Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
+            Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
+
+        }
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
@@ -475,66 +364,40 @@
             }
             Console.SetCursorPosition(1, 1);
         }
-        public static void AnimateDeckShuffle(Card card)
+        public static (double[] x, double[] y) ScalingVectors()
         {
-            Thread.Sleep(2000);
-            PrintAStackOfCards(card, 77, 18, 2);
-            PrintAStackOfCards(card, 124, 18, 2);
-            Thread.Sleep(2000);
+            double cardHeight = _cardHeight;
+            double cardWidth = _cardWidth;
 
-            int co = 10; // 10
-            while (co > 0)
+            double stepsInXDirection = (windowWidth + cardWidth / 2) / cardWidth * 2;
+            double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
+
+            double[] vectorXValues = new double[(int)stepsInXDirection];
+            double[] vectorYValues = new double[(int)stepsInYDirection];
+
+            for (int i = 0; i < vectorXValues.Length; i++)
             {
-                //AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
-                //AnimateACardFromLeftToRight(card);
-                //AnimateACardFromRightToLeft(card, 110, 18, 15, _shuffleAnimationSpeed);
-                //AnimateACardFromRightToLeft(card);
-                co--;
+                vectorXValues[i] = i * cardWidth / 2 + 2;
             }
-            EraseAPrintedCard(77, 18);
-            EraseAPrintedCard(78, 18);
-            EraseAPrintedCard(124, 18);
-            EraseAPrintedCard(125, 18);
-            int numberOfCardsInStack = 8;
-            PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
+
+            for (int i = 0; i < vectorYValues.Length; i++)
+            {
+                vectorYValues[i] = i * cardHeight / 2;
+            }
+
+            return (vectorXValues, vectorYValues);
         }
-        //public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
-        //{
-        //    //int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
-        //    //int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
-        //    //THIS IS PROBABLY NOT NEEDED
-        //    Console.SetCursorPosition(startingXPosition, startingYPosition);
-
-        //    Console.BackgroundColor = ConsoleColor.DarkBlue;
-        //    string[] cardArray = new string[6];
-        //    for (int i = 0; i < _cardWidth - 1; i++)
-        //    {
-        //        cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
-        //    }
-
-        //    Console.BackgroundColor = ConsoleColor.DarkBlue;
-        //    for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-        //    {
-        //        Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
-        //        Console.Write(cardArray[yPosition]);
-        //    }
-        //    Console.BackgroundColor = ConsoleColor.DarkGreen;
-        //}
-        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        public static void UpdateDealerBoard()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth - 1; i++)
-            {
-                cardArray[i] = new string(' ', _cardWidth);
-            }
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
-            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-            {
-                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
-                Console.Write(cardArray[yPosition]);
-            }
+            //Graphics.PrintASingleCard();
+            Utilities.LogDealerInfo();
+            Graphics.PrintLog();
+        }
+        public static void UpdateBoard()
+        {
+            //Graphics.PrintSinglePlayerCards(player);
+            //Graphics.PrintASingleCard(player.Hands[0]);
+            Graphics.PrintLog();
         }
     }
 }
