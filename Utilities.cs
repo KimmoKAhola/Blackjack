@@ -2,6 +2,8 @@
 {
     public static class Utilities
     {
+        private static ConsoleColor _cachedForegroundColor = ConsoleColor.White;
+        private static ConsoleColor _cachedBackgroundColor = ConsoleColor.White;
         public static List<string> log = new List<string>()
         {
             "",
@@ -70,8 +72,7 @@
 
         public static void DisplayGameSummary(List<Player> players)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            SetConsoleColors("B", "G");
             Console.SetCursorPosition(65, 20);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
@@ -110,14 +111,13 @@
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
         }
 
         public static void PromptPlayer(Player player)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            SetConsoleColors("B", "G");
+
             Console.SetCursorPosition(65, 30);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
@@ -128,14 +128,14 @@
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
+
         }
 
         public static void ErasePrompt()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
+
             Console.SetCursorPosition(65, 30);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
@@ -146,13 +146,12 @@
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
         }
         public static void PromptPlayerSplit(Player player)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            SetConsoleColors("B", "G");
+
             Console.SetCursorPosition(65, 30);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
@@ -163,8 +162,7 @@
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
         }
 
         public static void SavePlayerAction(Player player, Hand hand)
@@ -226,6 +224,49 @@
 
             log.Add(handInfo);
             //FileManager.SaveHandInfo(handInfo);
+        }
+        public static void SetConsoleColors(string foreground, string background)
+        {
+            if (foreground.ToUpper() == "SETCACHED")
+                _cachedForegroundColor = Console.ForegroundColor;
+            else if (foreground.ToUpper() == "GETCACHED")
+                Console.ForegroundColor = _cachedForegroundColor;
+
+            else if (foreground.ToUpper() == "W")
+                Console.ForegroundColor = ConsoleColor.White;
+            else if (foreground.ToUpper() == "B")
+                Console.ForegroundColor = ConsoleColor.Black;
+            else if (foreground.ToUpper() == "G")
+                Console.ForegroundColor = ConsoleColor.Gray;
+            else if (foreground.ToUpper() == "Y")
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else if (foreground.ToUpper() == "DR")
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            else if (foreground.ToUpper() == "DB")
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+            else if (foreground.ToUpper() == "DG")
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            if (background.ToUpper() == "SETCACHED")
+                _cachedBackgroundColor = Console.BackgroundColor;
+            else if (background.ToUpper() == "GETCACHED")
+                Console.BackgroundColor = _cachedBackgroundColor;
+
+            else if (background.ToUpper() == "W")
+                Console.BackgroundColor = ConsoleColor.White;
+            else if (background.ToUpper() == "B")
+                Console.BackgroundColor = ConsoleColor.Black;
+            else if (background.ToUpper() == "G")
+                Console.BackgroundColor = ConsoleColor.Gray;
+            else if (background.ToUpper() == "Y")
+                Console.BackgroundColor = ConsoleColor.Yellow;
+            else if (background.ToUpper() == "DR")
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+            else if (background.ToUpper() == "DB")
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+            else if (background.ToUpper() == "DG")
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+
         }
     }
 }

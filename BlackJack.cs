@@ -40,8 +40,7 @@
 
         private static void GetPlayerBets(List<Player> players)
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Utilities.SetConsoleColors("Y", "DG");
 
             foreach (var player in players)
             {
@@ -74,7 +73,7 @@
             }
             Console.SetCursorPosition(80, 30);
             Console.Write($"                                           ");
-            Console.ForegroundColor = ConsoleColor.White;
+            Utilities.SetConsoleColors("W", "");
         }
 
         private static void InitializeNewGame(List<Player> players)
@@ -99,6 +98,8 @@
 
         private static void ShowDebugWallets(List<Player> players)
         {
+            Utilities.SetConsoleColors("SETCACHED", "SETCACHED");
+
             Console.ResetColor();
             int cachedX = Console.CursorLeft;
             int cachedY = Console.CursorTop;
@@ -112,6 +113,7 @@
             }
 
             Console.SetCursorPosition(cachedX, cachedY);
+            Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
         }
 
         private static void GameSetup(List<Player> players)
