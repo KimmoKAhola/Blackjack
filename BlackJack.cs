@@ -3,11 +3,10 @@
     public class BlackJack
     {
         private static int _gameId = 0;
-        public int GameId { get { return _gameId; } }
-        public void RunGame(List<Player> players) //skicka in en lista med spelare sen
+        public static int GameId { get { return _gameId; } }
+        public void RunGame(List<Player> players) 
         {
             InitializeNewGame(players);
-            //Console.CursorVisible = true;
             FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
             GameSetup(players);
@@ -120,14 +119,13 @@
         private static void GameSetup(List<Player> players)
         {
             Thread.Sleep(1500);
-            Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
+            Graphics.AnimateDeckShuffle(Deck.AllCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
             ShowDebugWallets(players);
             GetPlayerBets(players);
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
         }
     }
 }

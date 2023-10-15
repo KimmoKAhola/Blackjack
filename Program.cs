@@ -11,6 +11,8 @@
             FileManager.CreateFile();
 
             BlackJack blackjack = new();
+            //Graphics.PrintBoard();
+
 
             blackjack.RunGame(Utilities.GetPlayers());
         }
