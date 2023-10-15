@@ -170,7 +170,7 @@
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _playerTwoRegion._yPosition - startingYPosition; //TODO needs some fine tuning.
-
+            Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -203,6 +203,7 @@
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition - _cardHeight;
 
+            Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -239,6 +240,7 @@
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -280,6 +282,7 @@
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
