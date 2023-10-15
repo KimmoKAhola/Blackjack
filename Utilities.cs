@@ -218,9 +218,9 @@
         }
         public static void LogDealerInfo()
         {
-            string cardSymbol = Dealer.Instance.Hands[0].Cards.Last().CardSymbol;
-            string lastCard = Dealer.Instance.Hands[0].Cards.Last().Title;
-            int cardSum = Dealer.Instance.Hands[0].HandSum();
+            string cardSymbol = Dealer.Instance.Hand.Cards.Last().CardSymbol;
+            string lastCard = Dealer.Instance.Hand.Cards.Last().Title;
+            int cardSum = Dealer.Instance.Hand.HandSum();
 
             string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
 
