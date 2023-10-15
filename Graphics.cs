@@ -153,8 +153,8 @@
         /// <returns></returns>
         public static (double[] x, double[] y) ScalingVectors()
         {
-            double cardHeight = 6;
-            double cardWidth = 7;
+            double cardHeight = _cardHeight;
+            double cardWidth = _cardWidth;
 
             double stepsInXDirection = (windowWidth + cardWidth / 2) / cardWidth * 2;
             double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
@@ -178,8 +178,7 @@
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _playerTwoRegion._yPosition - startingYPosition; //TODO needs some fine tuning.
-            //int startingXPosition = _cardAnimationStartingPosition._animationStartingXPosition;
-            //int startingYPosition = _cardAnimationStartingPosition._animationStartingYPosition;
+
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -193,7 +192,7 @@
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
-                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
                     Console.Write(cardArray[yPosition]);
                 }
                 int oldTopCursorPosition = Console.CursorTop - _cardHeight;
@@ -211,6 +210,7 @@
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition-_cardHeight;
+
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -224,7 +224,7 @@
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 for (int yPosition = _cardHeight - 1; yPosition >= 0; yPosition--)
                 {
-                    Console.SetCursorPosition(startingXPosition, Console.CursorTop - 1); // start with a cursorposition at 25
+                    Console.SetCursorPosition(startingXPosition, Console.CursorTop - 1);
                     Console.Write(cardArray[yPosition]);
                 }
                 int oldTopCursorPosition = Console.CursorTop + _cardHeight;
@@ -242,13 +242,10 @@
         }
         public static void AnimateACardFromRightToLeft(Card card)
         {
-            //int startingXPosition = 80; // Hard coded values
-            //int startingYPosition = 18;
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _cardAnimationStartingPosition._animationStartingXPosition - _playerThreeRegion._xPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
-            //Create a card array with blue strings. No graphic is needed.
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -263,7 +260,7 @@
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
                     if (yPosition < _cardWidth - 1)
                     {
-                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
                         Console.Write(cardArray[yPosition]);
                     }
                     else
@@ -279,22 +276,17 @@
                         }
                     }
                 }
-
                 Console.SetCursorPosition(startingXPosition--, startingYPosition);
-
                 Thread.Sleep(_horizontalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void AnimateACardFromLeftToRight(Card card)
         {
-            //int startingXPosition = 100; // Hard coded values
-            //int startingYPosition = 18;
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
             int distance = _playerOneRegion._xPosition - startingXPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
-            //Create a card array with blue strings. No graphic is needed.
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -309,28 +301,25 @@
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
                     if (yPosition < _cardWidth - 1)
                     {
-                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1); // start with a cursorposition at 25
+                        Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
                         Console.Write(cardArray[yPosition]);
                     }
                     else
                     {
                         if (i != 0)
                         {
-                            int oldX = startingXPosition - 1;
-                            //int updY = 
+                            int oldXPosition = startingXPosition - 1;
                             for (int j = 0; j < _cardHeight; j++)
                             {
                                 Console.BackgroundColor = ConsoleColor.DarkGreen;
-                                Console.SetCursorPosition(oldX, Console.CursorTop);
+                                Console.SetCursorPosition(oldXPosition, Console.CursorTop);
                                 Console.Write(" ");
-                                Console.SetCursorPosition(oldX, Console.CursorTop - 1);
+                                Console.SetCursorPosition(oldXPosition, Console.CursorTop - 1);
                             }
                         }
                     }
                 }
-
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
-
                 Thread.Sleep(_horizontalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -396,7 +385,6 @@
             //y = 18 for rough middle position
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
-            //Create a card array with blue strings. No graphic is needed.
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -409,7 +397,7 @@
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
-                    Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
+                    Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
                     Console.Write(cardArray[yPosition]);
                 }
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
@@ -418,9 +406,7 @@
         }
         public static void AnimateCardsInAllDirections(Card card, int numberOfCardsDealt, List<Player> players)
         {
-            //Loopa igenom alla
-            //om bet > 0
-            //ge x antal kort till den spelaren
+            //This method is now tied to the card dealing methods.
 
             for (int i = 0; i < numberOfCardsDealt; i++)
             {

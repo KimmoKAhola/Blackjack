@@ -116,6 +116,24 @@
         public static void DealCard(Participant participant)
         {
             participant.Hand.Add(cards[0]);
+            if (participant is Player)
+            {
+                var temp = (Player)participant;
+
+                switch (temp.PlayerNumber)
+                {
+                    case 1:
+                        Graphics.AnimateACardFromLeftToRight(temp.Hand.Last());
+                        break;
+                    case 2:
+                        Graphics.AnimateACardFromTopToBottom(temp.Hand.Last());
+                        break;
+                    case 3:
+                        Graphics.AnimateACardFromRightToLeft(temp.Hand.Last());
+                        break;
+                }
+            }
+            //Graphics.AnimateACardFromBottomToTop(Dealer.Instance.Hand.Last());
             cards.RemoveAt(0);
         }
 
