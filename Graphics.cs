@@ -177,7 +177,7 @@
         public static void AnimateACardFromTopToBottom(Card card)
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = startingXPosition - _playerOneRegion._xPosition; //TODO needs some fine tuning.
+            int distance = _playerTwoRegion._yPosition - startingYPosition; //TODO needs some fine tuning.
             //int startingXPosition = _cardAnimationStartingPosition._animationStartingXPosition;
             //int startingYPosition = _cardAnimationStartingPosition._animationStartingYPosition;
             string[] cardArray = new string[6];
@@ -542,7 +542,7 @@
             EraseAPrintedCard(124, 18);
             EraseAPrintedCard(125, 18);
             int numberOfCardsInStack = 8;
-            PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition-_cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
+            PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
         public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
