@@ -84,17 +84,19 @@
                     switch (temp.PlayerNumber)
                     {
                         case 1:
-
+                            Graphics.AnimateACardFromLeftToRight(temp.Hand.Last());
                             break;
                         case 2:
                             Graphics.AnimateACardFromTopToBottom(temp.Hand.Last());
                             break;
                         case 3:
+                            Graphics.AnimateACardFromRightToLeft(temp.Hand.Last());
                             break;
                     }
                     firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
                 }
                 DealCard(Dealer.Instance);
+                Graphics.AnimateACardFromBottomToTop(Dealer.Instance.Hand.Last());
                 firstDealInfo += $"The dealer was dealt a [{Dealer.Instance.Hand.Last().Title}{Dealer.Instance.Hand.Last().CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);

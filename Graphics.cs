@@ -210,7 +210,7 @@
         public static void AnimateACardFromBottomToTop(Card card)
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = startingYPosition - _playerTwoRegion._yPosition;
+            int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition-_cardHeight;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -245,7 +245,7 @@
             //int startingXPosition = 80; // Hard coded values
             //int startingYPosition = 18;
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _playerThreeRegion._xPosition;
+            int distance = _cardAnimationStartingPosition._animationStartingXPosition - _playerThreeRegion._xPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -291,7 +291,7 @@
             //int startingXPosition = 100; // Hard coded values
             //int startingYPosition = 18;
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = startingXPosition - _playerOneRegion._xPosition;
+            int distance = _playerOneRegion._xPosition - startingXPosition;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             //Create a card array with blue strings. No graphic is needed.
@@ -532,9 +532,9 @@
             while (co > 0)
             {
                 //AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
-                AnimateACardFromLeftToRight(card);
+                //AnimateACardFromLeftToRight(card);
                 //AnimateACardFromRightToLeft(card, 110, 18, 15, _shuffleAnimationSpeed);
-                AnimateACardFromRightToLeft(card);
+                //AnimateACardFromRightToLeft(card);
                 co--;
             }
             EraseAPrintedCard(77, 18);
