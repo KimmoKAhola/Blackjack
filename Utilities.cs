@@ -74,22 +74,25 @@
                 int outcomePadding = 10;
                 int betPadding = 15;
                 int walletPadding = 15;
-                string paddedName = GetPadding(player.Name, namePadding);
-                string outcome = GetPadding($"[{Enum.GetName(player.GameState)}]", outcomePadding);
-                string wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
+                foreach (var hand in player.Hands)
+                {
+                    string paddedName = GetPadding(player.Name, namePadding);
+                    string outcome = GetPadding($"[{Enum.GetName(hand.HandState)}]", outcomePadding);
+                    string wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
 
-                string betResult;
-                if (player.GameState == GameState.BLACKJACK)
-                    betResult = $"+{(player.Bet * 2).ToString("C2")}";
-                else if (player.GameState == GameState.WIN)
-                    betResult = $"+{player.Bet.ToString("C2")}";
-                else
-                    betResult = $"-{player.Bet.ToString("C2")}";
+                    string betResult;
+                    if (hand.HandState == HandState.BLACKJACK)
+                        betResult = $"+{(hand.Bet * 2).ToString("C2")}";
+                    else if (hand.HandState == HandState.WIN)
+                        betResult = $"+{hand.Bet.ToString("C2")}";
+                    else
+                        betResult = $"-{hand.Bet.ToString("C2")}";
 
-                betResult = GetPadding(betResult, betPadding);
+                    betResult = GetPadding(betResult, betPadding);
 
 
-                Console.Write($"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │");
+                    Console.Write($"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │");
+                }
             }
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"│                               PLAY AGAIN?                             │");
@@ -137,17 +140,17 @@
             Console.ForegroundColor = ConsoleColor.DarkGreen;
         }
 
-        public static void SavePlayerAction(Player player)
+        public static void SavePlayerAction(Player player, Hand hand)
         {
-            string cardSymbol = player.Hand.Last().CardSymbol;
-            string lastCard = player.Hand.Last().Title;
-            int cardSum = player.HandSum();
+            string cardSymbol = hand.Cards.Last().CardSymbol;
+            string lastCard = hand.Cards.Last().Title;
+            int cardSum = hand.HandSum();
             string playerName = player.Name.ToUpper();
 
             string completePlayerHand = $"";
-            for (int playerHandIndex = 0; playerHandIndex < player.Hand.Count; playerHandIndex++)
+            for (int playerHandIndex = 0; playerHandIndex < hand.Cards.Count; playerHandIndex++)
             {
-                completePlayerHand += player.Hand[playerHandIndex].Title + player.Hand[playerHandIndex].CardSymbol + ", ";
+                completePlayerHand += hand.Cards[playerHandIndex].Title + hand.Cards[playerHandIndex].CardSymbol + ", ";
             }
             completePlayerHand = "[" + completePlayerHand.TrimEnd(',', ' ') + "]";
 
@@ -161,11 +164,11 @@
             }
             if (player.LatestAction == PlayerAction.STAND)
             {
-                completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + player.HandSum() + "]";
+                completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
             if (player.LatestAction == PlayerAction.BUST)
             {
-                completePlayerHand = PlayerAction.BUST.ToString() + " - SUM [" + player.HandSum() + "]";
+                completePlayerHand = PlayerAction.BUST.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
             FileManager.SaveHandInfo(completePlayerHand);
         }

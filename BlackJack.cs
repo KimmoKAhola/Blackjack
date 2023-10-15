@@ -1,6 +1,4 @@
-﻿using System.Media;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public class BlackJack
     {
@@ -58,7 +56,6 @@ namespace Blackjack
                 Console.SetCursorPosition(80, 32);
                 Console.Write($"                                ");
 
-
                 while (true)
                 {
                     Console.SetCursorPosition(80, 31);
@@ -67,8 +64,8 @@ namespace Blackjack
                     {
                         if (bet <= player.Wallet)
                         {
-                            player.Bet = bet;
-                            player.Wallet -= player.Bet;
+                            player.Hands[0].Bet = bet;
+                            player.Wallet -= player.Hands[0].Bet;
                             Console.SetCursorPosition(80, 31);
                             Console.Write($"                                      ");
                             break;
@@ -90,10 +87,14 @@ namespace Blackjack
             int gameId = _gameId++;
             foreach (Player player in players)
             {
-                player.Hand.Clear();
+                player.Hands[0].Cards.Clear();
                 if (player.Wallet == 0)
                 {
                     // Fix error handling here.
+                }
+                if (player.Hands.Count < 1)
+                {
+                    player.Hands.RemoveAt(1);
                 }
             }
             Console.Clear();
@@ -109,7 +110,7 @@ namespace Blackjack
             foreach (Player player in players)
             {
                 Console.SetCursorPosition(1, line);
-                Console.Write($"{player.Name}: Bet:{player.Bet} Wallet:{player.Wallet}");
+                Console.Write($"{player.Name}: Bet:{player.Hands[0].Bet} Wallet:{player.Wallet}");
                 line++;
             }
 
@@ -127,17 +128,6 @@ namespace Blackjack
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);
             Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
-        }
-
-        public static void FunMethod()
-        {
-            string soundFilePath = "../../../Files/KACHING.WAV";
-            if (OperatingSystem.IsWindows())
-            {
-                SoundPlayer soundPlayer = new SoundPlayer(soundFilePath);
-                soundPlayer.Load();
-                soundPlayer.Play();
-            }
         }
     }
 }

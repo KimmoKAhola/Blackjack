@@ -8,28 +8,26 @@
             Name = name;
             PlayerNumber = _playerCounter++;
             Wallet = buyIn;
-            GameState = GameState.UNDECIDED;
-            Bet = 0;
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
-        public int Bet { get; set; }
-        public GameState GameState { get; set; }
-
         public void UpdateWallet()
         {
-            if (GameState == GameState.BLACKJACK)
+            foreach (var hand in Hands)
             {
-                Wallet += Bet * 3;
-            }
-            else if (GameState == GameState.WIN)
-            {
-                Wallet += Bet * 2;
-            }
+                if (hand.HandState == HandState.BLACKJACK)
+                {
+                    Wallet += hand.Bet * 3;
+                }
+                else if (hand.HandState == HandState.WIN)
+                {
+                    Wallet += hand.Bet * 2;
+                }
 
-            FileManager.SavePlayerWallet($"{Name}, {GameState}, WALLET: {Wallet}");
+                FileManager.SavePlayerWallet($"{Name}, {hand.HandState}, WALLET: {Wallet}");
+            }
         }
     }
 }

@@ -359,9 +359,9 @@
         }
         public static void LogDealerInfo()
         {
-            string cardSymbol = Dealer.Instance.Hand.Last().CardSymbol;
-            string lastCard = Dealer.Instance.Hand.Last().Title;
-            int cardSum = Dealer.Instance.HandSum();
+            string cardSymbol = Dealer.Instance.Hands[0].Cards.Last().CardSymbol;
+            string lastCard = Dealer.Instance.Hands[0].Cards.Last().Title;
+            int cardSum = Dealer.Instance.Hands[0].HandSum();
 
             string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
 
@@ -416,7 +416,7 @@
             {
                 foreach (Player player in players)
                 {
-                    if (player.Bet > 0)
+                    if (player.Hands[0].Bet > 0)
                     {
                         if (player.PlayerNumber == 1)
                             AnimateACardFromLeftToRight(card, 111 - _cardWidth / 2 * i, 18, 75, _horizontalAnimationSpeed); //Player 1
@@ -432,7 +432,7 @@
             int tempCursorPositionX = Console.CursorLeft + (int)(_cardWidth);
             int tempCursorPositionY = Console.CursorTop - _cardHeight;
             Console.SetCursorPosition(tempCursorPositionX, tempCursorPositionY);
-            PrintASingleCard(Dealer.Instance.Hand[1]); //TODO This should be the dealers second card
+            PrintASingleCard(Dealer.Instance.Hands[0].Cards[1]); //TODO This should be the dealers second card
             Thread.Sleep(500);
             for (int i = 0; i < numberOfCardsDealt; i++)
             {
@@ -491,7 +491,7 @@
                 startXPos = _dealerRegion._xPosition - 10;
                 startYPos = _dealerRegion._yPosition + 1 + _cardHeight;
 
-                string dealerHeader = $"Dealer's hand: {participant.HandSum()}";
+                string dealerHeader = $"Dealer's hand: {participant.Hands[0].HandSum()}";
                 string greenString = new(' ', dealerHeader.Length);
 
                 Console.SetCursorPosition(startXPos, startYPos);
