@@ -78,25 +78,16 @@
             {
                 for (int j = 0; j < participants.Count; j++)
                 {
-                    DealCard(participants[j]);
-                    var temp = (Player)participants[j];
-                    switch (temp.PlayerNumber)
-                    {
-                        case 1:
-                            Graphics.AnimateACardFromLeftToRight(temp.Hand.Last());
-                            break;
-                        case 2:
-                            Graphics.AnimateACardFromTopToBottom(temp.Hand.Last());
-                            break;
-                        case 3:
-                            Graphics.AnimateACardFromRightToLeft(temp.Hand.Last());
-                            break;
-                    }
-                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
+                    DealCard(participants[j].Hands[0], participants[j]);
+
+                    Card latestCard = participants[j].Hands[0].Cards.Last();
+                    firstDealInfo += $"{participants[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
                 }
-                DealCard(Dealer.Instance);
-                Graphics.AnimateACardFromBottomToTop(Dealer.Instance.Hand.Last());
-                firstDealInfo += $"The dealer was dealt a [{Dealer.Instance.Hand.Last().Title}{Dealer.Instance.Hand.Last().CardSymbol}]\n";
+                DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
+                Graphics.AnimateACardFromBottomToTop(Dealer.Instance.Hands[0].Cards.Last());
+
+                Card dealersLatestCard = Dealer.Instance.Hands[0].Cards.Last();
+                firstDealInfo += $"The dealer was dealt a [{dealersLatestCard.Title}{dealersLatestCard.CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
         }
@@ -112,9 +103,9 @@
                 (cards[j], cards[i]) = (cards[i], cards[j]);
             }
         }
-        public static void DealCard(Hand hand)
+        public static void DealCard(Hand hand, Participant participant)
         {
-            participant.Hand.Add(cards[0]);
+            hand.Cards.Add(cards[0]);
             if (participant is Player)
             {
                 var temp = (Player)participant;
@@ -122,13 +113,13 @@
                 switch (temp.PlayerNumber)
                 {
                     case 1:
-                        Graphics.AnimateACardFromLeftToRight(temp.Hand.Last());
+                        Graphics.AnimateACardFromLeftToRight(hand.Cards.Last());
                         break;
                     case 2:
-                        Graphics.AnimateACardFromTopToBottom(temp.Hand.Last());
+                        Graphics.AnimateACardFromTopToBottom(hand.Cards.Last());
                         break;
                     case 3:
-                        Graphics.AnimateACardFromRightToLeft(temp.Hand.Last());
+                        Graphics.AnimateACardFromRightToLeft(hand.Cards.Last());
                         break;
                 }
             }
