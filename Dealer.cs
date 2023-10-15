@@ -13,6 +13,8 @@
 
         }
 
+        public Hand Hand { get { return Hands[0]; } set { Hands[0] = value; } }
+
         public static Dealer Instance
         {
             get
