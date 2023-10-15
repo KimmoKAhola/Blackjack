@@ -10,7 +10,8 @@
                 {
                     Utilities.SavePlayerAction(player, hand); //first deal
                     Graphics.PrintPlayerTitleAndSum(player);
-                    //Removed UpdateBoard() from here and let it stay in BlackJack.RunGame(), may need to be put back?
+                    Graphics.UpdateBoard(player);
+                    Utilities.LogPlayerInfo(player, hand);
 
                     if (CheckForBlackJack(hand))
                     {
@@ -43,7 +44,7 @@
                         break;
                     }
 
-                    Deck.DealCard(hand);
+                    Deck.DealCard(hand, player);
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.SavePlayerAction(player, hand);
                 }
@@ -134,10 +135,10 @@
         {
             while (Dealer.Instance.Hands[0].HandSum() < 17)
             {
-                Deck.DealCard(Dealer.Instance.Hands[0]);
+                Deck.DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
                 Dealer.Instance.LatestAction = PlayerAction.HIT;
 
-                Graphics.UpdateBoard();
+                Graphics.UpdateDealerBoard();
                 Thread.Sleep(1000);
             }
             Dealer.Instance.LatestAction = PlayerAction.STAND;
