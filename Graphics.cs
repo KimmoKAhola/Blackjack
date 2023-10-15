@@ -21,17 +21,17 @@
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0], (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
-
-        public static void AnimateACardFromBottomToTop(Card card)
+        public static void AnimateACardFromBottomToTop(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
+            (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
+            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
             int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition - _cardHeight;
 
             Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards.Last().CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
             string greenString = new(' ', _cardWidth);
 
@@ -56,6 +56,9 @@
                 Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
+            PrintASingleCard(hand.Cards.Last());
         }
         public static void AnimateACardFromLeftToRight(Hand hand)
         {
@@ -190,12 +193,10 @@
         }
         public static void AnimateDeckShuffle(Card card)
         {
-            Thread.Sleep(2000);
             PrintAStackOfCards(card, 77, 18, 2);
             PrintAStackOfCards(card, 124, 18, 2);
-            Thread.Sleep(2000);
 
-            int co = 10; // 10
+            int co = 10;
             while (co > 0)
             {
                 //AnimateACardFromLeftToRight(card, 80, 18, 15, _shuffleAnimationSpeed);
@@ -204,11 +205,8 @@
                 //AnimateACardFromRightToLeft(card);
                 co--;
             }
-            EraseAPrintedCard(77, 18);
-            EraseAPrintedCard(78, 18);
-            EraseAPrintedCard(124, 18);
-            EraseAPrintedCard(125, 18);
-            int numberOfCardsInStack = 8;
+            
+            int numberOfCardsInStack = 3; // 8 is standard
             PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
@@ -246,8 +244,6 @@
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
-            //x = 100 for rough middle.
-            //y = 18 for rough middle position
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -285,12 +281,12 @@
         }
         public static void PrintLog()
         {
-            var vectors = ScalingVectors();
+            var (x, y) = ScalingVectors();
             int startPosX = 1;
             int startPosY = 1;
-            Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
+            Console.SetCursorPosition((int)x[startPosX], (int)y[startPosY]);
             int cursorLeft = Console.CursorLeft;
-            int lastInTheList = Utilities.log.Count() - 1;
+            int lastInTheList = Utilities.log.Count - 1;
 
             Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
@@ -312,7 +308,6 @@
             double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.Hands[0].HandSum());
             if (participant is Player)
             {
-                //20
                 Player player = (Player)participant;
                 switch (player.PlayerNumber)
                 {
@@ -325,7 +320,7 @@
                         startYPos = _playerTwoRegion._yPosition - 2;
                         break;
                     case 3:
-                        startXPos = _playerThreeRegion._xPosition - 7;
+                        startXPos = _playerThreeRegion._xPosition + 1;
                         startYPos = _playerThreeRegion._yPosition - 2;
                         break;
 
@@ -389,14 +384,11 @@
         }
         public static void UpdateDealerBoard()
         {
-            //Graphics.PrintASingleCard();
             Utilities.LogDealerInfo();
             Graphics.PrintLog();
         }
         public static void UpdateBoard()
         {
-            //Graphics.PrintSinglePlayerCards(player);
-            //Graphics.PrintASingleCard(player.Hands[0]);
             Graphics.PrintLog();
         }
     }
