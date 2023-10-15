@@ -10,7 +10,7 @@
                 {
                     Utilities.SavePlayerAction(player, hand); //first deal
                     Graphics.PrintPlayerTitleAndSum(player);
-                    Graphics.UpdateBoard(players, player);
+                    Graphics.UpdateBoard(player);
                     Utilities.LogPlayerInfo(player, hand);
 
                     if (CheckForBlackJack(hand))
@@ -44,7 +44,7 @@
                         break;
                     }
 
-                    Deck.DealCard(hand);
+                    Deck.DealCard(hand, player);
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.SavePlayerAction(player, hand);
                 }
@@ -135,7 +135,7 @@
         {
             while (Dealer.Instance.Hands[0].HandSum() < 17)
             {
-                Deck.DealCard(Dealer.Instance.Hands[0]);
+                Deck.DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
                 Dealer.Instance.LatestAction = PlayerAction.HIT;
 
                 Graphics.UpdateDealerBoard();
