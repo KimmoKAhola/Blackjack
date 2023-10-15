@@ -16,8 +16,8 @@
         private readonly static int _cardFlipDelay = 500;
         private static (int _animationStartingXPosition, int _animationStartingYPosition) _cardAnimationStartingPosition = (101, 18);
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
-        private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
-        private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
+        private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[^1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
+        private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[^1]);
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0], (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
@@ -193,8 +193,8 @@
         }
         public static void AnimateDeckShuffle(Card card)
         {
-            PrintAStackOfCards(card, 77, 18, 2);
-            PrintAStackOfCards(card, 124, 18, 2);
+            //PrintAStackOfCards(card, 77, 18, 2);
+            //PrintAStackOfCards(card, 124, 18, 2);
 
             int co = 10;
             while (co > 0)
