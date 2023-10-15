@@ -5,11 +5,10 @@ namespace Blackjack
     public class BlackJack
     {
         private static int _gameId = 0;
-        public int GameId { get { return _gameId; } }
-        public void RunGame(List<Player> players) //skicka in en lista med spelare sen
+        public static int GameId { get { return _gameId; } }
+        public void RunGame(List<Player> players) 
         {
             InitializeNewGame(players);
-            //Console.CursorVisible = true;
             FileManager.SaveStartTimeStamp(GameId);
             Graphics.PrintBoard();
             GameSetup(players);
@@ -60,7 +59,6 @@ namespace Blackjack
                 first++;
             }
 
-            //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
             Graphics.UpdateBoard();
             //Dramatic pause
@@ -165,7 +163,6 @@ namespace Blackjack
             GetPlayerBets(players);
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);
-            //Graphics.AnimateCardsInAllDirections(Deck.AllCards[0], 2, players);
         }
 
         public static void FunMethod()
