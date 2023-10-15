@@ -8,8 +8,8 @@
     {
         static int _consoleWindowWidth = Console.LargestWindowWidth;
         static int _consoleWindowHeigth = Console.LargestWindowHeight;
-        private readonly static int _windowWidth = _consoleWindowWidth-5;
-        private readonly static int _windowHeight = _consoleWindowHeigth-5;
+        private readonly static int _windowWidth = _consoleWindowWidth - 5;
+        private readonly static int _windowHeight = _consoleWindowHeigth - 5;
 
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
@@ -265,7 +265,7 @@
             char line = '─';
             string playingBoard = "╭" + new string(line, _windowWidth) + "╮";
             char playingBoardBorder = '│';
-            for (int i = 0; i < windowHeight; i++)
+            for (int i = 0; i < _windowHeight; i++)
             {
                 playingBoard += "\n" + playingBoardBorder + new string(' ', _windowWidth) + playingBoardBorder;
             }
@@ -358,7 +358,7 @@
             double cardWidth = _cardWidth;
 
             double stepsInXDirection = (_windowWidth + cardWidth / 2) / cardWidth * 2;
-            double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
+            double stepsInYDirection = (_windowHeight - cardHeight / 2) / cardHeight * 2;
 
             double[] vectorXValues = new double[(int)stepsInXDirection];
             double[] vectorYValues = new double[(int)stepsInYDirection];
@@ -383,6 +383,33 @@
         public static void UpdateBoard()
         {
             Graphics.PrintLog();
+        }
+
+        public static void PrintASplitHand(List<Hand> hands)
+        {
+            for (int handIndex = 0; handIndex < hands.Count; handIndex++)
+            {
+
+                for (int cardIndex = 0; cardIndex < hands[handIndex].Cards.Count; cardIndex++)
+                {
+                    
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = hands[handIndex].Cards[cardIndex].IsRed ? ConsoleColor.Red : ConsoleColor.Black;
+                    string[] cardArray = new string[6];
+                    for (int i = 0; i < _cardWidth - 1; i++)
+                    {
+                        cardArray[i] = hands[handIndex].Cards[cardIndex].CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                    }
+                    Console.SetCursorPosition(hands[handIndex].Cards[cardIndex].LatestCardPosition.LatestXPosition, hands[handIndex].Cards[cardIndex].LatestCardPosition.LatestYPosition + _cardHeight + 1);
+                    for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+                    {
+                        Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                        Console.Write(cardArray[yPosition]);
+                    }
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+
+                }
+            }
         }
     }
 }
