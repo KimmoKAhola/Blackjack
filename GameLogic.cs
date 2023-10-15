@@ -2,6 +2,14 @@
 {
     public static class GameLogic
     {
+        public static bool CheckForDealerBlackJack()
+        {
+            if (Dealer.Instance.Hand.HandSum() == 21)
+            {
+                return true;
+            }
+            return false;
+        }
         public static void PlayersTurn(Player player)
         {
             foreach (var hand in player.Hands)
@@ -9,6 +17,10 @@
                 while (true)
                 {
                     //Utilities.SavePlayerAction(player, hand); //first deal
+                    if (CheckForDealerBlackJack())
+                    {
+                        break;
+                    }
                     Graphics.PrintPlayerTitleAndSum(player);
                     Graphics.UpdateBoard(player);
                     Utilities.LogPlayerInfo(player, hand);
