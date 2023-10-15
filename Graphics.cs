@@ -166,15 +166,15 @@
 
             return (vectorXValues, vectorYValues);
         }
-        public static void AnimateACardFromTopToBottom(Card card)
+        public static void AnimateACardFromTopToBottom(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _playerTwoRegion._yPosition - startingYPosition; //TODO needs some fine tuning.
+            (int startingXPosition, int startingYPosition) = hand.Cards[0].LatestCardPosition;
+            int distance = _playerTwoRegion._yPosition - startingYPosition; 
             Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
             string greenString = new(' ', _cardWidth);
 
@@ -197,6 +197,8 @@
                 Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+            hand.Cards[0].LatestCardPosition = (hand.Cards[0].LatestCardPosition.LatestXPosition + _cardWidth / 2, hand.Cards[0].LatestCardPosition.LatestYPosition);
+            Thread.Sleep(2000);
         }
         public static void AnimateACardFromBottomToTop(Card card)
         {
@@ -275,10 +277,11 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void AnimateACardFromLeftToRight(Card card)
+        public static void AnimateACardFromLeftToRight(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _playerOneRegion._xPosition - startingXPosition;
+            (int startingXPosition, int startingYPosition) = hand.Cards[0].LatestCardPosition;
+
+            int distance = _playerOneRegion._xPosition - startingXPosition-(hand.Cards.Count * _cardWidth/2);
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -286,7 +289,7 @@
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
 
             for (int i = 0; i < distance; i++)

@@ -13,8 +13,7 @@
             BlackJack blackjack = new();
             //Graphics.PrintBoard();
 
-
-            blackjack.RunGame(Utilities.GetPlayers());
+           blackjack.RunGame(Utilities.GetPlayers());
         }
     }
 }
