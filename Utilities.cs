@@ -2,6 +2,15 @@
 {
     public static class Utilities
     {
+        public static List<string> log = new List<string>()
+        {
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        };
         public static List<Player> GetPlayers()
         {
             List<Player> players = new();
@@ -178,6 +187,27 @@
             string temp = "FIRST DEAL TEMP FIX LATER";
 
             FileManager.SaveHandInfo(temp);
+        }
+        public static void LogPlayerInfo(Player player, Hand currentHand)
+        {
+            string cardSymbol = currentHand.Cards.Last().CardSymbol;
+            string lastCard = currentHand.Cards.Last().Title;
+            int cardSum = currentHand.HandSum();
+            string playerName = player.Name.ToUpper();
+
+            string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
+            log.Add(handInfo);
+        }
+        public static void LogDealerInfo()
+        {
+            string cardSymbol = Dealer.Instance.Hands[0].Cards.Last().CardSymbol;
+            string lastCard = Dealer.Instance.Hands[0].Cards.Last().Title;
+            int cardSum = Dealer.Instance.Hands[0].HandSum();
+
+            string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
+
+            log.Add(handInfo);
+            //FileManager.SaveHandInfo(handInfo);
         }
     }
 }

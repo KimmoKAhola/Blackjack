@@ -19,15 +19,7 @@
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[vectors._y.Length - 1]);
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0] + _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
-        private static List<string> _log = new List<string>()
-        {
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        };
+
 
         /// <summary>
         /// Prints out a square with rounded corners.
@@ -89,7 +81,7 @@
                 Player player = (Player)participant;
                 playerRegion = player.PlayerNumber;
             }
-            List<Card> listOfCards = participant.Hand;
+            List<Card> listOfCards = participant.Hands[0].Cards;
             int startPosX, startPosY;
 
             //This switch case decides where to print the cards. The region values are hard coded in a switch case.
@@ -101,11 +93,11 @@
                     startPosY = _dealerRegion._yPosition;
                     break;
                 case 1: //player one on the right side
-                    startPosX = _playerOneRegion._xPosition - participant.Hand.Count;
+                    startPosX = _playerOneRegion._xPosition - participant.Hands[0].Cards.Count;
                     startPosY = _playerOneRegion._yPosition;
                     break;
                 case 2: // player two on the bottom
-                    startPosX = _playerTwoRegion._xPosition - participant.Hand.Count / 2;
+                    startPosX = _playerTwoRegion._xPosition - participant.Hands[0].Cards.Count / 2;
                     startPosY = _playerTwoRegion._yPosition;
                     break;
                 case 3: // player three on the left side
@@ -114,7 +106,7 @@
                     break;
                 default:
                     //TODO fix error handling later.
-                    startPosX = vectors.x.Length / 2 - participant.Hand.Count / 2;
+                    startPosX = vectors.x.Length / 2 - participant.Hands[0].Cards.Count / 2;
                     startPosY = 5;
                     break;
             }
@@ -209,7 +201,7 @@
         public static void AnimateACardFromBottomToTop(Card card)
         {
             (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
-            int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition-_cardHeight;
+            int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition - _cardHeight;
 
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -324,60 +316,39 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        public static void UpdateLog()
+        public static void PrintLog()
         {
             var vectors = ScalingVectors();
             int startPosX = 1;
             int startPosY = 1;
             Console.SetCursorPosition((int)vectors.x[startPosX], (int)vectors.y[startPosY]);
             int cursorLeft = Console.CursorLeft;
-            int lastInTheList = _log.Count() - 1;
+            int lastInTheList = Utilities.log.Count() - 1;
 
             Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
 
             for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-                int spaces = 80 - _log[i].Length;
+                int spaces = 80 - Utilities.log[i].Length;
                 string padding = new string(' ', spaces);
-                Console.Write($"│{_log[i]}{padding}│");
+                Console.Write($"│{Utilities.log[i]}{padding}│");
             }
             Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
             Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
         }
-        public static void LogPlayerInfo(Player player)
-        {
-            string cardSymbol = player.Hand.Last().CardSymbol;
-            string lastCard = player.Hand.Last().Title;
-            int cardSum = player.HandSum();
-            string playerName = player.Name.ToUpper();
 
-            string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
-            _log.Add(handInfo);
-        }
-        public static void LogDealerInfo()
+        public static void UpdateBoard(Player player)
         {
-            string cardSymbol = Dealer.Instance.Hands[0].Cards.Last().CardSymbol;
-            string lastCard = Dealer.Instance.Hands[0].Cards.Last().Title;
-            int cardSum = Dealer.Instance.Hands[0].HandSum();
-
-            string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
-
-            _log.Add(handInfo);
-            //FileManager.SaveHandInfo(handInfo);
+            Graphics.PrintSinglePlayerCards(player);
+            Graphics.PrintLog();
         }
-        public static void UpdateBoard(List<Player> players, Player player)
-        {
-            Graphics.PrintAllPlayerCards(players);
-            Graphics.LogPlayerInfo(player);
-            Graphics.UpdateLog();
-        }
-        public static void UpdateBoard()
+        public static void UpdateDealerBoard()
         {
             Graphics.PrintAllDealerCards();
-            Graphics.LogDealerInfo();
-            Graphics.UpdateLog();
+            Utilities.LogDealerInfo();
+            Graphics.PrintLog();
         }
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
@@ -446,7 +417,7 @@
         {
             int startXPos = 0;
             int startYPos = 0;
-            double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.HandSum());
+            double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.Hands[0].HandSum());
             if (participant is Player)
             {
                 //20
@@ -470,7 +441,7 @@
                         break;
                 }
 
-                string playerHeader = $"{player.Name}'s hand: {participant.HandSum()}";
+                string playerHeader = $"{player.Name}'s hand: {participant.Hands[0].HandSum()}";
                 string headerGreenString = new(' ', playerHeader.Length);
                 string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
 

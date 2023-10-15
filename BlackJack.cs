@@ -4,7 +4,7 @@
     {
         private static int _gameId = 0;
         public static int GameId { get { return _gameId; } }
-        public void RunGame(List<Player> players) 
+        public void RunGame(List<Player> players)
         {
             InitializeNewGame(players);
             FileManager.SaveStartTimeStamp(GameId);
@@ -14,13 +14,12 @@
             foreach (var player in players)
             {
                 GameLogic.PlayersTurn(player);
-                Graphics.UpdateBoard(players, player);
             }
 
 
             //Erase the dealer's card //TODO here we have an error when erasing cards.
             Graphics.EraseAPrintedCard(107, 0);
-            Graphics.UpdateBoard();
+            Graphics.UpdateDealerBoard();
             //Dramatic pause
             Thread.Sleep(1000);
 
