@@ -6,8 +6,11 @@
     /// </summary>
     public static class Graphics
     {
-        private const int windowWidth = 195;
-        private const int windowHeight = 45;
+        static int _consoleWindowWidth = Console.LargestWindowWidth;
+        static int _consoleWindowHeigth = Console.LargestWindowHeight;
+        private readonly static int _windowWidth = _consoleWindowWidth-5;
+        private readonly static int _windowHeight = _consoleWindowHeigth-5;
+
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
@@ -260,13 +263,13 @@
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.White;
             char line = '─';
-            string playingBoard = "╭" + new string(line, windowWidth) + "╮";
+            string playingBoard = "╭" + new string(line, _windowWidth) + "╮";
             char playingBoardBorder = '│';
             for (int i = 0; i < windowHeight; i++)
             {
-                playingBoard += "\n" + playingBoardBorder + new string(' ', windowWidth) + playingBoardBorder;
+                playingBoard += "\n" + playingBoardBorder + new string(' ', _windowWidth) + playingBoardBorder;
             }
-            playingBoard += "\n" + "╰" + new string(line, windowWidth) + "╯";
+            playingBoard += "\n" + "╰" + new string(line, _windowWidth) + "╯";
             Console.WriteLine(playingBoard);
         }
         public static void PrintLog()
@@ -354,7 +357,7 @@
             double cardHeight = _cardHeight;
             double cardWidth = _cardWidth;
 
-            double stepsInXDirection = (windowWidth + cardWidth / 2) / cardWidth * 2;
+            double stepsInXDirection = (_windowWidth + cardWidth / 2) / cardWidth * 2;
             double stepsInYDirection = (windowHeight - cardHeight / 2) / cardHeight * 2;
 
             double[] vectorXValues = new double[(int)stepsInXDirection];
