@@ -13,6 +13,7 @@
         private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
+        private readonly static int _cardFlipDelay = 500;
         private static (int _animationStartingXPosition, int _animationStartingYPosition) _cardAnimationStartingPosition = (101, 18);
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[vectors._x.Length - 1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
@@ -55,7 +56,7 @@
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
-            Console.SetCursorPosition(card.LatestCardPosition.LatestXPosition+_cardWidth, card.LatestCardPosition.LatestYPosition);
+            Console.SetCursorPosition(card.LatestCardPosition.LatestXPosition + _cardWidth, card.LatestCardPosition.LatestYPosition);
             for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
             {
                 Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
@@ -63,7 +64,7 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        
+
         /// <summary>
         /// Divides the playing board into different subparts.
         /// These subparts are then used to decide where to draw the card graphics.
@@ -96,7 +97,9 @@
         }
         public static void AnimateACardFromTopToBottom(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = hand.Cards[0].LatestCardPosition;
+            (int startingXPosition, int startingYPosition) = (hand.Cards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.Cards.Last().LatestCardPosition.LatestYPosition);
+            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
+
             int distance = _playerTwoRegion._yPosition - startingYPosition;
             Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
@@ -125,8 +128,10 @@
                 Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            hand.Cards[0].LatestCardPosition = (hand.Cards[0].LatestCardPosition.LatestXPosition + _cardWidth / 2, hand.Cards[0].LatestCardPosition.LatestYPosition);
-            Thread.Sleep(2000);
+            //hand.Cards[0].LatestCardPosition = (hand.Cards[0].LatestCardPosition.LatestXPosition + _cardWidth / 2, hand.Cards[0].LatestCardPosition.LatestYPosition);
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - 1);
+            PrintASingleCard(hand.Cards.Last());
         }
         public static void AnimateACardFromBottomToTop(Card card)
         {
@@ -249,7 +254,7 @@
                 Thread.Sleep(_horizontalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Thread.Sleep(1000);
+            Thread.Sleep(_cardFlipDelay);
             hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.Cards.Last());
         }
@@ -313,7 +318,7 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        
+
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
