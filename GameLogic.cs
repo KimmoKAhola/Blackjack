@@ -127,13 +127,13 @@
                     {
                         hand.HandState = HandState.LOSS;
                     }
-                    else if (Dealer.Instance.Hands[0].HandSum() > 21)
+                    else if (Dealer.Instance.Hand.HandSum() > 21)
                     {
                         Sounds.WinSound();
                         Dealer.Instance.LatestAction = PlayerAction.BUST;
                         hand.HandState = HandState.WIN;
                     }
-                    else if (hand.HandSum() > Dealer.Instance.Hands[0].HandSum())
+                    else if (hand.HandSum() > Dealer.Instance.Hand.HandSum())
                     {
                         hand.HandState = HandState.WIN;
                         Sounds.WinSound();
@@ -145,9 +145,9 @@
         }
         public static void DealersTurn()
         {
-            while (Dealer.Instance.Hands[0].HandSum() < 17)
+            while (Dealer.Instance.Hand.HandSum() < 17)
             {
-                Deck.DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
+                Deck.DealCard(Dealer.Instance.Hand, Dealer.Instance);
                 Dealer.Instance.LatestAction = PlayerAction.HIT;
 
                 Graphics.UpdateDealerBoard();

@@ -85,7 +85,7 @@
                 }
                 DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
 
-                Card dealersLatestCard = Dealer.Instance.Hands[0].Cards.Last();
+                Card dealersLatestCard = Dealer.Instance.Hand.Cards.Last();
                 firstDealInfo += $"The dealer was dealt a [{dealersLatestCard.Title}{dealersLatestCard.CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
