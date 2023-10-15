@@ -313,44 +313,7 @@
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        //public static void AnimateCardsInAllDirections(Card card, int numberOfCardsDealt, List<Player> players)
-        //{
-        //    //This method is now tied to the card dealing methods.
-
-        //    for (int i = 0; i < numberOfCardsDealt; i++)
-        //    {
-        //        foreach (Player player in players)
-        //        {
-        //            if (player.Bet > 0)
-        //            {
-        //                if (player.PlayerNumber == 1)
-        //                {
-        //                    AnimateACardFromLeftToRight(card);
-        //                }
-        //                if (player.PlayerNumber == 2)
-        //                {
-        //                    AnimateACardFromTopToBottom(card);
-        //                }
-        //                if (player.PlayerNumber == 3)
-        //                {
-        //                    AnimateACardFromRightToLeft(card);
-        //                }
-        //            }
-        //        }
-        //        AnimateACardFromBottomToTop(card);
-        //    }
-        //    int tempCursorPositionX = Console.CursorLeft + (int)(_cardWidth);
-        //    int tempCursorPositionY = Console.CursorTop - _cardHeight;
-        //    Console.SetCursorPosition(tempCursorPositionX, tempCursorPositionY);
-        //    PrintASingleCard(Dealer.Instance.Hand[1]); 
-        //    Thread.Sleep(500);
-        //    for (int i = 0; i < numberOfCardsDealt; i++)
-        //    {
-        //        EraseAPrintedCard(192 - _cardWidth / 2 * i, 18);
-        //        EraseAPrintedCard(107 + _cardWidth / 2 * i, 39);
-        //        EraseAPrintedCard(13 + _cardWidth / 2 * i, 18);
-        //    }
-        //}
+        
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
@@ -434,28 +397,6 @@
             PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Console.BackgroundColor = ConsoleColor.DarkGreen;
         }
-        //public static void PrintAStationaryCard(Card card, int startingXPosition, int startingYPosition)
-        //{
-        //    //int startingXPosition = (int)vectors._x[vectors._x.Length / 2 - 1];
-        //    //int startingYPosition = (int)vectors._y[vectors._y.Length / 2 - 1];
-        //    //THIS IS PROBABLY NOT NEEDED
-        //    Console.SetCursorPosition(startingXPosition, startingYPosition);
-
-        //    Console.BackgroundColor = ConsoleColor.DarkBlue;
-        //    string[] cardArray = new string[6];
-        //    for (int i = 0; i < _cardWidth - 1; i++)
-        //    {
-        //        cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
-        //    }
-
-        //    Console.BackgroundColor = ConsoleColor.DarkBlue;
-        //    for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-        //    {
-        //        Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1); // start with a cursorposition at 25
-        //        Console.Write(cardArray[yPosition]);
-        //    }
-        //    Console.BackgroundColor = ConsoleColor.DarkGreen;
-        //}
         public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
