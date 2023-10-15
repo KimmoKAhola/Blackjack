@@ -66,6 +66,7 @@
                             player.Wallet -= player.Hands[0].Bet;
                             Console.SetCursorPosition(80, 31);
                             Console.Write($"                                      ");
+                            ShowDebugWallets(players);
                             break;
                         }
                     }
