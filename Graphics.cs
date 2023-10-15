@@ -22,16 +22,17 @@
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
 
-        public static void AnimateACardFromBottomToTop(Card card)
+        public static void AnimateACardFromBottomToTop(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = card.LatestCardPosition;
+            (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
+            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
             int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition - _cardHeight;
 
             Console.ForegroundColor = ConsoleColor.White;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = card.CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
+                cardArray[i] = hand.Cards.Last().CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
             string greenString = new(' ', _cardWidth);
 
@@ -56,6 +57,9 @@
                 Thread.Sleep(_verticalAnimationSpeed);
             }
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Thread.Sleep(_cardFlipDelay);
+            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
+            PrintASingleCard(hand.Cards.Last());
         }
         public static void AnimateACardFromLeftToRight(Hand hand)
         {
@@ -325,7 +329,7 @@
                         startYPos = _playerTwoRegion._yPosition - 2;
                         break;
                     case 3:
-                        startXPos = _playerThreeRegion._xPosition - 7;
+                        startXPos = _playerThreeRegion._xPosition + 1;
                         startYPos = _playerThreeRegion._yPosition - 2;
                         break;
 
