@@ -131,6 +131,24 @@
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
         }
+
+        public static void ErasePrompt()
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.SetCursorPosition(65, 30);
+            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            string paddedPlayerPrompt = ($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
+            Console.Write(paddedPlayerPrompt);
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
+            Console.SetCursorPosition(65, Console.CursorTop + 1);
+            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+        }
         public static void PromptPlayerSplit(Player player)
         {
             Console.BackgroundColor = ConsoleColor.Gray;

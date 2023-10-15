@@ -105,6 +105,7 @@
         }
         public static void DealCard(Hand hand, Participant participant)
         {
+            Utilities.ErasePrompt();
             hand.Cards.Add(cards[0]);
             if (participant is Player)
             {
