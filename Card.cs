@@ -32,11 +32,6 @@ namespace Blackjack
             CardGraphicWhileMoving = allCardGraphics[52];
         }
 
-        //public Card(string cardGraphicWhileMoving)
-        //{
-        //    CardGraphicWhileMoving = cardGraphicWhileMoving;
-        //}
-
         public static string[] allCardGraphics = File.ReadAllLines("../../../Files/CardAsciiGraphics.txt");
         public string Title { get; set; }
         public int Value { get; set; }

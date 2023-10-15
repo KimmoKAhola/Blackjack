@@ -8,7 +8,6 @@
         public static List<Card> AllCards
         {
             get => cards ??= GetNewDeck();
-            //get => cards = (cards == null) ? GetNewDeck() : cards;
         }
         //Only for testing edge cases
         private static List<Card> GetAceDeck()
