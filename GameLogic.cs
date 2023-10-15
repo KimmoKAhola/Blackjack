@@ -10,7 +10,7 @@
                 {
                     //Utilities.SavePlayerAction(player, hand); //first deal
                     Graphics.PrintPlayerTitleAndSum(player);
-                    Graphics.UpdateBoard(player);
+                    Graphics.UpdateBoard();
                     Utilities.LogPlayerInfo(player, hand);
 
                     if (CheckForBlackJack(hand))

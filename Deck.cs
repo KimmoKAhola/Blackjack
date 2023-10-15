@@ -120,7 +120,7 @@
                         Graphics.AnimateACardFromTopToBottom(hand);
                         break;
                     case 3:
-                        Graphics.AnimateACardFromRightToLeft(hand.Cards.Last());
+                        Graphics.AnimateACardFromRightToLeft(hand);
                         break;
                 }
             }
