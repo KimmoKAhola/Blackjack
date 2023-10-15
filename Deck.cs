@@ -87,7 +87,7 @@
 
                             break;
                         case 2:
-                            Graphics.AnimateACardFromTopToBottom(temp.Hand.Last(), 18);
+                            Graphics.AnimateACardFromTopToBottom(temp.Hand.Last());
                             break;
                         case 3:
                             break;
