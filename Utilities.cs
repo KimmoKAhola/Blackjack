@@ -266,7 +266,16 @@
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
             else if (background.ToUpper() == "DG")
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
-
         }
+        public static int[] GetWindowSize()
+        {
+            int windowHeight = Console.WindowHeight;
+            int windowWidth = Console.WindowWidth;
+            int[] windowSize = new int[] { windowHeight, windowWidth };
+
+            return windowSize;
+        }
+
+
     }
 }
