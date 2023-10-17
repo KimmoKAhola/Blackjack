@@ -44,14 +44,15 @@
 
             foreach (var player in players)
             {
-                Console.SetCursorPosition(80, 30);
-                Console.Write($"Player {player.Name}, please enter your bet");
-                Console.SetCursorPosition(80, 32);
+                string prompt = $"Player {player.Name}, please enter your bet";
+                Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 30);
+                Console.Write(prompt);
+                Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 32);
                 Console.Write($"                                ");
 
                 while (true)
                 {
-                    Console.SetCursorPosition(80, 31);
+                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
                     Console.Write($"BET: ");
                     if (int.TryParse(Console.ReadLine(), out int bet))
                     {
@@ -59,15 +60,15 @@
                         {
                             player.Hands[0].Bet = bet;
                             player.Wallet -= player.Hands[0].Bet;
-                            Console.SetCursorPosition(80, 31);
+                            Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
                             Console.Write($"                                      ");
                             ShowDebugWallets(players);
                             break;
                         }
                     }
-                    Console.SetCursorPosition(80, 31);
+                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
                     Console.Write($"                                      ");
-                    Console.SetCursorPosition(80, 32);
+                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 32);
                     Console.Write($"Invalid input, please try again!");
                 }
             }
