@@ -12,9 +12,12 @@
             Graphics.PrintBoard();
             GameSetup(players);
 
-            foreach (var player in players)
+            if (!GameLogic.CheckForDealerBlackJack())
             {
-                GameLogic.PlayersTurn(player);
+                foreach (var player in players)
+                {
+                    GameLogic.PlayersTurn(player);
+                }
             }
 
             Graphics.UpdateDealerBoard();
@@ -37,53 +40,64 @@
             }
             RunGame(players);
         }
-
         private static void GetPlayerBets(List<Player> players)
         {
             Utilities.SetConsoleColors("Y", "DG");
+            int promptLength = 0;
+            int betLength = 0;
+            int bet = 0;
 
             foreach (var player in players)
             {
+                int yPosition = 30;
                 string prompt = $"Player {player.Name}, please enter your bet";
-                Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 30);
-                Console.Write(prompt);
-                Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 32);
-                Console.Write($"                                ");
+
+                if (promptLength < prompt.Length)
+                {
+                    promptLength = prompt.Length;
+                }
+                if (betLength < bet.ToString().Length)
+                {
+                    betLength = bet.ToString().Length;
+                }
 
                 while (true)
                 {
-                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
-                    Console.Write($"BET: ");
-                    if (int.TryParse(Console.ReadLine(), out int bet))
+                    string betPrompt = $"BET: ";
+                    string errorMessage = $"Invalid input, please try again";
+                    string promptClearLine = new(' ', promptLength);
+                    string betClearLine = new(' ', betLength + betPrompt.Length);
+
+                    string[] clearLines = { promptClearLine, betClearLine };
+                    string[] promptLines = { prompt, betPrompt };
+
+                    Utilities.PrintCenteredAlignedStringArray(clearLines, yPosition);
+                    Utilities.PrintCenteredAlignedStringArray(promptLines, yPosition);
+
+                    if (int.TryParse(Console.ReadLine(), out bet))
                     {
                         if (bet <= player.Wallet)
                         {
                             player.Hands[0].Bet = bet;
                             player.Wallet -= player.Hands[0].Bet;
-                            Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
-                            Console.Write($"                                      ");
+
                             ShowDebugWallets(players);
                             break;
                         }
                     }
-                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 31);
-                    Console.Write($"                                      ");
-                    Console.SetCursorPosition(Utilities.CenterStringToWindow(prompt), 32);
-                    Console.Write($"Invalid input, please try again!");
+                    yPosition++;
+                    Utilities.PrintCenteredString(errorMessage, yPosition);
+                    yPosition--;
                 }
             }
-            Console.SetCursorPosition(80, 30);
-            Console.Write($"                                           ");
-            Utilities.SetConsoleColors("W", "");
         }
-
         private static void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;
             foreach (Player player in players)
             {
 
-                player.Hands[0].Cards.Clear();
+                player.Hands[0].CurrentCards.Clear();
                 if (player.Wallet == 0)
                 {
                     // Fix error handling here.

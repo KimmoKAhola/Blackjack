@@ -13,7 +13,7 @@
 
         private readonly static int _cardWidth = 7;
         private readonly static int _cardHeight = 6;
-        private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
+        private readonly static int _horizontalAnimationSpeed = 1; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
         private readonly static int _cardFlipDelay = 500;
@@ -27,8 +27,8 @@
 
         public static void AnimateACardFromBottomToTop(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
-            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
+            (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
+            startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
             int distance = _cardAnimationStartingPosition._animationStartingYPosition - _dealerRegion._yPosition - _cardHeight;
 
             Utilities.SetConsoleColors("W", "");
@@ -57,14 +57,14 @@
             Utilities.SetConsoleColors("", "DG");
 
             Thread.Sleep(_cardFlipDelay);
-            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
-            PrintASingleCard(hand.Cards.Last());
+            hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
+            PrintASingleCard(hand.CurrentCards.Last());
         }
         public static void AnimateACardFromLeftToRight(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = hand.Cards.Last().LatestCardPosition;
+            (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
 
-            int distance = _playerOneRegion._xPosition - startingXPosition - (hand.Cards.Count * _cardWidth / 2);
+            int distance = _playerOneRegion._xPosition - startingXPosition - (hand.CurrentCards.Count * _cardWidth / 2);
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -102,13 +102,13 @@
             Utilities.SetConsoleColors("", "DG");
 
             Thread.Sleep(_cardFlipDelay);
-            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
-            PrintASingleCard(hand.Cards.Last());
+            hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
+            PrintASingleCard(hand.CurrentCards.Last());
         }
         public static void AnimateACardFromRightToLeft(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = (hand.Cards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.Cards.Last().LatestCardPosition.LatestYPosition);
-            int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.Cards.Count;
+            (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
+            int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.CurrentCards.Count;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -142,13 +142,13 @@
             }
             Utilities.SetConsoleColors("", "DG");
             Thread.Sleep(_cardFlipDelay);
-            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
-            PrintASingleCard(hand.Cards.Last());
+            hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
+            PrintASingleCard(hand.CurrentCards.Last());
         }
         public static void AnimateACardFromTopToBottom(Hand hand)
         {
-            (int startingXPosition, int startingYPosition) = (hand.Cards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.Cards.Last().LatestCardPosition.LatestYPosition);
-            startingXPosition += _cardWidth / 2 * hand.Cards.Count;
+            (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
+            startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
 
             int distance = _playerTwoRegion._yPosition - startingYPosition;
             Utilities.SetConsoleColors("W", "");
@@ -175,8 +175,8 @@
             }
             Utilities.SetConsoleColors("", "DG");
             Thread.Sleep(_cardFlipDelay);
-            hand.Cards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - 1);
-            PrintASingleCard(hand.Cards.Last());
+            hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - 1);
+            PrintASingleCard(hand.CurrentCards.Last());
         }
         private static string[] CreateCardGraphicArray()
         {
@@ -380,10 +380,6 @@
         public static void UpdateDealerBoard()
         {
             Utilities.LogDealerInfo();
-            Graphics.PrintLog();
-        }
-        public static void UpdateBoard()
-        {
             Graphics.PrintLog();
         }
     }

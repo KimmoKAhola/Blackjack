@@ -80,12 +80,12 @@
                 {
                     DealCard(participants[j].Hands[0], participants[j]);
 
-                    Card latestCard = participants[j].Hands[0].Cards.Last();
+                    Card latestCard = participants[j].Hands[0].CurrentCards.Last();
                     firstDealInfo += $"{participants[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
                 }
                 DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
 
-                Card dealersLatestCard = Dealer.Instance.Hand.Cards.Last();
+                Card dealersLatestCard = Dealer.Instance.Hand.CurrentCards.Last();
                 firstDealInfo += $"The dealer was dealt a [{dealersLatestCard.Title}{dealersLatestCard.CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
@@ -104,8 +104,7 @@
         }
         public static void DealCard(Hand hand, Participant participant)
         {
-            Utilities.ErasePrompt();
-            hand.Cards.Add(cards[0]);
+            hand.CurrentCards.Add(cards[0]);
             if (participant is Player)
             {
                 var temp = (Player)participant;
