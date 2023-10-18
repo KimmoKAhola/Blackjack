@@ -4,12 +4,12 @@
     {
         public Hand()
         {
-            Cards = new();
+            CurrentCards = new();
             Bet = 0;
             HandState = HandState.UNDECIDED;
         }
 
-        public List<Card> Cards { get; set; }
+        public List<Card> CurrentCards { get; set; }
         public HandState HandState { get; set; }
         public int Bet { get; set; }
 
@@ -18,7 +18,7 @@
             int sum = 0;
             int aceCount = 0; // To keep track of the number of Aces
 
-            foreach (var card in Cards)
+            foreach (var card in CurrentCards)
             {
                 if (card.Title.Contains("A"))
                 {

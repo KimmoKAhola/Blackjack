@@ -13,6 +13,7 @@
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
+        public Hand CurrentHand { get; set; }
         public void UpdateWallet()
         {
             foreach (var hand in Hands)
