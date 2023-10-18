@@ -71,17 +71,17 @@
             }
             return cardNumbers;
         }
-        public static void FirstDeal(List<Player> participants)
+        public static void FirstDeal(List<Player> players)
         {
             string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < participants.Count; j++)
+                for (int j = 0; j < players.Count; j++)
                 {
-                    DealCard(participants[j].Hands[0], participants[j]);
+                    DealCard(players[j].CurrentHand, players[j]);
 
-                    Card latestCard = participants[j].Hands[0].CurrentCards.Last();
-                    firstDealInfo += $"{participants[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
+                    Card latestCard = players[j].CurrentHand.CurrentCards.Last();
+                    firstDealInfo += $"{players[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
                 }
                 DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
 
