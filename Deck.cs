@@ -2,12 +2,13 @@
 {
     public static class Deck
     {
-        private static List<Card>? cards = GetNewDeck();
-        //private static List<Card>? cards = GetAceDeck(); // Only for testing
+        //private static List<Card>? cards = GetNewDeck();
+        private static List<Card>? cards = GetAceDeck(); // Only for testing
 
         public static List<Card> AllCards
         {
-            get => cards ??= GetNewDeck();
+            //get => cards ??= GetNewDeck();
+            get => cards ??= GetAceDeck(); // Only for testing
         }
         //Only for testing edge cases
         private static List<Card> GetAceDeck()
@@ -15,7 +16,8 @@
             List<Card> aceCards = new List<Card>();
             for (int i = 0; i < 52; i++)
             {
-                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0], "♦"));
+                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[11], 10, Card.allCardGraphics[11], "♦"));
+                aceCards[i].LatestCardPosition = (101, 18);
             }
             return aceCards;
         }
@@ -92,7 +94,8 @@
         }
         public static void ShuffleDeck()
         {
-            cards = GetNewDeck();
+            //cards = GetNewDeck();
+            cards = GetAceDeck(); //Only for testing
 
             Random randomNum = new();
             for (int i = 51; i > 0; i--)
