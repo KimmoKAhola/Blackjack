@@ -2,6 +2,8 @@
 {
     public static class Utilities
     {
+        private static ConsoleColor _cachedForegroundColor = ConsoleColor.White;
+        private static ConsoleColor _cachedBackgroundColor = ConsoleColor.White;
         public static List<string> log = new List<string>()
         {
             "",
@@ -13,6 +15,7 @@
         };
         public static List<Player> GetPlayers()
         {
+            SetConsoleColors("", "DC");
             List<Player> players = new();
             Console.CursorVisible = true;
             for (int i = 0; i < 3; i++)
@@ -20,10 +23,13 @@
                 while (true)
                 {
                     Console.Clear();
-                    Console.SetCursorPosition(75, 20);
-                    Console.WriteLine($"PLAYER {i + 1}, PLEASE ENTER YOUR NAME AND BUY-IN, SEPARATED BY A SPACE");
-                    Console.SetCursorPosition(75, 21);
-                    Console.Write($"INPUT: ");
+                    string[] prompt =
+                    {
+                        $"PLAYER {i + 1}, PLEASE ENTER YOUR NAME AND BUY-IN, SEPARATED BY A SPACE",
+                        $"INPUT: "
+                    };
+
+                    PrintCenteredAlignedStringArray(prompt, 20);
 
                     string input = Console.ReadLine();
                     string[] values = input.Split(' ');
@@ -38,12 +44,10 @@
                         }
                     }
                 }
-
             }
             Console.CursorVisible = false;
             return players;
         }
-
         private static string GetPadding(string input, int spaces)
         {
             spaces -= input.Length;
@@ -70,15 +74,26 @@
 
         public static void DisplayGameSummary(List<Player> players)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(65, 20);
-            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                              GAME SUMMARY                             │");
+            SetConsoleColors("B", "G");
+            int yStartPosition = 20;
+            int width = 73;
+            string[] startPrompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"│                              GAME SUMMARY                             │"
+            };
+            string[] endPrompt =
+            {
+                $"│                               PLAY AGAIN?                             │",
+                $"│                                  Y/N                                  │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
+
+            PrintCenteredStringArray(startPrompt, yStartPosition);
+            yStartPosition += 2;
+
             foreach (var player in players)
             {
-                Console.SetCursorPosition(65, Console.CursorTop + 1);
                 int namePadding = 10;
                 int outcomePadding = 10;
                 int betPadding = 15;
@@ -99,60 +114,81 @@
 
                     betResult = GetPadding(betResult, betPadding);
 
-
-                    Console.Write($"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │");
+                    string playerSummary = $"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │";
+                    PrintCenteredString(playerSummary, yStartPosition);
+                    yStartPosition++;
                 }
             }
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                               PLAY AGAIN?                             │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                                  Y/N                                  │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+            PrintCenteredStringArray(endPrompt, yStartPosition);
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
         }
 
-        public static void PromptPlayer(Player player)
+        public static void PromptPlayerMove(Player player)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(65, 30);
-            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            string paddedPlayerPrompt = GetCenteredPadding($"{player.Name}'S TURN", 71);
-            Console.Write($"│{paddedPlayerPrompt}│");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+            SetConsoleColors("B", "G");
+            int promptWindowWidth = 73;
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            string[] prompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWindowWidth-2)}|",
+                $"│                 PRESS <SPACE> to HIT or <S> to STAND                  │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
+
+            PrintCenteredStringArray(prompt, 30);
+            SetConsoleColors("DG", "DG");
         }
 
+        public static void PrintCenteredStringArray(string[] promptLines, int yPosition)
+        {
+            foreach (var line in promptLines)
+            {
+                CenterStringCursorToWindow(line, yPosition);
+                Console.Write(line);
+                yPosition++;
+            }
+        }
+        public static void PrintCenteredString(string promptLine, int yPosition)
+        {
+            CenterStringCursorToWindow(promptLine, yPosition);
+            Console.Write(promptLine);
+        }
+        public static void PrintCenteredAlignedStringArray(string[] promptLines, int yPosition)
+        {
+            CenterStringCursorToWindow(promptLines[0], yPosition);
+            int xPosition = Console.CursorLeft;
+            foreach (var line in promptLines)
+            {
+                Console.SetCursorPosition(xPosition, yPosition);
+                Console.Write(line);
+                yPosition++;
+            }
+        }
+        public static void CenterStringCursorToWindow(string input, int yPosition)
+        {
+            int centeredStringPosition = (Console.WindowWidth - input.Length) / 2;
+            Console.SetCursorPosition(centeredStringPosition, yPosition);
+        }
         public static void ErasePrompt()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.SetCursorPosition(65, 30);
-            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            string paddedPlayerPrompt = ($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
-            Console.Write(paddedPlayerPrompt);
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                 PRESS <SPACE> to HIT or <S> to STAND                  │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+            SetConsoleColors("DG", "DG");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            int promptWindowWidth = 73;
+            int yPosition = 30;
+            string eraseLine = new(' ', promptWindowWidth);
+
+            for (int i = 0; i < 4; i++)
+            {
+                PrintCenteredString(eraseLine, yPosition);
+                yPosition++;
+            }
         }
         public static void PromptPlayerSplit(Player player)
         {
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.ForegroundColor = ConsoleColor.Black;
+            SetConsoleColors("B", "G");
+
             Console.SetCursorPosition(65, 30);
             Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
             Console.SetCursorPosition(65, Console.CursorTop + 1);
@@ -163,21 +199,21 @@
             Console.SetCursorPosition(65, Console.CursorTop + 1);
             Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            SetConsoleColors("DG", "DG");
         }
 
-        public static void SavePlayerAction(Player player, Hand hand)
+        public static void SavePlayerAction(Player player)
         {
-            string cardSymbol = hand.Cards.Last().CardSymbol;
-            string lastCard = hand.Cards.Last().Title;
+            Hand hand = player.CurrentHand;
+            string cardSymbol = hand.CurrentCards.Last().CardSymbol;
+            string lastCard = hand.CurrentCards.Last().Title;
             int cardSum = hand.HandSum();
             string playerName = player.Name.ToUpper();
 
             string completePlayerHand = $"";
-            for (int playerHandIndex = 0; playerHandIndex < hand.Cards.Count; playerHandIndex++)
+            for (int playerHandIndex = 0; playerHandIndex < hand.CurrentCards.Count; playerHandIndex++)
             {
-                completePlayerHand += hand.Cards[playerHandIndex].Title + hand.Cards[playerHandIndex].CardSymbol + ", ";
+                completePlayerHand += hand.CurrentCards[playerHandIndex].Title + hand.CurrentCards[playerHandIndex].CardSymbol + ", ";
             }
             completePlayerHand = "[" + completePlayerHand.TrimEnd(',', ' ') + "]";
 
@@ -199,7 +235,6 @@
             }
             FileManager.SaveHandInfo(completePlayerHand);
         }
-
         public static void SaveFirstDealInfo(List<Player> players)
         {
             string temp = "FIRST DEAL TEMP FIX LATER";
@@ -208,8 +243,8 @@
         }
         public static void LogPlayerInfo(Player player, Hand currentHand)
         {
-            string cardSymbol = currentHand.Cards.Last().CardSymbol;
-            string lastCard = currentHand.Cards.Last().Title;
+            string cardSymbol = currentHand.CurrentCards.Last().CardSymbol;
+            string lastCard = currentHand.CurrentCards.Last().Title;
             int cardSum = currentHand.HandSum();
             string playerName = player.Name.ToUpper();
 
@@ -218,14 +253,68 @@
         }
         public static void LogDealerInfo()
         {
-            string cardSymbol = Dealer.Instance.Hand.Cards.Last().CardSymbol;
-            string lastCard = Dealer.Instance.Hand.Cards.Last().Title;
+            string cardSymbol = Dealer.Instance.Hand.CurrentCards.Last().CardSymbol;
+            string lastCard = Dealer.Instance.Hand.CurrentCards.Last().Title;
             int cardSum = Dealer.Instance.Hand.HandSum();
 
             string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
 
             log.Add(handInfo);
             //FileManager.SaveHandInfo(handInfo);
+        }
+        public static void SetConsoleColors(string foreground, string background)
+        {
+            if (foreground.ToUpper() == "SETCACHED")
+                _cachedForegroundColor = Console.ForegroundColor;
+            else if (foreground.ToUpper() == "GETCACHED")
+                Console.ForegroundColor = _cachedForegroundColor;
+
+            else if (foreground.ToUpper() == "W")
+                Console.ForegroundColor = ConsoleColor.White;
+            else if (foreground.ToUpper() == "B")
+                Console.ForegroundColor = ConsoleColor.Black;
+            else if (foreground.ToUpper() == "G")
+                Console.ForegroundColor = ConsoleColor.Gray;
+            else if (foreground.ToUpper() == "GR")
+                Console.ForegroundColor = ConsoleColor.Green;
+            else if (foreground.ToUpper() == "Y")
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else if (foreground.ToUpper() == "C")
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            else if (foreground.ToUpper() == "DR")
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            else if (foreground.ToUpper() == "DB")
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+            else if (foreground.ToUpper() == "DG")
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+            else if (foreground.ToUpper() == "DC")
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+            if (background.ToUpper() == "SETCACHED")
+                _cachedBackgroundColor = Console.BackgroundColor;
+            else if (background.ToUpper() == "GETCACHED")
+                Console.BackgroundColor = _cachedBackgroundColor;
+
+            else if (background.ToUpper() == "W")
+                Console.BackgroundColor = ConsoleColor.White;
+            else if (background.ToUpper() == "B")
+                Console.BackgroundColor = ConsoleColor.Black;
+            else if (background.ToUpper() == "G")
+                Console.BackgroundColor = ConsoleColor.Gray;
+            else if (background.ToUpper() == "GR")
+                Console.BackgroundColor = ConsoleColor.Green;
+            else if (background.ToUpper() == "Y")
+                Console.BackgroundColor = ConsoleColor.Yellow;
+            else if (background.ToUpper() == "C")
+                Console.BackgroundColor = ConsoleColor.Cyan;
+            else if (background.ToUpper() == "DR")
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+            else if (background.ToUpper() == "DB")
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+            else if (background.ToUpper() == "DG")
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+            else if (background.ToUpper() == "DC")
+                Console.BackgroundColor = ConsoleColor.DarkCyan;
         }
     }
 }

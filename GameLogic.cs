@@ -12,174 +12,91 @@
         }
         public static void PlayersTurn(Player player)
         {
-            Hand hand = player.Hands[0];
-            while (true)
+            Graphics.PrintPlayerTitleAndSum(player);
+            Graphics.PrintLog(); //Why does this not update correctly??????
+
+            foreach (var hand in player.Hands)
             {
-                //Utilities.SavePlayerAction(player, hand); //first deal
-                if (CheckForDealerBlackJack())
+                CheckForBlackJack(player, hand);
+                CheckForSplit(player);
+                //Utilities.SavePlayerAction(player, hand); //Fix a separate method for first deal!
+
+                GetPlayerMove(player, hand);
+
+                Utilities.SavePlayerAction(player);
+
+                Graphics.PrintLog();
+            }
+        }
+        private static void GetPlayerMove(Player player, Hand currentHand)
+        {
+            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST && )
+            {
+                Utilities.PromptPlayerMove(player);
+                char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
+                if (response == ' ')
                 {
-                    break;
+                    player.LatestAction = PlayerAction.HIT;
+                    Utilities.ErasePrompt();
+                    Deck.DealCard(currentHand, player);
+                    CheckForBust(player); //Add a BUST "prompt"
                 }
-                Graphics.PrintPlayerTitleAndSum(player);
-                Graphics.UpdateBoard();
-                Utilities.LogPlayerInfo(player, hand);
-
-                if (CheckForBlackJack(hand))
-                {
-                    hand.HandState = HandState.BLACKJACK;
-                    player.LatestAction = PlayerAction.BLACKJACK;
-                    Utilities.SavePlayerAction(player, hand);
-                    break;
-                }
-
-                if (CheckForSplit(player))
-                {
-                    player.LatestAction = PlayerAction.SPLIT;
-                    break;
-                }
-
-                if (CheckForBust(hand))
-                {
-                    player.LatestAction = PlayerAction.BUST;
-                    Utilities.SavePlayerAction(player, hand);
-                    break;
-                }
-
-                Utilities.PromptPlayer(player);
-                char response;
-                response = Console.ReadKey(false).KeyChar;
-
-                if (response != ' ')
+                else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
-                    Utilities.SavePlayerAction(player, hand);
-                    break;
+                    Utilities.ErasePrompt();
                 }
-
-                Deck.DealCard(hand, player);
-                player.LatestAction = PlayerAction.HIT;
-                Utilities.SavePlayerAction(player, hand);
-
+                Utilities.LogPlayerInfo(player, currentHand);
             }
             Graphics.PrintPlayerTitleAndSum(player);
-
-            if (player.Hands.Count > 1)
-            {
-                foreach (var currentHand in player.Hands)
-                {
-                    while (true)
-                    {
-                        //Utilities.SavePlayerAction(player, hand); //first deal
-                        if (CheckForDealerBlackJack())
-                        {
-                            break;
-                        }
-                        Graphics.PrintPlayerTitleAndSum(player);
-                        Graphics.UpdateBoard();
-                        Utilities.LogPlayerInfo(player, currentHand);
-
-                        if (CheckForBlackJack(currentHand))
-                        {
-                            currentHand.HandState = HandState.BLACKJACK;
-                            player.LatestAction = PlayerAction.BLACKJACK;
-                            Utilities.SavePlayerAction(player, currentHand);
-                            break;
-                        }
-
-                        if (CheckForSplit(player))
-                        {
-                            player.LatestAction = PlayerAction.SPLIT;
-                            break;
-                        }
-
-                        if (CheckForBust(currentHand))
-                        {
-                            player.LatestAction = PlayerAction.BUST;
-                            Utilities.SavePlayerAction(player, currentHand);
-                            break;
-                        }
-
-                        Utilities.PromptPlayer(player);
-                        char response;
-                        response = Console.ReadKey(false).KeyChar;
-
-                        if (response != ' ')
-                        {
-                            player.LatestAction = PlayerAction.STAND;
-                            Utilities.SavePlayerAction(player, currentHand);
-                            break;
-                        }
-
-                        Deck.DealCard(currentHand, player);
-                        player.LatestAction = PlayerAction.HIT;
-                        Utilities.SavePlayerAction(player, currentHand);
-                    }
-                    Graphics.PrintPlayerTitleAndSum(player);
-                }
-            }
-
         }
-        public static bool CheckForSplit(Player player)
+        public static void CheckForSplit(Player player)
         {
-            Hand firstHand = player.Hands[0];
-            if (player.Hands.Count == 1 && firstHand.Cards.Count == 2 && player.Wallet >= player.Hands[0].Bet)
+            Hand mainHand = player.Hands[0];
+            Hand splitHand = player.Hands[1];
+            if (mainHand.CurrentCards.Count == 2
+                && player.Wallet >= player.Hands[0].Bet
+                && mainHand.CurrentCards[0].Value == mainHand.CurrentCards[1].Value
+                && splitHand.CurrentCards.Count == 0)
             {
-                if (firstHand.Cards[0].Value == firstHand.Cards[1].Value)
+                Utilities.PromptPlayerSplit(player);
+
+                while (player.LatestAction != PlayerAction.SPLIT)
                 {
-                    Utilities.PromptPlayerSplit(player);
-
-                    while (true)
+                    char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
+                    if (response == 'Y')
                     {
-
-                        Hand secondHand = new Hand();
-                        player.Hands.Add(secondHand);
-
-                        int x = firstHand.Cards[0].LatestCardPosition.LatestXPosition + 7 / 2;
-                        int y = firstHand.Cards[0].LatestCardPosition.LatestYPosition;
-
-                        //Erase both cards
-                        Graphics.EraseAPrintedCard(x, y);
-                        Graphics.EraseAPrintedCard(x + 7 / 2 + 1, y);
-
-
-                        secondHand.Cards.Add(firstHand.Cards[1]);
-                        firstHand.Cards.RemoveAt(1);
-
-                        secondHand.Bet = firstHand.Bet;
-
-
-                        firstHand.Cards[0].LatestCardPosition = (x, y);
-                        secondHand.Cards[0].LatestCardPosition = (x, y + 6 + 1); // 6 = card height
-
-                        Graphics.PrintASplitHand(player.Hands);
-
-                        return true;
-
-
+                        splitHand.CurrentCards.Add(mainHand.CurrentCards[1]);
+                        splitHand.Bet = mainHand.Bet;
+                        mainHand.CurrentCards.RemoveAt(1);
+                        player.LatestAction = PlayerAction.SPLIT;
+                        player.CurrentHand = mainHand;
+                    }
+                    else if (response == 'N')
+                    {
+                        break;
                     }
                 }
-            }
+                Utilities.LogPlayerInfo(player, player.CurrentHand);
+                Utilities.SavePlayerAction(player);
+                Graphics.PrintLog();
 
-            return false;
-        }
-        public static bool CheckForBlackJack(Hand hand)
-        {
-            if (hand.Cards.Count == 2)
-            {
-                if (hand.HandSum() == 21)
-                {
-                    return true;
-                }
             }
-            return false;
         }
-        public static bool CheckForBust(Hand hand)
+        public static void CheckForBlackJack(Player player, Hand hand)
         {
-            if (hand.HandSum() > 21)
+            if (hand.CurrentCards.Count == 2 && hand.HandSum() == 21)
             {
-                return true;
+                hand.HandState = HandState.BLACKJACK;
+                player.LatestAction = PlayerAction.BLACKJACK;
             }
-            return false;
+        }
+        public static void CheckForBust(Player player)
+        {
+            if (player.CurrentHand.HandSum() > 21)
+            {
+                player.LatestAction = PlayerAction.BUST;
+            }
         }
         public static void CheckResults(List<Player> players)
         {
