@@ -102,10 +102,6 @@
                 {
                     // Fix error handling here.
                 }
-                if (player.Hands.Count == 2)
-                {
-                    player.Hands.RemoveAt(1);
-                }
 
             }
             Console.Clear();

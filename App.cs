@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public static class App
     {
@@ -23,7 +17,15 @@ namespace Blackjack
             FileManager.CreateDirectory();
             FileManager.CreateFile();
             BlackJack blackjack = new();
-            blackjack.RunGame(Utilities.GetPlayers());
+            //blackjack.RunGame(Utilities.GetPlayers());
+
+            //! DEBUG MODE, comment out line above to use
+            Player kimmo = new("Kimmo", 1000);
+            Player william = new("William", 1000);
+            Player mille = new("Mille", 1000);
+
+            List<Player> debugPlayers = new() { kimmo, william, mille };
+            blackjack.RunGame(debugPlayers);
         }
     }
 }

@@ -30,8 +30,7 @@
         }
         private static void GetPlayerMove(Player player, Hand currentHand)
         {
-
-            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST)
+            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST && )
             {
                 Utilities.PromptPlayerMove(player);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
@@ -53,32 +52,35 @@
         }
         public static void CheckForSplit(Player player)
         {
-            Hand firstHand = player.Hands[0];
-            if (player.Hands.Count == 1
-                && firstHand.CurrentCards.Count == 2
+            Hand mainHand = player.Hands[0];
+            Hand splitHand = player.Hands[1];
+            if (mainHand.CurrentCards.Count == 2
                 && player.Wallet >= player.Hands[0].Bet
-                && firstHand.CurrentCards[0].Value == firstHand.CurrentCards[1].Value)
+                && mainHand.CurrentCards[0].Value == mainHand.CurrentCards[1].Value
+                && splitHand.CurrentCards.Count == 0)
             {
                 Utilities.PromptPlayerSplit(player);
 
-                while (true)
+                while (player.LatestAction != PlayerAction.SPLIT)
                 {
                     char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                     if (response == 'Y')
                     {
-                        player.Hands.Add(new());
-                        player.Hands[1].CurrentCards = new() { firstHand.CurrentCards[1] };
-                        player.Hands[1].Bet = player.Hands[2].Bet;
-                        firstHand.CurrentCards.RemoveAt(1);
+                        splitHand.CurrentCards.Add(mainHand.CurrentCards[1]);
+                        splitHand.Bet = mainHand.Bet;
+                        mainHand.CurrentCards.RemoveAt(1);
                         player.LatestAction = PlayerAction.SPLIT;
-                        player.CurrentHand = player.Hands[0];
-                        break;
+                        player.CurrentHand = mainHand;
                     }
                     else if (response == 'N')
                     {
                         break;
                     }
                 }
+                Utilities.LogPlayerInfo(player, player.CurrentHand);
+                Utilities.SavePlayerAction(player);
+                Graphics.PrintLog();
+
             }
         }
         public static void CheckForBlackJack(Player player, Hand hand)
