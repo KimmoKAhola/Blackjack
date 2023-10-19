@@ -10,7 +10,7 @@
         private static Dealer instance = null;
         private Dealer()
         {
-
+            Hands.Add(new());
         }
 
         public Hand Hand { get { return Hands[0]; } set { Hands[0] = value; } }

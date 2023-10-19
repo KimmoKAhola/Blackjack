@@ -71,6 +71,7 @@
                         player.Hands[1].Bet = player.Hands[2].Bet;
                         firstHand.CurrentCards.RemoveAt(1);
                         player.LatestAction = PlayerAction.SPLIT;
+                        player.CurrentHand = player.Hands[0];
                         break;
                     }
                     else if (response == 'N')
