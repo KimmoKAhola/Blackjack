@@ -1,5 +1,9 @@
 ﻿namespace Blackjack
 {
+    /// <summary>
+    /// It's a mess and it was William's idea ;)
+    /// this is not SOLID!
+    /// </summary>
     public static class Utilities
     {
         private static ConsoleColor _cachedForegroundColor = ConsoleColor.White;

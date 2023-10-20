@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
+    /// <summary>
+    /// A class for saving all the game information to different files on the computer.
+    /// </summary>
     public static class FileManager
     {
-        //Use this class to save the match history.
         private static string _directoryFilePath = "../../../MatchHistory";
         private static string _filePath = $"../../../MatchHistory/RENAME_ME.txt";
 

@@ -1,10 +1,12 @@
-﻿using System.Numerics;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
-    /// Creates a playing board for the black jack table.
-    ///
+    /// Creates all the graphics for the blackjack game.
+    /// Contains methods for animations.
+    /// Contains a method for scaling the playing window.
+    /// Contains methods for printing information on the board.
+    /// Contains several private variables deciding where and how fast cards are animated.
+    /// Contains player regions on the board.
     /// </summary>
     public static class Graphics
     {
@@ -21,12 +23,17 @@ namespace Blackjack
         private readonly static int _cardFlipDelay = 500;
         private static (int _animationStartingXPosition, int _animationStartingYPosition) _cardAnimationStartingPosition = (101, 18);
         private static (double[] _x, double[] _y) vectors = ScalingVectors();
-        private static string[] _cardGraphicArray = CreateCardGraphicArray();
+        private static string[] _movingCardGraphicArray = CreateMovingCardGraphicArray();
         private static (int _xPosition, int _yPosition) _playerOneRegion = ((int)vectors._x[^1] - _cardWidth, (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _playerTwoRegion = ((int)vectors._x[vectors._x.Length / 2 + 1], (int)vectors._y[^1]);
         private static (int _xPosition, int _yPosition) _playerThreeRegion = ((int)vectors._x[0], (int)vectors._y[vectors._y.Length / 2 - 1]);
         private static (int _xPosition, int _yPosition) _dealerRegion = ((int)vectors._x[vectors._x.Length / 2], (int)vectors._y[0]);
 
+        /// <summary>
+        /// Animates a single card to the dealer.
+        /// Has the dealer hand as an input.
+        /// </summary>
+        /// <param name="hand"></param>
         public static void AnimateACardFromBottomToTop(Hand hand)
         {
             (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
@@ -43,7 +50,7 @@ namespace Blackjack
                 for (int yPosition = _cardHeight - 1; yPosition >= 0; yPosition--)
                 {
                     Console.SetCursorPosition(startingXPosition, Console.CursorTop - 1);
-                    Console.Write(_cardGraphicArray[yPosition]);
+                    Console.Write(_movingCardGraphicArray[yPosition]);
                 }
                 int oldTopCursorPosition = Console.CursorTop + _cardHeight;
                 if (i >= 1)
@@ -62,6 +69,11 @@ namespace Blackjack
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
             PrintASingleCard(hand.CurrentCards.Last());
         }
+        /// <summary>
+        /// Animates a single card at a time to player 1.
+        /// Has a player as an input and changes the card animation values depending on the active hand
+        /// </summary>
+        /// <param name="player"></param>
         public static void AnimateACardFromLeftToRight(Player player)
         {
             Hand hand = player.CurrentHand;
@@ -84,7 +96,7 @@ namespace Blackjack
                     if (yPosition < _cardWidth - 1)
                     {
                         Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                        Console.Write(_cardGraphicArray[yPosition]);
+                        Console.Write(_movingCardGraphicArray[yPosition]);
                     }
                     else
                     {
@@ -111,6 +123,11 @@ namespace Blackjack
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
+        /// <summary>
+        /// Animates a single card at a time to player 3.
+        /// Has a player as an input and changes the card animation values depending on the active hand
+        /// </summary>
+        /// <param name="player"></param>
         public static void AnimateACardFromRightToLeft(Player player)
         {
             Hand hand = player.CurrentHand;
@@ -133,7 +150,7 @@ namespace Blackjack
                     if (yPosition < _cardWidth - 1)
                     {
                         Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                        Console.Write(_cardGraphicArray[yPosition]);
+                        Console.Write(_movingCardGraphicArray[yPosition]);
                     }
                     else
                     {
@@ -156,6 +173,11 @@ namespace Blackjack
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
+        /// <summary>
+        /// Animates a single card at a time to player 2.
+        /// Has a player as an input and changes the card animation values depending on the active hand
+        /// </summary>
+        /// <param name="player"></param>
         public static void AnimateACardFromTopToBottom(Player player)
         {
             Hand hand = player.CurrentHand;
@@ -179,7 +201,7 @@ namespace Blackjack
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
                     Console.SetCursorPosition(startingXPosition, Console.CursorTop + 1);
-                    Console.Write(_cardGraphicArray[yPosition]);
+                    Console.Write(_movingCardGraphicArray[yPosition]);
                 }
                 int oldTopCursorPosition = Console.CursorTop - _cardHeight;
 
@@ -195,15 +217,10 @@ namespace Blackjack
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - 1);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        private static string[] CreateCardGraphicArray()
-        {
-            string[] cardArray = new string[6];
-            for (int i = 0; i < _cardWidth - 1; i++)
-            {
-                cardArray[i] = Deck.AllCards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
-            }
-            return cardArray;
-        }
+        /// <summary>
+        /// Animates the deck shuffle at the start of each round.
+        /// </summary>
+        /// <param name="card"></param>
         public static void AnimateDeckShuffle(Card card)
         {
             //PrintAStackOfCards(card, 77, 18, 2);
@@ -223,30 +240,57 @@ namespace Blackjack
             PrintAStackOfCards(card, _cardAnimationStartingPosition._animationStartingXPosition - _cardWidth, _cardAnimationStartingPosition._animationStartingYPosition, numberOfCardsInStack);
             Utilities.SetConsoleColors("", "DG");
         }
-        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        /// <summary>
+        /// Creates an array for the card. This is used when printing a card's face-down graphics.
+        /// </summary>
+        /// <returns></returns>
+        private static string[] CreateMovingCardGraphicArray()
         {
-            Utilities.SetConsoleColors("", "DG");
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
-                cardArray[i] = new string(' ', _cardWidth);
+                cardArray[i] = Deck.AllCards[0].CardGraphicWhileMoving.Substring(i * _cardWidth, _cardWidth);
             }
-            Console.SetCursorPosition(startingXPosition, startingYPosition);
-            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
-            {
-                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
-                Console.Write(cardArray[yPosition]);
-            }
+            return cardArray;
         }
-        private static void PrintASingleCard(Card card)
+        /// <summary>
+        /// Creates an array for a card. This is used when printing a card's face-up graphics.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        private static string[] CreateStationaryCardGraphicArray(Card card)
         {
-            Utilities.SetConsoleColors("", "W");
-            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
                 cardArray[i] = card.CardGraphic.Substring(i * _cardWidth, _cardWidth);
             }
+            return cardArray;
+        }
+        /// <summary>
+        /// Erases a printed card at a certain position. Erases a card by printing over its position with green color.
+        /// </summary>
+        /// <param name="startingXPosition"></param>
+        /// <param name="startingYPosition"></param>
+        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        {
+            Utilities.SetConsoleColors("", "DG");
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
+                Console.Write(_movingCardGraphicArray[yPosition]);
+            }
+        }
+        /// <summary>
+        /// Prints a single card at a given position. The card's position depends on the current player.
+        /// </summary>
+        /// <param name="card"></param>
+        private static void PrintASingleCard(Card card)
+        {
+            Utilities.SetConsoleColors("", "W");
+            Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
+            string[] cardArray = CreateStationaryCardGraphicArray(card);
             Console.SetCursorPosition(card.LatestCardPosition.LatestXPosition + _cardWidth, card.LatestCardPosition.LatestYPosition);
             for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
             {
@@ -255,6 +299,13 @@ namespace Blackjack
             }
             Utilities.SetConsoleColors("Y", "DG");
         }
+        /// <summary>
+        /// Prints a stack of cards. This is used when doing the shuffling animation at the start of each round.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="startingXPosition"></param>
+        /// <param name="startingYPosition"></param>
+        /// <param name="numberOfCardsInStack"></param>
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -278,6 +329,12 @@ namespace Blackjack
             }
             Utilities.SetConsoleColors("", "DG");
         }
+        /// <summary>
+        /// A method for printing a player's split hand.
+        /// Does this by erasing the player's original 2 card hand and printing the cards with a distance between them to
+        /// show the user that the hand has been split into 2 separate hands.
+        /// </summary>
+        /// <param name="player"></param>
         public static void PrintASplitHand(Player player)
         {
             Hand hand = player.CurrentHand;
@@ -324,6 +381,9 @@ namespace Blackjack
                 }
             }
         }
+        /// <summary>
+        /// Prints a green playing board with a thin, white border along the edges.
+        /// </summary>
         public static void PrintBoard()
         {
             Utilities.SetConsoleColors("W", "DG");
@@ -337,12 +397,15 @@ namespace Blackjack
             playingBoard += "\n" + "╰" + new string(line, _windowWidth) + "╯";
             Console.WriteLine(playingBoard);
         }
+        /// <summary>
+        /// Prints the game log at the top left part of the playing board.
+        /// Uses info from a list containing each player move and player info, such as hand sum.
+        /// </summary>
         public static void PrintLog()
         {
-            var (x, y) = ScalingVectors();
             int startPosX = 1;
             int startPosY = 1;
-            Console.SetCursorPosition((int)x[startPosX], (int)y[startPosY]);
+            Console.SetCursorPosition((int)vectors._x[startPosX], (int)vectors._x[startPosY]);
             int cursorLeft = Console.CursorLeft;
             int lastInTheList = Utilities.log.Count - 1;
 
@@ -352,13 +415,17 @@ namespace Blackjack
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
                 int spaces = 80 - Utilities.log[i].Length;
-                string padding = new string(' ', spaces);
+                string padding = new(' ', spaces);
                 Console.Write($"│{Utilities.log[i]}{padding}│");
             }
             Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
             Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
 
         }
+        /// <summary>
+        /// Prints the player's title and sum close to the position of the player's active hand.
+        /// </summary>
+        /// <param name="participant"></param>
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
             int startXPos = 0;
@@ -417,6 +484,11 @@ namespace Blackjack
             }
             Console.SetCursorPosition(1, 1);
         }
+        /// <summary>
+        /// Scaling vectors. Used to calculate each distance on the playing board relative to an x or y value based on
+        /// a card's width (x) or height (y). This method makes it possible to scale the playing board up or down at the start of each game.
+        /// </summary>
+        /// <returns></returns>
         public static (double[] x, double[] y) ScalingVectors()
         {
             double cardHeight = _cardHeight;
@@ -440,6 +512,9 @@ namespace Blackjack
 
             return (vectorXValues, vectorYValues);
         }
+        /// <summary>
+        /// Prints the dealer info at the top left of the playing board.
+        /// </summary>
         public static void UpdateDealerBoard()
         {
             Utilities.LogDealerInfo();

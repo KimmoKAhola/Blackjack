@@ -3,7 +3,7 @@
     /// <summary>
     /// This class inherits from the Player class
     /// and creates ONE dealer who runs the place.
-    /// Not implemented
+    /// Implemented using singleton.
     /// </summary>
     public class Dealer : Participant
     {
