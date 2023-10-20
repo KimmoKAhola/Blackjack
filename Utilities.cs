@@ -145,6 +145,71 @@
             PrintCenteredStringArray(prompt, yPosition);
             SetConsoleColors("DG", "DG");
         }
+        public static void PromptPlayerSplit(Player player, out int promptWidth, out int yPosition)
+        {
+            SetConsoleColors("B", "G");
+            promptWidth = 71;
+            yPosition = 30;
+
+            string[] prompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"|{GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71)}|",
+                $"│                 Do you wish to split? PRESS <y> or <N>                │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
+
+            PrintCenteredStringArray(prompt, 30);
+            SetConsoleColors("DG", "DG");
+        }
+        public static int PromptPlayerBet(Player player, ref int cachedPromptWidth)
+        {
+            Utilities.SetConsoleColors("Y", "DG");
+
+            int yPosition = 30;
+            string prompt = $"Player {player.Name}, please enter your bet";
+            string betPrompt = $"BET: ";
+            string errorMessage = $"Invalid input, please try again";
+
+            if (cachedPromptWidth < prompt.Length)
+                cachedPromptWidth = prompt.Length;
+
+            string clearLine = new(' ', cachedPromptWidth);
+
+            string[] clearLines = { clearLine, clearLine };
+            string[] promptLines = { prompt, betPrompt };
+
+            while (true)
+            {
+                PrintCenteredAlignedStringArray(clearLines, yPosition);
+                PrintCenteredAlignedStringArray(promptLines, yPosition);
+
+                if (int.TryParse(Console.ReadLine(), out int betInput))
+                {
+                    if (betInput <= player.Wallet)
+                    {
+                        string[] erasePrompt = { clearLine, clearLine, clearLine };
+                        PrintCenteredAlignedStringArray(erasePrompt, yPosition);
+                        return betInput;
+                    }
+                }
+                yPosition += 2;
+                PrintCenteredString(errorMessage, yPosition);
+                yPosition -= 2;
+            }
+        }
+        public static void ErasePrompt(int promptWindowWidth, int yPosition)
+        {
+            SetConsoleColors("DG", "DG");
+
+            string eraseLine = new(' ', promptWindowWidth);
+
+            for (int i = 0; i < 4; i++)
+            {
+                PrintCenteredString(eraseLine, yPosition);
+                yPosition++;
+            }
+        }
 
         public static void PrintCenteredStringArray(string[] promptLines, int yPosition)
         {
@@ -175,35 +240,6 @@
         {
             int centeredStringPosition = (Console.WindowWidth - input.Length) / 2;
             Console.SetCursorPosition(centeredStringPosition, yPosition);
-        }
-        public static void ErasePrompt(int promptWindowWidth, int yPosition)
-        {
-            SetConsoleColors("DG", "DG");
-
-            string eraseLine = new(' ', promptWindowWidth);
-
-            for (int i = 0; i < 4; i++)
-            {
-                PrintCenteredString(eraseLine, yPosition);
-                yPosition++;
-            }
-        }
-        public static void PromptPlayerSplit(Player player, out int promptWidth, out int yPosition)
-        {
-            SetConsoleColors("B", "G");
-            promptWidth = 71;
-            yPosition = 30;
-
-            string[] prompt =
-            {
-                $"╭───────────────────────────────────────────────────────────────────────╮",
-                $"|{GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71)}|",
-                $"│                 Do you wish to split? PRESS <y> or <N>                │",
-                $"╰───────────────────────────────────────────────────────────────────────╯"
-            };
-
-            PrintCenteredStringArray(prompt, 30);
-            SetConsoleColors("DG", "DG");
         }
 
         public static void SavePlayerAction(Player player)

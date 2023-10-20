@@ -42,10 +42,25 @@
         }
         private static void GetPlayerBets(List<Player> players)
         {
+            int cachedPromptWidth = 0;
+
+            foreach (var player in players)
+            {
+                int bet = Utilities.PromptPlayerBet(player, ref cachedPromptWidth);
+
+                player.Hands[0].Bet = bet;
+                player.Wallet -= player.Hands[0].Bet;
+
+                ShowDebugWallets(players);
+            }
+        }
+
+        private static void GetPlayerBetsS(List<Player> players)
+        {
             Utilities.SetConsoleColors("Y", "DG");
             int promptLength = 0;
             int betLength = 0;
-            int bet = 0;
+            int betInput = 0;
 
             foreach (var player in players)
             {
@@ -56,9 +71,9 @@
                 {
                     promptLength = prompt.Length;
                 }
-                if (betLength < bet.ToString().Length)
+                if (betLength < betInput.ToString().Length)
                 {
-                    betLength = bet.ToString().Length;
+                    betLength = betInput.ToString().Length;
                 }
 
                 while (true)
@@ -74,11 +89,11 @@
                     Utilities.PrintCenteredAlignedStringArray(clearLines, yPosition);
                     Utilities.PrintCenteredAlignedStringArray(promptLines, yPosition);
 
-                    if (int.TryParse(Console.ReadLine(), out bet))
+                    if (int.TryParse(Console.ReadLine(), out betInput))
                     {
-                        if (bet <= player.Wallet)
+                        if (betInput <= player.Wallet)
                         {
-                            player.Hands[0].Bet = bet;
+                            player.Hands[0].Bet = betInput;
                             player.Wallet -= player.Hands[0].Bet;
 
                             ShowDebugWallets(players);
