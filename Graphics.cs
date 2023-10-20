@@ -426,7 +426,7 @@
 
         }
         /// <summary>
-        /// Prints the player's name as a header abover their hand(s).
+        /// Prints the player's name as a header by their hand(s).
         /// </summary>
         /// <param name="participant"></param>
         public static void PrintPlayerHeaders(Player player)
@@ -437,12 +437,12 @@
             switch (player.PlayerNumber)
             {
                 case 1:
-                    headerStartXPos = _playerOneRegion._xPosition - 8;
+                    headerStartXPos = _playerOneRegion._xPosition + 3 - player.Name.Length;
                     headerStartYPos = _playerOneRegion._yPosition - 7;
                     break;
                 case 2:
-                    headerStartXPos = _playerTwoRegion._xPosition - 8;
-                    headerStartYPos = _playerTwoRegion._yPosition + 6;
+                    headerStartXPos = _playerTwoRegion._xPosition - 4 - (player.Name.Length / 2);
+                    headerStartYPos = _playerTwoRegion._yPosition + 7;
                     break;
                 case 3:
                     headerStartXPos = _playerThreeRegion._xPosition + 4;
@@ -457,6 +457,36 @@
 
             Console.SetCursorPosition(1, 1);
 
+        }
+        /// <summary>
+        /// Prints the sum of a participant's specific current.
+        /// </summary>
+        /// <param name="participant"></param>
+        public static void PrintHandSum(Player player, Hand hand)
+        {
+            int sumStartXPos = 0;
+            int sumStartYPos = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition - 5;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 2:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 3:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+            }
+
+            string handSum = $"HAND SUM: {player.CurrentHand.HandSum()}";
+
+            Console.SetCursorPosition(sumStartXPos, sumStartYPos);
+            Console.Write(handSum);
         }
 
         /// <summary>

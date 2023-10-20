@@ -159,6 +159,7 @@
                         Graphics.AnimateACardFromRightToLeft(currentPlayer);
                         break;
                 }
+                Graphics.PrintHandSum(currentPlayer, hand);
             }
             if (participant is Dealer)
             {
