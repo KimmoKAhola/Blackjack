@@ -23,19 +23,16 @@
 
                 GetPlayerMove(player);
 
-                Utilities.SavePlayerAction(player);
+                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
 
-                if (player.Hands[1].CurrentCards.Count > 0)
-                {
-                    player.CurrentHand = player.Hands[1];
-                }
+                player.CurrentHand = player.Hands[1];
 
             }
         }
         private static void GetPlayerMove(Player player)
         {
-            while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP)
+            while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP && player.CurrentHand.CurrentCards.Count > 0)
             {
                 Utilities.PromptPlayerMove(player);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
@@ -85,7 +82,7 @@
                     }
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
-                Utilities.SavePlayerAction(player);
+                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
 
             }
