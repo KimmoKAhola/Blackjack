@@ -67,7 +67,8 @@
 
             Thread.Sleep(_cardFlipDelay);
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
-            PrintASingleCard(hand.CurrentCards.Last());
+            if(hand.CurrentCards.Count >= 2)
+                PrintASingleCard(hand.CurrentCards.Last());
         }
         /// <summary>
         /// Animates a single card at a time to player 1.
