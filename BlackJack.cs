@@ -54,58 +54,6 @@
                 ShowDebugWallets(players);
             }
         }
-
-        private static void GetPlayerBetsS(List<Player> players)
-        {
-            Utilities.SetConsoleColors("Y", "DG");
-            int promptLength = 0;
-            int betLength = 0;
-            int betInput = 0;
-
-            foreach (var player in players)
-            {
-                int yPosition = 30;
-                string prompt = $"Player {player.Name}, please enter your bet";
-
-                if (promptLength < prompt.Length)
-                {
-                    promptLength = prompt.Length;
-                }
-                if (betLength < betInput.ToString().Length)
-                {
-                    betLength = betInput.ToString().Length;
-                }
-
-                while (true)
-                {
-                    string betPrompt = $"BET: ";
-                    string errorMessage = $"Invalid input, please try again";
-                    string promptClearLine = new(' ', promptLength);
-                    string betClearLine = new(' ', betLength + betPrompt.Length);
-
-                    string[] clearLines = { promptClearLine, betClearLine };
-                    string[] promptLines = { prompt, betPrompt };
-
-                    Utilities.PrintCenteredAlignedStringArray(clearLines, yPosition);
-                    Utilities.PrintCenteredAlignedStringArray(promptLines, yPosition);
-
-                    if (int.TryParse(Console.ReadLine(), out betInput))
-                    {
-                        if (betInput <= player.Wallet)
-                        {
-                            player.Hands[0].Bet = betInput;
-                            player.Wallet -= player.Hands[0].Bet;
-
-                            ShowDebugWallets(players);
-                            break;
-                        }
-                    }
-                    yPosition++;
-                    Utilities.PrintCenteredString(errorMessage, yPosition);
-                    yPosition--;
-                }
-            }
-        }
         private static void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;

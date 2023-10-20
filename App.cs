@@ -12,6 +12,7 @@
             if (OperatingSystem.IsWindows())
             {
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                Utilities.ToggleCursorVisibility();
             }
             else
             {
@@ -21,7 +22,7 @@
             FileManager.CreateDirectory();
             FileManager.CreateFile();
             BlackJack blackjack = new();
-            //blackjack.RunGame(Utilities.GetPlayers());
+            blackjack.RunGame(Utilities.GetPlayers());
 
             //! DEBUG MODE, comment out line above to use
             Player kimmo = new("Kimmo", 1000);
