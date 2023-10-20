@@ -4,8 +4,6 @@
     {
         HIT = 1,
         STAND,
-        SPLIT,
-        BUST,
-        BLACKJACK
+        SPLIT
     }
 }

@@ -229,9 +229,9 @@
             {
                 completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
-            if (player.LatestAction == PlayerAction.BUST)
+            if (player.CurrentHand.HandState == HandState.BUST)
             {
-                completePlayerHand = PlayerAction.BUST.ToString() + " - SUM [" + hand.HandSum() + "]";
+                completePlayerHand = HandState.BUST.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
             FileManager.SaveHandInfo(completePlayerHand);
         }
