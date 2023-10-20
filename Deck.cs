@@ -106,6 +106,10 @@
 
                     Card latestCard = players[j].CurrentHand.CurrentCards.Last();
                     firstDealInfo += $"{players[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
+
+                    GameLogic.CheckForBlackJack(players[j].CurrentHand);
+                    if (players[j].CurrentHand.HandState == HandState.BLACKJACK)
+                        Utilities.PromptEndedHand(players[j]);
                 }
                 DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
 
