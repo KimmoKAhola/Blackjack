@@ -99,6 +99,7 @@
                         player.CurrentHand = mainHand;
                         int x = mainHand.CurrentCards[0].LatestCardPosition.LatestXPosition;
                         int y = mainHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+
                         if (player.PlayerNumber != 3)
                         {
                             for (int i = 0; i < 4; i++)
@@ -114,6 +115,8 @@
                             }
                         }
                         Graphics.PrintASplitHand(player);
+                        Graphics.PrintHandSum(player, player.Hands[0]);
+                        Graphics.PrintHandSum(player, player.Hands[1]);
                     }
                     else if (response == 'N')
                     {

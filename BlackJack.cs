@@ -36,7 +36,7 @@
             char response2 = Console.ReadKey().KeyChar;
             if (response2 == 'n' || response2 == 'N')
             {
-                Environment.Exit(0); //TODO remove later.
+                Environment.Exit(0);
             }
             RunGame(players);
         }
@@ -59,13 +59,11 @@
             int gameId = _gameId++;
             foreach (Player player in players)
             {
-
                 player.Hands[0].CurrentCards.Clear();
-                if (player.Wallet == 0)
-                {
-                    // Fix error handling here.
-                }
-
+                player.Hands[1].CurrentCards.Clear();
+                player.Hands[0].HandState = HandState.UNDECIDED;
+                player.Hands[1].HandState = HandState.UNDECIDED;
+                player.CurrentHand = player.Hands[0];
             }
             Console.Clear();
         }
@@ -96,7 +94,7 @@
             Graphics.AnimateDeckShuffle(Deck.AllCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
-            ShowDebugWallets(players);
+            // ShowDebugWallets(players); Displays the player's funds on the left side of the screen
             GetPlayerBets(players);
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);

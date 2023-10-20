@@ -441,8 +441,8 @@
                     headerStartYPos = _playerOneRegion._yPosition - 7;
                     break;
                 case 2:
-                    headerStartXPos = _playerTwoRegion._xPosition - 4 - (player.Name.Length / 2);
-                    headerStartYPos = _playerTwoRegion._yPosition + 7;
+                    headerStartXPos = _playerTwoRegion._xPosition - 29 - player.Name.Length;
+                    headerStartYPos = _playerTwoRegion._yPosition + 3;
                     break;
                 case 3:
                     headerStartXPos = _playerThreeRegion._xPosition + 4;
@@ -484,6 +484,7 @@
             }
 
             string handSum = $"HAND SUM: {player.CurrentHand.HandSum()}";
+            string clearLine = new(' ', player.Hands[0].HandSum() + player.Hands[1].HandSum());
 
             Console.SetCursorPosition(sumStartXPos, sumStartYPos);
             Console.Write(handSum);
