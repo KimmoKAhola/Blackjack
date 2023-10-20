@@ -2,6 +2,10 @@
 {
     public class Hand
     {
+        /// <summary>
+        /// A class containing constructor and properties for each player hand.
+        /// Is used to handle bets
+        /// </summary>
         public Hand()
         {
             CurrentCards = new();
@@ -13,6 +17,11 @@
         public HandState HandState { get; set; }
         public int Bet { get; set; }
 
+        /// <summary>
+        /// Calculates the hand sum of the current hand.
+        /// Contains logic to decide ace values.
+        /// </summary>
+        /// <returns></returns>
         public int HandSum()
         {
             int sum = 0;

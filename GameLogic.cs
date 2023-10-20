@@ -2,6 +2,10 @@
 {
     public static class GameLogic
     {
+        /// <summary>
+        /// A method checking if the dealer has blackjack at the start of a round.
+        /// </summary>
+        /// <returns></returns>
         public static bool CheckForDealerBlackJack()
         {
             if (Dealer.Instance.Hand.HandSum() == 21)
@@ -10,6 +14,13 @@
             }
             return false;
         }
+        /// <summary>
+        /// A method that runs the current players turn.
+        /// Loops through all of the player's hands, if more than one, and
+        /// contains methods that checks for win, bust, blackjack, split.
+        /// Contains print methods to update the board.
+        /// </summary>
+        /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
             Graphics.PrintPlayerTitleAndSum(player);
@@ -30,6 +41,11 @@
 
             }
         }
+        /// <summary>
+        /// A method that reads the player's move and handles the logic.
+        /// Contains methods for deciding player actions and hand state.
+        /// </summary>
+        /// <param name="player"></param>
         private static void GetPlayerMove(Player player)
         {
             while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP && player.CurrentHand.CurrentCards.Count > 0)
@@ -53,6 +69,11 @@
             }
             Graphics.PrintPlayerTitleAndSum(player);
         }
+        /// <summary>
+        /// A methods which contains logic if the player will split its hand.
+        /// Contains calls to several print methods from the Graphics class.
+        /// </summary>
+        /// <param name="player"></param>
         public static void CheckForSplit(Player player)
         {
             Hand mainHand = player.Hands[0];
@@ -104,13 +125,23 @@
 
             }
         }
-        public static void CheckForBlackJack(Player player, Hand hand)
+        /// <summary>
+        /// Checks if a player has blackjack on its current hand.
+        /// Changes the Hand State to BLACKJACK if the player has blackjack.
+        /// </summary>
+        /// <param name="hand"></param>
+        public static void CheckForBlackJack(Hand hand)
         {
             if (hand.CurrentCards.Count == 2 && hand.HandSum() == 21)
             {
                 hand.HandState = HandState.BLACKJACK;
             }
         }
+        /// <summary>
+        /// Checks if a player busts on its current hand.
+        /// Changes the Hand State to BUST if the player has a card sum over 21.
+        /// </summary>
+        /// <param name="player"></param>
         public static void CheckForBust(Player player)
         {
             if (player.CurrentHand.HandSum() > 21)
@@ -118,6 +149,14 @@
                 player.CurrentHand.HandState = HandState.BUST;
             }
         }
+        /// <summary>
+        /// A method for calculating the results for each player and their hands
+        /// at the end of the game.
+        /// Calculates wins and losses.
+        /// Changes hand states of each player hands.
+        /// Plays a nice little sound if one or more player wins.
+        /// </summary>
+        /// <param name="players"></param>
         public static void CheckResults(List<Player> players)
         {
             foreach (var player in players)
@@ -126,7 +165,6 @@
                 {
                     if (hand.HandState == HandState.BLACKJACK)
                     {
-                        //Player got blackjack in first deal
                         Sounds.WinSound();
                     }
                     else if (hand.HandSum() > 21)
@@ -149,6 +187,10 @@
                 }
             }
         }
+        /// <summary>
+        /// A method containing the dealer AI.
+        /// Hard coded according to official blackjack rules.
+        /// </summary>
         public static void DealersTurn()
         {
             while (Dealer.Instance.Hand.HandSum() < 17)

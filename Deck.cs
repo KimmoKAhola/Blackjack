@@ -1,16 +1,27 @@
 ﻿namespace Blackjack
 {
+    /// <summary>
+    /// A class creating the game deck with a certain number of cards.
+    /// Uses the Card class.
+    /// </summary>
     public static class Deck
     {
-        //private static List<Card>? cards = GetNewDeck();
-        private static List<Card>? cards = GetAceDeck(); // Only for testing
+        private static List<Card>? cards = GetNewDeck();
+        //private static List<Card>? cards = GetAceDeck(); // Only for testing
 
+        /// <summary>
+        /// Creates a list of cards.
+        /// </summary>
         public static List<Card> AllCards
         {
-            //get => cards ??= GetNewDeck();
-            get => cards ??= GetAceDeck(); // Only for testing
+            get => cards ??= GetNewDeck();
+            //get => cards ??= GetAceDeck(); // Only for testing
         }
-        //Only for testing edge cases
+        /// <summary>
+        /// Creates a test deck for testing different types of edge cases.
+        /// Should not be used in the live version of the program.
+        /// </summary>
+        /// <returns></returns>
         private static List<Card> GetAceDeck()
         {
             List<Card> aceCards = new List<Card>();
@@ -22,6 +33,12 @@
             return aceCards;
         }
 
+        /// <summary>
+        /// Creates a new deck using our allCards enum.
+        /// Creates 52 card objects containing different card properties
+        /// such as title, color, value etc.
+        /// </summary>
+        /// <returns></returns>
         private static List<Card> GetNewDeck()
         {
             List<Card> cardNumbers = new();
@@ -73,6 +90,11 @@
             }
             return cardNumbers;
         }
+        /// <summary>
+        /// A method which handles the first deal.
+        /// Deals 2 cards to each player, including the dealer, currently at the table.
+        /// </summary>
+        /// <param name="players"></param>
         public static void FirstDeal(List<Player> players)
         {
             string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
@@ -92,19 +114,26 @@
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
         }
+        /// <summary>
+        /// Shuffles the card deck using the Fisher-Yates shuffle algorithm.
+        /// </summary>
         public static void ShuffleDeck()
         {
-            //cards = GetNewDeck();
-            cards = GetAceDeck(); //Only for testing
-
+            cards = GetNewDeck();
+            //cards = GetAceDeck(); //Only for testing
             Random randomNum = new();
             for (int i = 51; i > 0; i--)
             {
                 int j = randomNum.Next(0, i);
-
                 (cards[j], cards[i]) = (cards[i], cards[j]);
             }
         }
+        /// <summary>
+        /// A method which deals a single card to a specific participants
+        /// active hand.
+        /// </summary>
+        /// <param name="hand"></param>
+        /// <param name="participant"></param>
         public static void DealCard(Hand hand, Participant participant)
         {
             hand.CurrentCards.Add(cards[0]);
@@ -132,6 +161,11 @@
             cards.RemoveAt(0);
         }
 
+        /// <summary>
+        /// A method which calculates the chance of not getting a bust when drawing a new card
+        /// </summary>
+        /// <param name="HandSum"></param>
+        /// <returns></returns>
         public static double CalculateChanceOfSuccess(int HandSum)
         {
             int bustCards = 0;

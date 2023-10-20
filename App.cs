@@ -2,6 +2,10 @@
 {
     public static class App
     {
+        /// <summary>
+        /// A class for initializing our application.
+        /// Starts the game, loads in files and initializes the blackjack board.
+        /// </summary>
         public static void RunApplication()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;

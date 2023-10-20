@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
+    /// <summary>
+    /// A class that creates card objects.
+    /// Uses title, value, card graphic, color, card symbol
+    /// and latest card position.
+    /// </summary>
     public class Card
     {
         public Card()

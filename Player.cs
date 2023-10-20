@@ -1,5 +1,12 @@
 ﻿namespace Blackjack
 {
+    /// <summary>
+    /// A class for a player at the table.
+    /// Inherits for the Participant class.
+    /// Has the properties Name, PlayerNumber, Wallet
+    /// CurrentHand.
+    /// Has a method for updating the player wallet value after each round.
+    /// </summary>
     public class Player : Participant
     {
         private static int _playerCounter = 1;
@@ -23,6 +30,10 @@
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
         public Hand CurrentHand { get; set; }
+        /// <summary>
+        /// A method for updating the player's wallet value.
+        /// Wins increases the value.
+        /// </summary>
         public void UpdateWallet()
         {
             foreach (var hand in Hands)

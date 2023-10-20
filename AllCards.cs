@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Blackjack
 {
+    /// <summary>
+    /// Enum containing the name and indices for all 52 playing cards in a deck.
+    /// </summary>
     public enum AllCards
     {
         AceOfSpades = 1,
