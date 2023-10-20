@@ -17,7 +17,7 @@
         /// <summary>
         /// A method that runs the current players turn.
         /// Loops through all of the player's hands, if more than one, and
-        /// contains methods that checks for win, bust, blackjack, split.
+        /// contains methods that check for win, bust, blackjack, split.
         /// Contains print methods to update the board.
         /// </summary>
         /// <param name="player"></param>
@@ -28,6 +28,7 @@
 
             foreach (var hand in player.Hands)
             {
+                Graphics.PrintPlayerTitleAndSum(player);
                 CheckForSplit(player);
                 if (hand.HandState != HandState.BLACKJACK)
                     GetPlayerMove(player);
@@ -59,7 +60,7 @@
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                     Deck.DealCard(player.CurrentHand, player);
-                    CheckForBust(player); //Add a BUST "prompt"
+                    CheckForBust(player);
                 }
                 else if (response == 'S')
                 {
@@ -68,9 +69,9 @@
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
+                Graphics.PrintPlayerTitleAndSum(player);
             }
             Utilities.PromptEndedHand(player);
-            Graphics.PrintPlayerTitleAndSum(player);
         }
         /// <summary>
         /// A methods which contains logic if the player will split its hand.

@@ -67,7 +67,7 @@
 
             Thread.Sleep(_cardFlipDelay);
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
-            if(hand.CurrentCards.Count >= 2)
+            if (hand.CurrentCards.Count >= 2)
                 PrintASingleCard(hand.CurrentCards.Last());
         }
         /// <summary>
@@ -186,7 +186,7 @@
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
-            
+
             if (player.CurrentHand == player.Hands[1])
             {
                 startingXPosition += (int)(8 * _cardHeight / 2);
@@ -429,10 +429,57 @@
         /// Prints the player's title and sum close to the position of the player's active hand.
         /// </summary>
         /// <param name="participant"></param>
+        public static void PrintPlayerHeaders(Player player)
+        {
+            int titleStartXPos = 0;
+            int titleStartYPos = 0;
+            double chanceOfSuccess = Deck.CalculateChanceOfSuccess(player.Hands[0].HandSum());
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    titleStartXPos = _playerOneRegion._xPosition - 8;
+                    titleStartYPos = _playerOneRegion._yPosition - 7;
+                    break;
+                case 2:
+                    titleStartXPos = _playerTwoRegion._xPosition - 8;
+                    titleStartYPos = _playerTwoRegion._yPosition - 7;
+                    break;
+                case 3:
+                    titleStartXPos = _playerThreeRegion._xPosition + 5;
+                    titleStartYPos = _playerThreeRegion._yPosition - 7;
+                    break;
+
+                default:
+                    break;
+            }
+
+            string playerHeader = $"{player.Name.ToUpper()}";
+            string headerGreenString = new(' ', playerHeader.Length);
+            string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
+
+            string chanceGreenString = new(' ', 24);
+
+            Console.SetCursorPosition(titleStartXPos, titleStartYPos);
+            //Console.Write(headerGreenString);
+            Console.SetCursorPosition(titleStartXPos, titleStartYPos);
+            Console.Write(playerHeader);
+
+            Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+            //Console.Write(chanceGreenString); //Un-comment to display a hand's chance of success
+            Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+            //Console.Write(chanceString); //Un-comment to display a hand's chance of success
+
+            Console.SetCursorPosition(1, 1);
+        }
+        /// <summary>
+        /// Prints the player's title and sum close to the position of the player's active hand.
+        /// </summary>
+        /// <param name="participant"></param>
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
-            int startXPos = 0;
-            int startYPos = 0;
+            int titleStartXPos = 0;
+            int titleStartYPos = 0;
             double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.Hands[0].HandSum());
             if (participant is Player)
             {
@@ -440,49 +487,49 @@
                 switch (player.PlayerNumber)
                 {
                     case 1:
-                        startXPos = _playerOneRegion._xPosition - 15;
-                        startYPos = _playerOneRegion._yPosition - 2;
+                        titleStartXPos = _playerOneRegion._xPosition - 8;
+                        titleStartYPos = _playerOneRegion._yPosition - 7;
                         break;
                     case 2:
-                        startXPos = _playerTwoRegion._xPosition - 15;
-                        startYPos = _playerTwoRegion._yPosition - 2;
+                        titleStartXPos = _playerTwoRegion._xPosition - 8;
+                        titleStartYPos = _playerTwoRegion._yPosition - 7;
                         break;
                     case 3:
-                        startXPos = _playerThreeRegion._xPosition + 1;
-                        startYPos = _playerThreeRegion._yPosition - 2;
+                        titleStartXPos = _playerThreeRegion._xPosition + 5;
+                        titleStartYPos = _playerThreeRegion._yPosition - 7;
                         break;
 
                     default:
                         break;
                 }
 
-                string playerHeader = $"{player.Name}'s hand: {participant.Hands[0].HandSum()}";
+                string playerHeader = $"{player.Name.ToUpper()}";
                 string headerGreenString = new(' ', playerHeader.Length);
                 string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
 
                 string chanceGreenString = new(' ', 24);
 
-                Console.SetCursorPosition(startXPos, startYPos);
-                Console.Write(headerGreenString);
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
+                //Console.Write(headerGreenString);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.Write(playerHeader);
 
-                Console.SetCursorPosition(startXPos, startYPos + 1);
-                Console.Write(chanceGreenString);
-                Console.SetCursorPosition(startXPos, startYPos + 1);
-                Console.Write(chanceString);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+                //Console.Write(chanceGreenString); //Un-comment to display a hand's chance of success
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+                //Console.Write(chanceString); //Un-comment to display a hand's chance of success
             }
             else if (participant is Dealer)
             {
-                startXPos = _dealerRegion._xPosition - 10;
-                startYPos = _dealerRegion._yPosition + 1 + _cardHeight;
+                titleStartXPos = _dealerRegion._xPosition - 10;
+                titleStartYPos = _dealerRegion._yPosition + 1 + _cardHeight;
 
                 string dealerHeader = $"Dealer's hand: {participant.Hands[0].HandSum()}";
                 string greenString = new(' ', dealerHeader.Length);
 
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.WriteLine(greenString);
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.Write(dealerHeader);
             }
             Console.SetCursorPosition(1, 1);
