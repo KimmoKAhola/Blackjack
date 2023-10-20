@@ -1,4 +1,6 @@
-﻿namespace Blackjack
+﻿using System.Numerics;
+
+namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -11,9 +13,9 @@
         private readonly static int _windowWidth = _consoleWindowWidth - 5;
         private readonly static int _windowHeight = _consoleWindowHeigth - 5;
 
-        private readonly static int _cardWidth = 7;
-        private readonly static int _cardHeight = 6;
-        private readonly static int _horizontalAnimationSpeed = 1; // 5 seems to work
+        public readonly static int _cardWidth = 7;
+        public readonly static int _cardHeight = 6;
+        private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
         private readonly static int _cardFlipDelay = 500;
@@ -60,11 +62,15 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromLeftToRight(Hand hand)
+        public static void AnimateACardFromLeftToRight(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
-
             int distance = _playerOneRegion._xPosition - startingXPosition - (hand.CurrentCards.Count * _cardWidth / 2);
+            if (player.CurrentHand == player.Hands[1])
+            {
+                startingYPosition += (int)(3 * _cardHeight / 2);
+            }
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -105,10 +111,15 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromRightToLeft(Hand hand)
+        public static void AnimateACardFromRightToLeft(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.CurrentCards.Count;
+            if (player.CurrentHand == player.Hands[1])
+            {
+                startingYPosition += (int)(3 * _cardHeight / 2);
+            }
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -145,10 +156,16 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromTopToBottom(Hand hand)
+        public static void AnimateACardFromTopToBottom(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
+            
+            if (player.CurrentHand == player.Hands[1])
+            {
+                startingXPosition += (int)(8 * _cardHeight / 2);
+            }
 
             int distance = _playerTwoRegion._yPosition - startingYPosition;
             Utilities.SetConsoleColors("W", "");
@@ -260,6 +277,52 @@
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
             Utilities.SetConsoleColors("", "DG");
+        }
+        public static void PrintASplitHand(Player player)
+        {
+            Hand hand = player.CurrentHand;
+            Hand secondHand = player.Hands[1];
+            (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            foreach (var currentHand in player.Hands)
+            {
+                switch (player.PlayerNumber)
+                {
+                    case 1:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition, startingYPosition + (int)(3 * _cardHeight / 2));
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break;
+                    case 2:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition + (int)(7 * _cardWidth / 2), startingYPosition);
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break;
+                    case 3:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition, startingYPosition + (int)(3 * _cardHeight / 2));
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break; ;
+                }
+            }
         }
         public static void PrintBoard()
         {
