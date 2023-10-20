@@ -108,6 +108,8 @@
                     firstDealInfo += $"{players[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
 
                     GameLogic.CheckForBlackJack(players[j].CurrentHand);
+                    Graphics.PrintPlayerHeaders(players[j]);
+
                     if (players[j].CurrentHand.HandState == HandState.BLACKJACK)
                         Utilities.PromptEndedHand(players[j]);
                 }

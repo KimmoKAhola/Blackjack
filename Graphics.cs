@@ -426,52 +426,39 @@
 
         }
         /// <summary>
-        /// Prints the player's title and sum close to the position of the player's active hand.
+        /// Prints the player's name as a header abover their hand(s).
         /// </summary>
         /// <param name="participant"></param>
         public static void PrintPlayerHeaders(Player player)
         {
-            int titleStartXPos = 0;
-            int titleStartYPos = 0;
-            double chanceOfSuccess = Deck.CalculateChanceOfSuccess(player.Hands[0].HandSum());
+            int headerStartXPos = 0;
+            int headerStartYPos = 0;
 
             switch (player.PlayerNumber)
             {
                 case 1:
-                    titleStartXPos = _playerOneRegion._xPosition - 8;
-                    titleStartYPos = _playerOneRegion._yPosition - 7;
+                    headerStartXPos = _playerOneRegion._xPosition - 8;
+                    headerStartYPos = _playerOneRegion._yPosition - 7;
                     break;
                 case 2:
-                    titleStartXPos = _playerTwoRegion._xPosition - 8;
-                    titleStartYPos = _playerTwoRegion._yPosition - 7;
+                    headerStartXPos = _playerTwoRegion._xPosition - 8;
+                    headerStartYPos = _playerTwoRegion._yPosition + 6;
                     break;
                 case 3:
-                    titleStartXPos = _playerThreeRegion._xPosition + 5;
-                    titleStartYPos = _playerThreeRegion._yPosition - 7;
-                    break;
-
-                default:
+                    headerStartXPos = _playerThreeRegion._xPosition + 4;
+                    headerStartYPos = _playerThreeRegion._yPosition - 7;
                     break;
             }
 
             string playerHeader = $"{player.Name.ToUpper()}";
-            string headerGreenString = new(' ', playerHeader.Length);
-            string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
 
-            string chanceGreenString = new(' ', 24);
-
-            Console.SetCursorPosition(titleStartXPos, titleStartYPos);
-            //Console.Write(headerGreenString);
-            Console.SetCursorPosition(titleStartXPos, titleStartYPos);
+            Console.SetCursorPosition(headerStartXPos, headerStartYPos);
             Console.Write(playerHeader);
 
-            Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
-            //Console.Write(chanceGreenString); //Un-comment to display a hand's chance of success
-            Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
-            //Console.Write(chanceString); //Un-comment to display a hand's chance of success
-
             Console.SetCursorPosition(1, 1);
+
         }
+
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.
         /// </summary>

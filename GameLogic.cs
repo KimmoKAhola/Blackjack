@@ -23,12 +23,10 @@
         /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
-            Graphics.PrintPlayerTitleAndSum(player);
             Graphics.PrintLog(); //Why does this not update correctly??????
 
             foreach (var hand in player.Hands)
             {
-                Graphics.PrintPlayerTitleAndSum(player);
                 CheckForSplit(player);
                 if (hand.HandState != HandState.BLACKJACK)
                     GetPlayerMove(player);
@@ -69,7 +67,6 @@
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
-                Graphics.PrintPlayerTitleAndSum(player);
             }
             Utilities.PromptEndedHand(player);
         }
