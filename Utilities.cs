@@ -20,8 +20,8 @@
         public static List<Player> GetPlayers()
         {
             SetConsoleColors("", "DC");
+            Utilities.ToggleCursorVisibility();
             List<Player> players = new();
-            Console.CursorVisible = true;
             for (int i = 0; i < 3; i++)
             {
                 while (true)
@@ -49,7 +49,7 @@
                     }
                 }
             }
-            Console.CursorVisible = false;
+            ToggleCursorVisibility();
             return players;
         }
         private static string GetPadding(string input, int spaces)
@@ -165,6 +165,7 @@
         public static int PromptPlayerBet(Player player, ref int cachedPromptWidth)
         {
             Utilities.SetConsoleColors("Y", "DG");
+            Utilities.ToggleCursorVisibility();
 
             int yPosition = 30;
             string prompt = $"Player {player.Name}, please enter your bet";
@@ -190,6 +191,7 @@
                     {
                         string[] erasePrompt = { clearLine, clearLine, clearLine };
                         PrintCenteredAlignedStringArray(erasePrompt, yPosition);
+                        Utilities.ToggleCursorVisibility();
                         return betInput;
                     }
                 }
@@ -355,6 +357,11 @@
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
             else if (background.ToUpper() == "DC")
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
+        }
+
+        public static void ToggleCursorVisibility()
+        {
+            Console.CursorVisible = (Console.CursorVisible == true) ? false : true;
         }
     }
 }
