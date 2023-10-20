@@ -7,9 +7,9 @@
     public enum HandState
     {
         UNDECIDED = 1,
-        STOP,
+        STOOD,
         LOST,
-        BUST,
+        BUSTED,
         WIN,
         BLACKJACK
     }

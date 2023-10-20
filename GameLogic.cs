@@ -28,13 +28,10 @@
 
             foreach (var hand in player.Hands)
             {
-                CheckForBlackJack(hand);
                 CheckForSplit(player);
-                //Utilities.SavePlayerAction(player, hand); //Fix a separate method for first deal!
+                if (hand.HandState != HandState.BLACKJACK)
+                    GetPlayerMove(player);
 
-                GetPlayerMove(player);
-
-                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
 
                 player.CurrentHand = player.Hands[1];
@@ -48,25 +45,31 @@
         /// <param name="player"></param>
         private static void GetPlayerMove(Player player)
         {
-            while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP && player.CurrentHand.CurrentCards.Count > 0)
+            CheckForBlackJack(player.CurrentHand);
+
+            while (player.CurrentHand.HandState != HandState.BUSTED
+                && player.CurrentHand.HandState != HandState.STOOD
+                && player.CurrentHand.HandState != HandState.BLACKJACK
+                && player.CurrentHand.CurrentCards.Count > 0)
             {
                 Utilities.PromptPlayerMove(player, out int promptWidth, out int promptYPosition);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                 if (response == ' ')
                 {
                     player.LatestAction = PlayerAction.HIT;
-                    Utilities.ErasePrompt(73, 30);
+                    Utilities.ErasePrompt(promptWidth, promptYPosition);
                     Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player); //Add a BUST "prompt"
                 }
                 else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
-                    player.CurrentHand.HandState = HandState.STOP;
+                    player.CurrentHand.HandState = HandState.STOOD;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
             }
+            Utilities.PromptEndedHand(player);
             Graphics.PrintPlayerTitleAndSum(player);
         }
         /// <summary>
@@ -139,14 +142,14 @@
         }
         /// <summary>
         /// Checks if a player busts on its current hand.
-        /// Changes the Hand State to BUST if the player has a card sum over 21.
+        /// Changes the Hand State to BUSTED if the player has a card sum over 21.
         /// </summary>
         /// <param name="player"></param>
         public static void CheckForBust(Player player)
         {
             if (player.CurrentHand.HandSum() > 21)
             {
-                player.CurrentHand.HandState = HandState.BUST;
+                player.CurrentHand.HandState = HandState.BUSTED;
             }
         }
         /// <summary>
@@ -174,7 +177,7 @@
                     else if (Dealer.Instance.Hand.HandSum() > 21)
                     {
                         Sounds.WinSound();
-                        Dealer.Instance.Hand.HandState = HandState.BUST;
+                        Dealer.Instance.Hand.HandState = HandState.BUSTED;
                         hand.HandState = HandState.WIN;
                     }
                     else if (hand.HandSum() > Dealer.Instance.Hand.HandSum())

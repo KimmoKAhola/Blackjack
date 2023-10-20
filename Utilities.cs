@@ -131,13 +131,13 @@
         public static void PromptPlayerMove(Player player, out int promptWidth, out int yPosition)
         {
             SetConsoleColors("B", "G");
-            promptWidth = 71;
+            promptWidth = 73;
             yPosition = 30;
 
             string[] prompt =
             {
                 $"╭───────────────────────────────────────────────────────────────────────╮",
-                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWidth)}|",
+                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWidth-2)}|",
                 $"│                 PRESS <SPACE> to HIT or <S> to STAND                  │",
                 $"╰───────────────────────────────────────────────────────────────────────╯"
             };
@@ -199,6 +199,36 @@
                 PrintCenteredString(errorMessage, yPosition);
                 yPosition -= 2;
             }
+        }
+        public static void PromptEndedHand(Player player)
+        {
+            SetConsoleColors("B", "G");
+            int promptWidth = 73;
+            int yPosition = 30;
+            Hand currentHand = player.CurrentHand;
+            string[] prompt = new string[4];
+
+            if (currentHand.HandState == HandState.BLACKJACK)
+            {
+                prompt[0] = $"╭───────────────────────────────────────────────────────────────────────╮";
+                prompt[1] = $"|{GetCenteredPadding("HAND FINISHED", promptWidth - 2)}|";
+                prompt[2] = $"|{GetCenteredPadding($"{player.Name} {currentHand.HandState} on {currentHand.HandSum()}", promptWidth - 2)}|";
+                prompt[3] = $"╰───────────────────────────────────────────────────────────────────────╯";
+
+                PrintCenteredStringArray(prompt, yPosition);
+            }
+            else if (currentHand.HandState != HandState.UNDECIDED)
+            {
+                prompt[0] = $"╭───────────────────────────────────────────────────────────────────────╮";
+                prompt[1] = $"|{GetCenteredPadding("HAND CONCLUDED", promptWidth - 2)}|";
+                prompt[2] = $"|{GetCenteredPadding($"{player.Name} {currentHand.HandState} on {currentHand.HandSum()}", promptWidth - 2)}|";
+                prompt[3] = $"╰───────────────────────────────────────────────────────────────────────╯";
+
+                PrintCenteredStringArray(prompt, yPosition);
+            }
+
+            Thread.Sleep(2000);
+            Utilities.ErasePrompt(promptWidth, yPosition);
         }
         public static void ErasePrompt(int promptWindowWidth, int yPosition)
         {
@@ -271,9 +301,9 @@
             {
                 completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
-            if (player.CurrentHand.HandState == HandState.BUST)
+            if (player.CurrentHand.HandState == HandState.BUSTED)
             {
-                completePlayerHand = HandState.BUST.ToString() + " - SUM [" + hand.HandSum() + "]";
+                completePlayerHand = HandState.BUSTED.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
             FileManager.SaveHandInfo(completePlayerHand);
         }
