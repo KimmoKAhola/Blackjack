@@ -34,12 +34,12 @@
         {
             while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP && player.CurrentHand.CurrentCards.Count > 0)
             {
-                Utilities.PromptPlayerMove(player);
+                Utilities.PromptPlayerMove(player, out int promptWidth, out int promptYPosition);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                 if (response == ' ')
                 {
                     player.LatestAction = PlayerAction.HIT;
-                    Utilities.ErasePrompt();
+                    Utilities.ErasePrompt(73, 30);
                     Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player); //Add a BUST "prompt"
                 }
@@ -47,7 +47,7 @@
                 {
                     player.LatestAction = PlayerAction.STAND;
                     player.CurrentHand.HandState = HandState.STOP;
-                    Utilities.ErasePrompt();
+                    Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
             }
@@ -63,7 +63,7 @@
                 && player.Wallet >= player.Hands[0].Bet
                 && mainHand.CurrentCards[0].Value == mainHand.CurrentCards[1].Value)
             {
-                Utilities.PromptPlayerSplit(player);
+                Utilities.PromptPlayerSplit(player, out int promptWidth, out int promptYPosition);
 
                 while (player.LatestAction != PlayerAction.SPLIT)
                 {
@@ -81,6 +81,7 @@
                         break;
                     }
                 }
+                Utilities.ErasePrompt(promptWidth, promptYPosition);
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
                 //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
