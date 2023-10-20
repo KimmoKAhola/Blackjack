@@ -110,18 +110,18 @@
             hand.CurrentCards.Add(cards[0]);
             if (participant is Player)
             {
-                var temp = (Player)participant;
+                var currentPlayer = (Player)participant;
 
-                switch (temp.PlayerNumber)
+                switch (currentPlayer.PlayerNumber)
                 {
                     case 1:
-                        Graphics.AnimateACardFromLeftToRight(hand);
+                        Graphics.AnimateACardFromLeftToRight(currentPlayer);
                         break;
                     case 2:
-                        Graphics.AnimateACardFromTopToBottom(hand);
+                        Graphics.AnimateACardFromTopToBottom(currentPlayer);
                         break;
                     case 3:
-                        Graphics.AnimateACardFromRightToLeft(hand);
+                        Graphics.AnimateACardFromRightToLeft(currentPlayer);
                         break;
                 }
             }

@@ -30,7 +30,7 @@
         }
         private static void GetPlayerMove(Player player, Hand currentHand)
         {
-            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST && )
+            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST)
             {
                 Utilities.PromptPlayerMove(player);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);

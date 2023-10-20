@@ -1,4 +1,6 @@
-﻿namespace Blackjack
+﻿using System.Numerics;
+
+namespace Blackjack
 {
     /// <summary>
     /// Creates a playing board for the black jack table.
@@ -60,11 +62,15 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromLeftToRight(Hand hand)
+        public static void AnimateACardFromLeftToRight(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
-
             int distance = _playerOneRegion._xPosition - startingXPosition - (hand.CurrentCards.Count * _cardWidth / 2);
+            if (player.CurrentHand == player.Hands[1])
+            {
+                (startingXPosition, startingYPosition) = (startingXPosition, startingYPosition+_cardHeight);
+            }
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -105,8 +111,9 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromRightToLeft(Hand hand)
+        public static void AnimateACardFromRightToLeft(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.CurrentCards.Count;
             Console.SetCursorPosition(startingXPosition, startingYPosition);
@@ -145,8 +152,9 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop);
             PrintASingleCard(hand.CurrentCards.Last());
         }
-        public static void AnimateACardFromTopToBottom(Hand hand)
+        public static void AnimateACardFromTopToBottom(Player player)
         {
+            Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
 
