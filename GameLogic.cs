@@ -28,7 +28,7 @@
 
             foreach (var hand in player.Hands)
             {
-                CheckForBlackJack(player, hand);
+                CheckForBlackJack(hand);
                 CheckForSplit(player);
                 //Utilities.SavePlayerAction(player, hand); //Fix a separate method for first deal!
 

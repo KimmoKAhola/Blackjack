@@ -78,6 +78,7 @@
         {
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
+            startingXPosition = startingXPosition;
             int distance = _playerOneRegion._xPosition - startingXPosition - (hand.CurrentCards.Count * _cardWidth / 2);
             if (player.CurrentHand == player.Hands[1])
             {
@@ -132,6 +133,7 @@
         {
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
+            startingXPosition -= _cardWidth;
             int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.CurrentCards.Count;
             if (player.CurrentHand == player.Hands[1])
             {
