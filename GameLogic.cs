@@ -21,16 +21,18 @@
                 CheckForSplit(player);
                 //Utilities.SavePlayerAction(player, hand); //Fix a separate method for first deal!
 
-                GetPlayerMove(player, hand);
+                GetPlayerMove(player);
 
-                Utilities.SavePlayerAction(player);
-
+                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
+
+                player.CurrentHand = player.Hands[1];
+
             }
         }
-        private static void GetPlayerMove(Player player, Hand currentHand)
+        private static void GetPlayerMove(Player player)
         {
-            while (player.LatestAction != PlayerAction.STAND && player.LatestAction != PlayerAction.BUST)
+            while (player.CurrentHand.HandState != HandState.BUST && player.CurrentHand.HandState != HandState.STOP && player.CurrentHand.CurrentCards.Count > 0)
             {
                 Utilities.PromptPlayerMove(player);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
@@ -38,15 +40,16 @@
                 {
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.ErasePrompt();
-                    Deck.DealCard(currentHand, player);
+                    Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player); //Add a BUST "prompt"
                 }
                 else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
+                    player.CurrentHand.HandState = HandState.STOP;
                     Utilities.ErasePrompt();
                 }
-                Utilities.LogPlayerInfo(player, currentHand);
+                Utilities.LogPlayerInfo(player, player.CurrentHand);
             }
             Graphics.PrintPlayerTitleAndSum(player);
         }
@@ -55,9 +58,10 @@
             Hand mainHand = player.Hands[0];
             Hand splitHand = player.Hands[1];
             if (mainHand.CurrentCards.Count == 2
+                && player.CurrentHand == player.Hands[0]
+                && splitHand.CurrentCards.Count == 0
                 && player.Wallet >= player.Hands[0].Bet
-                && mainHand.CurrentCards[0].Value == mainHand.CurrentCards[1].Value
-                && splitHand.CurrentCards.Count == 0)
+                && mainHand.CurrentCards[0].Value == mainHand.CurrentCards[1].Value)
             {
                 Utilities.PromptPlayerSplit(player);
 
@@ -78,7 +82,7 @@
                     }
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
-                Utilities.SavePlayerAction(player);
+                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
 
             }
@@ -88,14 +92,13 @@
             if (hand.CurrentCards.Count == 2 && hand.HandSum() == 21)
             {
                 hand.HandState = HandState.BLACKJACK;
-                player.LatestAction = PlayerAction.BLACKJACK;
             }
         }
         public static void CheckForBust(Player player)
         {
             if (player.CurrentHand.HandSum() > 21)
             {
-                player.LatestAction = PlayerAction.BUST;
+                player.CurrentHand.HandState = HandState.BUST;
             }
         }
         public static void CheckResults(List<Player> players)
@@ -111,12 +114,12 @@
                     }
                     else if (hand.HandSum() > 21)
                     {
-                        hand.HandState = HandState.LOSS;
+                        hand.HandState = HandState.LOST;
                     }
                     else if (Dealer.Instance.Hand.HandSum() > 21)
                     {
                         Sounds.WinSound();
-                        Dealer.Instance.LatestAction = PlayerAction.BUST;
+                        Dealer.Instance.Hand.HandState = HandState.BUST;
                         hand.HandState = HandState.WIN;
                     }
                     else if (hand.HandSum() > Dealer.Instance.Hand.HandSum())
@@ -125,7 +128,7 @@
                         Sounds.WinSound();
                     }
                     else
-                        hand.HandState = HandState.LOSS;
+                        hand.HandState = HandState.LOST;
                 }
             }
         }
