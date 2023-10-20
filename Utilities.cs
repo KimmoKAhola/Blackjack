@@ -127,12 +127,11 @@
         public static void PromptPlayerMove(Player player)
         {
             SetConsoleColors("B", "G");
-            int promptWindowWidth = 73;
 
             string[] prompt =
             {
                 $"╭───────────────────────────────────────────────────────────────────────╮",
-                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWindowWidth-2)}|",
+                $"|{GetCenteredPadding($"{player.Name}'S TURN", 71)}|",
                 $"│                 PRESS <SPACE> to HIT or <S> to STAND                  │",
                 $"╰───────────────────────────────────────────────────────────────────────╯"
             };
@@ -189,16 +188,15 @@
         {
             SetConsoleColors("B", "G");
 
-            Console.SetCursorPosition(65, 30);
-            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            string paddedPlayerPrompt = GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71);
-            Console.Write($"│{paddedPlayerPrompt}│");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                 Do you wish to split? PRESS <y> or <N>                │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+            string[] prompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"|{GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71)}|",
+                $"│                 Do you wish to split? PRESS <y> or <N>                │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
 
+            PrintCenteredStringArray(prompt, 30);
             SetConsoleColors("DG", "DG");
         }
 
