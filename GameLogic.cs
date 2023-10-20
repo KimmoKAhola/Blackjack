@@ -75,6 +75,23 @@
                         mainHand.CurrentCards.RemoveAt(1);
                         player.LatestAction = PlayerAction.SPLIT;
                         player.CurrentHand = mainHand;
+                        int x = mainHand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                        int y = mainHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+                        if (player.PlayerNumber != 3)
+                        {
+                            for (int i = 0; i < 4; i++)
+                            {
+                                Graphics.EraseAPrintedCard(x + i * Graphics._cardWidth / 2, y);
+                            }
+                        }
+                        else if (player.PlayerNumber == 3)
+                        {
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Graphics.EraseAPrintedCard(x + Graphics._cardWidth + Graphics._cardWidth * i / 2, y);
+                            }
+                        }
+                        Graphics.PrintASplitHand(player);
                     }
                     else if (response == 'N')
                     {
@@ -82,7 +99,6 @@
                     }
                 }
                 Utilities.LogPlayerInfo(player, player.CurrentHand);
-                //Utilities.SavePlayerAction(player);
                 Graphics.PrintLog();
 
             }

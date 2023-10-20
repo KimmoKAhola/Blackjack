@@ -13,9 +13,9 @@ namespace Blackjack
         private readonly static int _windowWidth = _consoleWindowWidth - 5;
         private readonly static int _windowHeight = _consoleWindowHeigth - 5;
 
-        private readonly static int _cardWidth = 7;
-        private readonly static int _cardHeight = 6;
-        private readonly static int _horizontalAnimationSpeed = 1; // 5 seems to work
+        public readonly static int _cardWidth = 7;
+        public readonly static int _cardHeight = 6;
+        private readonly static int _horizontalAnimationSpeed = 5; // 5 seems to work
         private readonly static int _verticalAnimationSpeed = 20; // 20 seems to work
         private readonly static int _shuffleAnimationSpeed = 3; // shuffleanimationspeed
         private readonly static int _cardFlipDelay = 500;
@@ -69,7 +69,7 @@ namespace Blackjack
             int distance = _playerOneRegion._xPosition - startingXPosition - (hand.CurrentCards.Count * _cardWidth / 2);
             if (player.CurrentHand == player.Hands[1])
             {
-                (startingXPosition, startingYPosition) = (startingXPosition, startingYPosition+_cardHeight);
+                startingYPosition += (int)(3 * _cardHeight / 2);
             }
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
@@ -116,6 +116,10 @@ namespace Blackjack
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth * 2, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             int distance = startingXPosition - _playerThreeRegion._xPosition - _cardWidth / 2 * hand.CurrentCards.Count;
+            if (player.CurrentHand == player.Hands[1])
+            {
+                startingYPosition += (int)(3 * _cardHeight / 2);
+            }
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
             Utilities.SetConsoleColors("W", "DB");
@@ -157,6 +161,11 @@ namespace Blackjack
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
+            
+            if (player.CurrentHand == player.Hands[1])
+            {
+                startingXPosition += (int)(8 * _cardHeight / 2);
+            }
 
             int distance = _playerTwoRegion._yPosition - startingYPosition;
             Utilities.SetConsoleColors("W", "");
@@ -268,6 +277,52 @@ namespace Blackjack
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
             Utilities.SetConsoleColors("", "DG");
+        }
+        public static void PrintASplitHand(Player player)
+        {
+            Hand hand = player.CurrentHand;
+            Hand secondHand = player.Hands[1];
+            (int startingXPosition, int startingYPosition) = hand.CurrentCards.Last().LatestCardPosition;
+            Console.SetCursorPosition(startingXPosition, startingYPosition);
+            foreach (var currentHand in player.Hands)
+            {
+                switch (player.PlayerNumber)
+                {
+                    case 1:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition, startingYPosition + (int)(3 * _cardHeight / 2));
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break;
+                    case 2:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition + (int)(7 * _cardWidth / 2), startingYPosition);
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break;
+                    case 3:
+                        if (currentHand == player.Hands[1])
+                        {
+                            secondHand.CurrentCards.Last().LatestCardPosition = (startingXPosition, startingYPosition + (int)(3 * _cardHeight / 2));
+                            PrintASingleCard(secondHand.CurrentCards.Last());
+                        }
+                        else
+                        {
+                            PrintASingleCard(hand.CurrentCards.Last());
+                        }
+                        break; ;
+                }
+            }
         }
         public static void PrintBoard()
         {
