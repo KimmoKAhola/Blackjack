@@ -124,20 +124,21 @@
             SetConsoleColors("DG", "DG");
         }
 
-        public static void PromptPlayerMove(Player player)
+        public static void PromptPlayerMove(Player player, out int promptWidth, out int yPosition)
         {
             SetConsoleColors("B", "G");
-            int promptWindowWidth = 73;
+            promptWidth = 71;
+            yPosition = 30;
 
             string[] prompt =
             {
                 $"╭───────────────────────────────────────────────────────────────────────╮",
-                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWindowWidth-2)}|",
+                $"|{GetCenteredPadding($"{player.Name}'S TURN", promptWidth)}|",
                 $"│                 PRESS <SPACE> to HIT or <S> to STAND                  │",
                 $"╰───────────────────────────────────────────────────────────────────────╯"
             };
 
-            PrintCenteredStringArray(prompt, 30);
+            PrintCenteredStringArray(prompt, yPosition);
             SetConsoleColors("DG", "DG");
         }
 
@@ -171,12 +172,10 @@
             int centeredStringPosition = (Console.WindowWidth - input.Length) / 2;
             Console.SetCursorPosition(centeredStringPosition, yPosition);
         }
-        public static void ErasePrompt()
+        public static void ErasePrompt(int promptWindowWidth, int yPosition)
         {
             SetConsoleColors("DG", "DG");
 
-            int promptWindowWidth = 73;
-            int yPosition = 30;
             string eraseLine = new(' ', promptWindowWidth);
 
             for (int i = 0; i < 4; i++)
@@ -185,20 +184,21 @@
                 yPosition++;
             }
         }
-        public static void PromptPlayerSplit(Player player)
+        public static void PromptPlayerSplit(Player player, out int promptWidth, out int yPosition)
         {
             SetConsoleColors("B", "G");
+            promptWidth = 71;
+            yPosition = 30;
 
-            Console.SetCursorPosition(65, 30);
-            Console.Write($"╭───────────────────────────────────────────────────────────────────────╮");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            string paddedPlayerPrompt = GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71);
-            Console.Write($"│{paddedPlayerPrompt}│");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"│                 Do you wish to split? PRESS <y> or <N>                │");
-            Console.SetCursorPosition(65, Console.CursorTop + 1);
-            Console.Write($"╰───────────────────────────────────────────────────────────────────────╯");
+            string[] prompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"|{GetCenteredPadding($"{player.Name} HAS A SPLITTABLE HAND!", 71)}|",
+                $"│                 Do you wish to split? PRESS <y> or <N>                │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
 
+            PrintCenteredStringArray(prompt, 30);
             SetConsoleColors("DG", "DG");
         }
 
