@@ -52,7 +52,7 @@
             ToggleCursorVisibility();
             return players;
         }
-        private static string GetPadding(string input, int spaces)
+        public static string GetPadding(string input, int spaces)
         {
             spaces -= input.Length;
             string padding = new(' ', spaces);
@@ -60,7 +60,7 @@
             string output = input + padding;
             return output;
         }
-        private static string GetCenteredPadding(string input, int spaces)
+        public static string GetCenteredPadding(string input, int spaces)
         {
             spaces -= input.Length;
             string firstPadding = new(' ', spaces / 2);
@@ -313,25 +313,78 @@
 
             FileManager.SaveHandInfo(temp);
         }
-        public static void LogPlayerInfo(Player player, Hand currentHand)
+        public static void UpdatePlayerLog(Player player, Hand currentHand)
         {
-            string cardSymbol = currentHand.CurrentCards.Last().CardSymbol;
-            string lastCard = currentHand.CurrentCards.Last().Title;
-            int cardSum = currentHand.HandSum();
+            string handInfo = "";
+            string handVariant = "";
             string playerName = player.Name.ToUpper();
+            string lastCard = currentHand.CurrentCards.Last().Title;
+            string cardSymbol = currentHand.CurrentCards.Last().CardSymbol;
+            int cardSum = currentHand.HandSum();
+            PlayerAction latestAction = player.LatestAction;
+            HandState handState = currentHand.HandState;
 
-            string handInfo = $"{playerName} was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
+            if (currentHand == player.Hands[0])
+            {
+                handVariant = "original";
+            }
+            else
+            {
+                handVariant = "split";
+            }
+
+            if (handState == HandState.BLACKJACK)
+            {
+                handInfo = $"{playerName} got [BLACKJACK] on their {handVariant} hand";
+            }
+            else if (latestAction == PlayerAction.SPLIT)
+                handInfo = $"{playerName} <SPLITS> their original hand, they now have two hands is worth [{cardSum}]";
+            else if (latestAction == PlayerAction.STAND)
+                handInfo = $"{playerName} <STANDS> at [{cardSum}] on their {handVariant} hand";
+            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTED)
+            {
+                int lastHandSum = cardSum - player.CurrentHand.CurrentCards.Last().Value;
+                handInfo = $"{playerName} <HITS> at [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their {handVariant} hand is now worth [{cardSum}]";
+            }
+            else
+            {
+                int lastHandSum = cardSum - player.CurrentHand.CurrentCards.Last().Value;
+                handInfo = $"{playerName} <HITS> at [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their {handVariant} hand is now [BUST]";
+            }
+
             log.Add(handInfo);
         }
-        public static void LogDealerInfo()
+        public static void UpdateDealerLog()
         {
             string cardSymbol = Dealer.Instance.Hand.CurrentCards.Last().CardSymbol;
             string lastCard = Dealer.Instance.Hand.CurrentCards.Last().Title;
             int cardSum = Dealer.Instance.Hand.HandSum();
+            PlayerAction latestAction = Dealer.Instance.LatestAction;
+            HandState handState = Dealer.Instance.Hand.HandState;
 
-            string handInfo = $"The dealer was dealt a [{lastCard}{cardSymbol}], their hand is now worth {cardSum}";
+            string handInfo = "";
+
+            if (handState == HandState.BLACKJACK)
+            {
+                handInfo = $"DEALER got [BLACKJACK]";
+            }
+            else if (latestAction == PlayerAction.STAND)
+            {
+                handInfo = $"DEALER <STANDS> on [{cardSum}]";
+            }
+            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTED)
+            {
+                int lastHandSum = cardSum - Dealer.Instance.Hand.CurrentCards.Last().Value;
+                handInfo = $"DEALER <HITS> on [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their hand is now worth [{cardSum}]";
+            }
+            else
+            {
+                int lastHandSum = cardSum - Dealer.Instance.Hand.CurrentCards.Last().Value;
+                handInfo = $"DEALER <HITS> on [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their hand is now [BUST]";
+            }
 
             log.Add(handInfo);
+
             //FileManager.SaveHandInfo(handInfo);
         }
         public static void SetConsoleColors(string foreground, string background)

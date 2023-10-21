@@ -20,9 +20,7 @@
                 }
             }
 
-            Graphics.UpdateDealerBoard();
-            //Dramatic pause
-            Thread.Sleep(1000);
+            Thread.Sleep(1000);//Dramatic pause
             GameLogic.DealersTurn();
             GameLogic.CheckResults(players);
 
@@ -91,6 +89,10 @@
         private static void GameSetup(List<Player> players)
         {
             Thread.Sleep(1500);
+            Utilities.log.Add("");
+            Utilities.log.Add(Utilities.GetCenteredPadding("────────── NEW GAME ──────────", 80));
+            Utilities.log.Add("");
+            Graphics.PrintLog();
             Graphics.AnimateDeckShuffle(Deck.AllCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);

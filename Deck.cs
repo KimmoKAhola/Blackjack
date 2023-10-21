@@ -107,7 +107,7 @@
                     Card latestCard = players[j].CurrentHand.CurrentCards.Last();
                     firstDealInfo += $"{players[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
 
-                    GameLogic.CheckForBlackJack(players[j].CurrentHand);
+                    GameLogic.CheckForBlackJack(players[j]);
                     Graphics.PrintPlayerHeaders(players[j]);
 
                     if (players[j].CurrentHand.HandState == HandState.BLACKJACK)

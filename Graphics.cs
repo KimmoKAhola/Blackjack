@@ -402,27 +402,28 @@
         }
         /// <summary>
         /// Prints the game log at the top left part of the playing board.
-        /// Uses info from a list containing each player move and player info, such as hand sum.
+        /// Uses info from a list containing each participant move and player info, such as hand sum.
         /// </summary>
         public static void PrintLog()
         {
+            Utilities.SetConsoleColors("Y", "DG");
             int startPosX = 1;
-            int startPosY = 1;
+            int startPosY = 0;
             Console.SetCursorPosition((int)vectors._x[startPosX], (int)vectors._x[startPosY]);
             int cursorLeft = Console.CursorLeft;
             int lastInTheList = Utilities.log.Count - 1;
 
-            Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
+            Console.Write("╭─────────────────────────────────────────────────────────────────────────────────────╮");
 
             for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-                int spaces = 80 - Utilities.log[i].Length;
+                int spaces = 85 - Utilities.log[i].Length;
                 string padding = new(' ', spaces);
                 Console.Write($"│{Utilities.log[i]}{padding}│");
             }
             Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-            Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
+            Console.Write("╰─────────────────────────────────────────────────────────────────────────────────────╯");
 
         }
         /// <summary>
@@ -489,7 +490,6 @@
             Console.SetCursorPosition(sumStartXPos, sumStartYPos);
             Console.Write(handSum);
         }
-
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.
         /// </summary>
@@ -579,14 +579,6 @@
             }
 
             return (vectorXValues, vectorYValues);
-        }
-        /// <summary>
-        /// Prints the dealer info at the top left of the playing board.
-        /// </summary>
-        public static void UpdateDealerBoard()
-        {
-            Utilities.LogDealerInfo();
-            Graphics.PrintLog();
         }
     }
 }
