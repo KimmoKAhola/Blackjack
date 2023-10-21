@@ -10,6 +10,9 @@
         {
             if (Dealer.Instance.Hand.HandSum() == 21)
             {
+                Dealer.Instance.Hand.HandState = HandState.BLACKJACK;
+                Utilities.UpdateDealerLog();
+                Graphics.PrintLog();
                 return true;
             }
             return false;
@@ -17,25 +20,21 @@
         /// <summary>
         /// A method that runs the current players turn.
         /// Loops through all of the player's hands, if more than one, and
-        /// contains methods that checks for win, bust, blackjack, split.
+        /// contains methods that check for win, bust, blackjack, split.
         /// Contains print methods to update the board.
         /// </summary>
         /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
-            Graphics.PrintPlayerTitleAndSum(player);
-            Graphics.PrintLog(); //Why does this not update correctly??????
-
+            Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
+            Graphics.PrintLog();
             foreach (var hand in player.Hands)
             {
                 CheckForSplit(player);
                 if (hand.HandState != HandState.BLACKJACK)
                     GetPlayerMove(player);
 
-                Graphics.PrintLog();
-
                 player.CurrentHand = player.Hands[1];
-
             }
         }
         /// <summary>
@@ -45,13 +44,15 @@
         /// <param name="player"></param>
         private static void GetPlayerMove(Player player)
         {
-            CheckForBlackJack(player.CurrentHand);
-
             while (player.CurrentHand.HandState != HandState.BUSTED
                 && player.CurrentHand.HandState != HandState.STOOD
                 && player.CurrentHand.HandState != HandState.BLACKJACK
                 && player.CurrentHand.CurrentCards.Count > 0)
             {
+                CheckForBlackJack(player);
+                if (player.CurrentHand.HandState == HandState.BLACKJACK)
+                    break;
+
                 Utilities.PromptPlayerMove(player, out int promptWidth, out int promptYPosition);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                 if (response == ' ')
@@ -59,7 +60,7 @@
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                     Deck.DealCard(player.CurrentHand, player);
-                    CheckForBust(player); //Add a BUST "prompt"
+                    CheckForBust(player);
                 }
                 else if (response == 'S')
                 {
@@ -67,10 +68,11 @@
                     player.CurrentHand.HandState = HandState.STOOD;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
-                Utilities.LogPlayerInfo(player, player.CurrentHand);
+                Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                Graphics.PrintLog();
             }
+
             Utilities.PromptEndedHand(player);
-            Graphics.PrintPlayerTitleAndSum(player);
         }
         /// <summary>
         /// A methods which contains logic if the player will split its hand.
@@ -101,6 +103,7 @@
                         player.CurrentHand = mainHand;
                         int x = mainHand.CurrentCards[0].LatestCardPosition.LatestXPosition;
                         int y = mainHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+
                         if (player.PlayerNumber != 3)
                         {
                             for (int i = 0; i < 4; i++)
@@ -116,6 +119,8 @@
                             }
                         }
                         Graphics.PrintASplitHand(player);
+                        Graphics.PrintHandSum(player, player.Hands[0]);
+                        Graphics.PrintHandSum(player, player.Hands[1]);
                     }
                     else if (response == 'N')
                     {
@@ -123,8 +128,8 @@
                     }
                 }
                 Utilities.ErasePrompt(promptWidth, promptYPosition);
-                Utilities.LogPlayerInfo(player, player.CurrentHand);
-                Graphics.PrintLog();
+                Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                //Graphics.PrintLog();
 
             }
         }
@@ -133,11 +138,13 @@
         /// Changes the Hand State to BLACKJACK if the player has blackjack.
         /// </summary>
         /// <param name="hand"></param>
-        public static void CheckForBlackJack(Hand hand)
+        public static void CheckForBlackJack(Player player)
         {
-            if (hand.CurrentCards.Count == 2 && hand.HandSum() == 21)
+            if (player.CurrentHand.CurrentCards.Count == 2 && player.CurrentHand.HandSum() == 21)
             {
-                hand.HandState = HandState.BLACKJACK;
+                Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                Graphics.PrintLog();
+                player.CurrentHand.HandState = HandState.BLACKJACK;
             }
         }
         /// <summary>
@@ -196,15 +203,26 @@
         /// </summary>
         public static void DealersTurn()
         {
+            Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - DEALER'S TURN - - - -", 80));
+            Graphics.PrintLog();
             while (Dealer.Instance.Hand.HandSum() < 17)
             {
                 Deck.DealCard(Dealer.Instance.Hand, Dealer.Instance);
                 Dealer.Instance.LatestAction = PlayerAction.HIT;
 
-                Graphics.UpdateDealerBoard();
-                Thread.Sleep(1000);
+                if (Dealer.Instance.Hand.HandSum() < 22)
+                {
+                    Dealer.Instance.LatestAction = PlayerAction.STAND;
+                }
+                else
+                {
+                    Dealer.Instance.Hand.HandState = HandState.BUSTED;
+                }
+
+                Utilities.UpdateDealerLog();
+                Graphics.PrintLog();
+                Thread.Sleep(1500);
             }
-            Dealer.Instance.LatestAction = PlayerAction.STAND;
         }
     }
 }

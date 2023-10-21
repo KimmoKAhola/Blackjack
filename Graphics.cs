@@ -67,7 +67,7 @@
 
             Thread.Sleep(_cardFlipDelay);
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
-            if(hand.CurrentCards.Count >= 2)
+            if (hand.CurrentCards.Count >= 2)
                 PrintASingleCard(hand.CurrentCards.Last());
         }
         /// <summary>
@@ -186,7 +186,7 @@
             Hand hand = player.CurrentHand;
             (int startingXPosition, int startingYPosition) = (hand.CurrentCards.Last().LatestCardPosition.LatestXPosition - _cardWidth, hand.CurrentCards.Last().LatestCardPosition.LatestYPosition);
             startingXPosition += _cardWidth / 2 * hand.CurrentCards.Count;
-            
+
             if (player.CurrentHand == player.Hands[1])
             {
                 startingXPosition += (int)(8 * _cardHeight / 2);
@@ -402,28 +402,93 @@
         }
         /// <summary>
         /// Prints the game log at the top left part of the playing board.
-        /// Uses info from a list containing each player move and player info, such as hand sum.
+        /// Uses info from a list containing each participant move and player info, such as hand sum.
         /// </summary>
         public static void PrintLog()
         {
+            Utilities.SetConsoleColors("Y", "DG");
             int startPosX = 1;
-            int startPosY = 1;
+            int startPosY = 0;
             Console.SetCursorPosition((int)vectors._x[startPosX], (int)vectors._x[startPosY]);
             int cursorLeft = Console.CursorLeft;
             int lastInTheList = Utilities.log.Count - 1;
 
-            Console.Write("╭────────────────────────────────────────────────────────────────────────────────╮");
+            Console.Write("╭─────────────────────────────────────────────────────────────────────────────────────╮");
 
             for (int i = lastInTheList; i >= (lastInTheList - 5); i--)
             {
                 Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-                int spaces = 80 - Utilities.log[i].Length;
+                int spaces = 85 - Utilities.log[i].Length;
                 string padding = new(' ', spaces);
                 Console.Write($"│{Utilities.log[i]}{padding}│");
             }
             Console.SetCursorPosition(cursorLeft, Console.CursorTop + 1);
-            Console.Write("╰────────────────────────────────────────────────────────────────────────────────╯");
+            Console.Write("╰─────────────────────────────────────────────────────────────────────────────────────╯");
 
+        }
+        /// <summary>
+        /// Prints the player's name as a header by their hand(s).
+        /// </summary>
+        /// <param name="participant"></param>
+        public static void PrintPlayerHeaders(Player player)
+        {
+            int headerStartXPos = 0;
+            int headerStartYPos = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    headerStartXPos = _playerOneRegion._xPosition + 3 - player.Name.Length;
+                    headerStartYPos = _playerOneRegion._yPosition - 7;
+                    break;
+                case 2:
+                    headerStartXPos = _playerTwoRegion._xPosition - 29 - player.Name.Length;
+                    headerStartYPos = _playerTwoRegion._yPosition + 3;
+                    break;
+                case 3:
+                    headerStartXPos = _playerThreeRegion._xPosition + 4;
+                    headerStartYPos = _playerThreeRegion._yPosition - 7;
+                    break;
+            }
+
+            string playerHeader = $"{player.Name.ToUpper()}";
+
+            Console.SetCursorPosition(headerStartXPos, headerStartYPos);
+            Console.Write(playerHeader);
+
+            Console.SetCursorPosition(1, 1);
+
+        }
+        /// <summary>
+        /// Prints the sum of a participant's specific current.
+        /// </summary>
+        /// <param name="participant"></param>
+        public static void PrintHandSum(Player player, Hand hand)
+        {
+            int sumStartXPos = 0;
+            int sumStartYPos = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition - 5;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 2:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 3:
+                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+            }
+
+            string handSum = $"HAND SUM: {player.CurrentHand.HandSum()}";
+            string clearLine = new(' ', player.Hands[0].HandSum() + player.Hands[1].HandSum());
+
+            Console.SetCursorPosition(sumStartXPos, sumStartYPos);
+            Console.Write(handSum);
         }
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.
@@ -431,8 +496,8 @@
         /// <param name="participant"></param>
         public static void PrintPlayerTitleAndSum(Participant participant)
         {
-            int startXPos = 0;
-            int startYPos = 0;
+            int titleStartXPos = 0;
+            int titleStartYPos = 0;
             double chanceOfSuccess = Deck.CalculateChanceOfSuccess(participant.Hands[0].HandSum());
             if (participant is Player)
             {
@@ -440,49 +505,49 @@
                 switch (player.PlayerNumber)
                 {
                     case 1:
-                        startXPos = _playerOneRegion._xPosition - 15;
-                        startYPos = _playerOneRegion._yPosition - 2;
+                        titleStartXPos = _playerOneRegion._xPosition - 8;
+                        titleStartYPos = _playerOneRegion._yPosition - 7;
                         break;
                     case 2:
-                        startXPos = _playerTwoRegion._xPosition - 15;
-                        startYPos = _playerTwoRegion._yPosition - 2;
+                        titleStartXPos = _playerTwoRegion._xPosition - 8;
+                        titleStartYPos = _playerTwoRegion._yPosition - 7;
                         break;
                     case 3:
-                        startXPos = _playerThreeRegion._xPosition + 1;
-                        startYPos = _playerThreeRegion._yPosition - 2;
+                        titleStartXPos = _playerThreeRegion._xPosition + 5;
+                        titleStartYPos = _playerThreeRegion._yPosition - 7;
                         break;
 
                     default:
                         break;
                 }
 
-                string playerHeader = $"{player.Name}'s hand: {participant.Hands[0].HandSum()}";
+                string playerHeader = $"{player.Name.ToUpper()}";
                 string headerGreenString = new(' ', playerHeader.Length);
                 string chanceString = $"CHANCE OF SUCCESS: ~{(chanceOfSuccess * 100):F0}%";
 
                 string chanceGreenString = new(' ', 24);
 
-                Console.SetCursorPosition(startXPos, startYPos);
-                Console.Write(headerGreenString);
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
+                //Console.Write(headerGreenString);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.Write(playerHeader);
 
-                Console.SetCursorPosition(startXPos, startYPos + 1);
-                Console.Write(chanceGreenString);
-                Console.SetCursorPosition(startXPos, startYPos + 1);
-                Console.Write(chanceString);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+                //Console.Write(chanceGreenString); //Un-comment to display a hand's chance of success
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos + 1);
+                //Console.Write(chanceString); //Un-comment to display a hand's chance of success
             }
             else if (participant is Dealer)
             {
-                startXPos = _dealerRegion._xPosition - 10;
-                startYPos = _dealerRegion._yPosition + 1 + _cardHeight;
+                titleStartXPos = _dealerRegion._xPosition - 10;
+                titleStartYPos = _dealerRegion._yPosition + 1 + _cardHeight;
 
                 string dealerHeader = $"Dealer's hand: {participant.Hands[0].HandSum()}";
                 string greenString = new(' ', dealerHeader.Length);
 
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.WriteLine(greenString);
-                Console.SetCursorPosition(startXPos, startYPos);
+                Console.SetCursorPosition(titleStartXPos, titleStartYPos);
                 Console.Write(dealerHeader);
             }
             Console.SetCursorPosition(1, 1);
@@ -514,14 +579,6 @@
             }
 
             return (vectorXValues, vectorYValues);
-        }
-        /// <summary>
-        /// Prints the dealer info at the top left of the playing board.
-        /// </summary>
-        public static void UpdateDealerBoard()
-        {
-            Utilities.LogDealerInfo();
-            Graphics.PrintLog();
         }
     }
 }
