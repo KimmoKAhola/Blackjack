@@ -211,8 +211,8 @@
             if (currentHand.HandState == HandState.BLACKJACK)
             {
                 prompt[0] = $"╭───────────────────────────────────────────────────────────────────────╮";
-                prompt[1] = $"|{GetCenteredPadding("HAND FINISHED", promptWidth - 2)}|";
-                prompt[2] = $"|{GetCenteredPadding($"{player.Name} {currentHand.HandState} on {currentHand.HandSum()}", promptWidth - 2)}|";
+                prompt[1] = $"|{GetCenteredPadding("HAND CONCLUDED", promptWidth - 2)}|";
+                prompt[2] = $"|{GetCenteredPadding($"{player.Name} got {currentHand.HandState}", promptWidth - 2)}|";
                 prompt[3] = $"╰───────────────────────────────────────────────────────────────────────╯";
 
                 PrintCenteredStringArray(prompt, yPosition);
@@ -229,6 +229,46 @@
 
             Thread.Sleep(2000);
             Utilities.ErasePrompt(promptWidth, yPosition);
+        }
+        public static void PromptDealerMoves(out int promptWidth, out int yPosition)
+        {
+            SetConsoleColors("B", "G");
+            promptWidth = 73;
+            yPosition = 13;
+            int cardSum = Dealer.Instance.Hand.HandSum();
+            HandState handState = Dealer.Instance.Hand.HandState;
+            PlayerAction latestAction = Dealer.Instance.LatestAction;
+
+
+            string dealerMove = "";
+
+            if (handState == HandState.BLACKJACK)
+            {
+                dealerMove = $"DEALER GOT BLACKJACK";
+            }
+            else if (latestAction == PlayerAction.STAND)
+            {
+                dealerMove = $"DEALER <STANDS> on [{cardSum}]";
+            }
+            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTS)
+            {
+                dealerMove = $"DEALER <HITS> on [{cardSum}]";
+            }
+            else
+            {
+                dealerMove = $"DEALER IS BUST";
+            }
+
+            string[] prompt =
+            {
+                $"╭───────────────────────────────────────────────────────────────────────╮",
+                $"|{GetCenteredPadding($"{dealerMove}", promptWidth-2)}|",
+                $"│                                                                       │",
+                $"╰───────────────────────────────────────────────────────────────────────╯"
+            };
+
+            PrintCenteredStringArray(prompt, yPosition);
+            SetConsoleColors("DG", "DG");
         }
         public static void ErasePrompt(int promptWindowWidth, int yPosition)
         {
@@ -301,9 +341,9 @@
             {
                 completePlayerHand = PlayerAction.STAND.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
-            if (player.CurrentHand.HandState == HandState.BUSTED)
+            if (player.CurrentHand.HandState == HandState.BUSTS)
             {
-                completePlayerHand = HandState.BUSTED.ToString() + " - SUM [" + hand.HandSum() + "]";
+                completePlayerHand = HandState.BUSTS.ToString() + " - SUM [" + hand.HandSum() + "]";
             }
             FileManager.SaveHandInfo(completePlayerHand);
         }
@@ -325,23 +365,17 @@
             HandState handState = currentHand.HandState;
 
             if (currentHand == player.Hands[0])
-            {
                 handVariant = "original";
-            }
             else
-            {
                 handVariant = "split";
-            }
 
             if (handState == HandState.BLACKJACK)
-            {
                 handInfo = $"{playerName} got [BLACKJACK] on their {handVariant} hand";
-            }
             else if (latestAction == PlayerAction.SPLIT)
-                handInfo = $"{playerName} <SPLITS> their original hand, they now have two hands is worth [{cardSum}]";
+                handInfo = $"{playerName} <SPLITS> their original hand, they now have two hands worth [{cardSum}]";
             else if (latestAction == PlayerAction.STAND)
                 handInfo = $"{playerName} <STANDS> at [{cardSum}] on their {handVariant} hand";
-            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTED)
+            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTS)
             {
                 int lastHandSum = cardSum - player.CurrentHand.CurrentCards.Last().Value;
                 handInfo = $"{playerName} <HITS> at [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their {handVariant} hand is now worth [{cardSum}]";
@@ -372,7 +406,7 @@
             {
                 handInfo = $"DEALER <STANDS> on [{cardSum}]";
             }
-            else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTED)
+            else if (latestAction == PlayerAction.HIT && cardSum < 22)
             {
                 int lastHandSum = cardSum - Dealer.Instance.Hand.CurrentCards.Last().Value;
                 handInfo = $"DEALER <HITS> on [{lastHandSum}] and is dealt a [{lastCard}{cardSymbol}], their hand is now worth [{cardSum}]";
