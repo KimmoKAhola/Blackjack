@@ -98,6 +98,7 @@
             Thread.Sleep(500);
             // ShowDebugWallets(players); Displays the player's funds on the left side of the screen
             GetPlayerBets(players);
+            Utilities.ToggleCursorVisibility();
             Deck.FirstDeal(players);
             Utilities.SaveFirstDealInfo(players);
         }

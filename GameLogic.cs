@@ -44,8 +44,8 @@
         /// <param name="player"></param>
         private static void GetPlayerMove(Player player)
         {
-            while (player.CurrentHand.HandState != HandState.BUSTED
-                && player.CurrentHand.HandState != HandState.STOOD
+            while (player.CurrentHand.HandState != HandState.BUSTS
+                && player.CurrentHand.HandState != HandState.STANDS
                 && player.CurrentHand.HandState != HandState.BLACKJACK
                 && player.CurrentHand.CurrentCards.Count > 0)
             {
@@ -65,7 +65,7 @@
                 else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
-                    player.CurrentHand.HandState = HandState.STOOD;
+                    player.CurrentHand.HandState = HandState.STANDS;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                 }
                 Utilities.UpdatePlayerLog(player, player.CurrentHand);
@@ -129,7 +129,7 @@
                 }
                 Utilities.ErasePrompt(promptWidth, promptYPosition);
                 Utilities.UpdatePlayerLog(player, player.CurrentHand);
-                //Graphics.PrintLog();
+                Graphics.PrintLog();
 
             }
         }
@@ -156,7 +156,7 @@
         {
             if (player.CurrentHand.HandSum() > 21)
             {
-                player.CurrentHand.HandState = HandState.BUSTED;
+                player.CurrentHand.HandState = HandState.BUSTS;
             }
         }
         /// <summary>
@@ -184,7 +184,7 @@
                     else if (Dealer.Instance.Hand.HandSum() > 21)
                     {
                         Sounds.WinSound();
-                        Dealer.Instance.Hand.HandState = HandState.BUSTED;
+                        Dealer.Instance.Hand.HandState = HandState.BUSTS;
                         hand.HandState = HandState.WIN;
                     }
                     else if (hand.HandSum() > Dealer.Instance.Hand.HandSum())
@@ -203,25 +203,42 @@
         /// </summary>
         public static void DealersTurn()
         {
-            Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - DEALER'S TURN - - - -", 80));
+            Utilities.log.Add(Utilities.GetCenteredPadding($"-  -  -  -  DEALER'S TURN  -  -  -  -", 80));
             Graphics.PrintLog();
-            while (Dealer.Instance.Hand.HandSum() < 17)
+            while (true)
             {
-                Deck.DealCard(Dealer.Instance.Hand, Dealer.Instance);
-                Dealer.Instance.LatestAction = PlayerAction.HIT;
+                int promptWidth;
+                int yPosition;
 
-                if (Dealer.Instance.Hand.HandSum() < 22)
+                if (Dealer.Instance.Hand.HandSum() >= 22)
+                {
+                    Dealer.Instance.Hand.HandState = HandState.BUSTS;
+                    Utilities.PromptDealerMoves(out promptWidth, out yPosition);
+                    Thread.Sleep(1500);
+                    Utilities.ErasePrompt(promptWidth, yPosition);
+                    break;
+                }
+                else if (Dealer.Instance.Hand.HandSum() >= 17)
                 {
                     Dealer.Instance.LatestAction = PlayerAction.STAND;
+                    Utilities.PromptDealerMoves(out promptWidth, out yPosition);
+                    Utilities.UpdateDealerLog();
+                    Graphics.PrintLog();
+                    Thread.Sleep(1500);
+                    Utilities.ErasePrompt(promptWidth, yPosition);
+                    break;
                 }
                 else
                 {
-                    Dealer.Instance.Hand.HandState = HandState.BUSTED;
+                    Dealer.Instance.LatestAction = PlayerAction.HIT;
                 }
 
+                Utilities.PromptDealerMoves(out promptWidth, out yPosition);
+                Thread.Sleep(1500);
+                Utilities.ErasePrompt(promptWidth, yPosition);
+                Deck.DealCard(Dealer.Instance.Hand, Dealer.Instance);
                 Utilities.UpdateDealerLog();
                 Graphics.PrintLog();
-                Thread.Sleep(1500);
             }
         }
     }

@@ -24,7 +24,7 @@
             BlackJack blackjack = new();
             //blackjack.RunGame(Utilities.GetPlayers());
 
-            //! DEBUG MODE, comment out line above to use
+            //! DEBUG MODE, comment out BlackJack.RunGame-line above to use
             Player kimmo = new("Kimmo", 1000);
             Player william = new("William", 1000);
             Player mille = new("Mille", 1000);
