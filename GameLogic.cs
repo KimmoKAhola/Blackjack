@@ -114,8 +114,6 @@
                         mainHand.CurrentCards.RemoveAt(1);
                         player.LatestAction = PlayerAction.SPLIT;
                         player.CurrentHand = mainHand;
-                        //int x = mainHand.CurrentCards[0].LatestCardPosition.LatestXPosition;
-                        //int y = mainHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
 
                         if (player.PlayerNumber != 3)
                         {
@@ -216,7 +214,7 @@
         /// </summary>
         public static void DealersTurn()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < Dealer.Instance.Hands[0].CurrentCards.Count; i++)
             {
                 Graphics.PrintASingleCard(Dealer.Instance.Hand.CurrentCards[i]);
             }

@@ -344,7 +344,7 @@
         }
         /// <summary>
         /// A method for printing a player's split hand.
-        /// Does this by erasing the player's original 2 card hand and printing the cards with a distance between them to
+        /// Does this by erasing the player's main 2 card hand and printing the cards with a distance between them to
         /// show the user that the hand has been split into 2 separate hands.
         /// </summary>
         /// <param name="player"></param>

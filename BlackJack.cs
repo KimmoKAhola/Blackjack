@@ -4,7 +4,7 @@
     {
         private static int _gameId = 0;
         public static int GameId { get { return _gameId; } }
-        public void RunGame(List<Player> players)
+        public static void RunGame(List<Player> players)
         {
             InitializeNewGame(players);
             FileManager.SaveStartTimeStamp(GameId);
@@ -71,6 +71,7 @@
                 player.Hands[0].HandState = HandState.UNDECIDED;
                 player.Hands[1].HandState = HandState.UNDECIDED;
                 player.CurrentHand = player.Hands[0];
+                player.LatestAction = 0;
             }
             Console.Clear();
         }
