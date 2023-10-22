@@ -1,142 +1,85 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     public class BlackJack
     {
         private static int _gameId = 0;
-
-        public int GameId { get { return _gameId; } }
-        public Dealer Dealer { get; set; }
-        public void RunGame(List<Player> players) //skicka in en lista med spelare sen
+        public static int GameId { get { return _gameId; } }
+        public static void RunGame(List<Player> players)
         {
             InitializeNewGame(players);
-            //Console.CursorVisible = true;
             FileManager.SaveStartTimeStamp(GameId);
+            Console.Clear();
             Graphics.PrintBoard();
             GameSetup(players);
 
-            int currentPlayer = 0;
-            while (currentPlayer < players.Count)
+            if (!GameLogic.CheckForDealerBlackJack())
             {
-                while (true)
+                foreach (var player in players)
                 {
-
-                    Graphics.UpdateBoard(players, currentPlayer);
-                    Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
-
-                    if (GameLogic.CheckForBlackJack(players[currentPlayer]))
-                    {
-                        players[currentPlayer].GameState = GameState.BLACKJACK;
-                        break;
-                    }
-
-                    if (GameLogic.CheckForBust(players[currentPlayer]))
-                    {
-                        //players[currentPlayer].GameState = GameState.LOSS;
-                        break;
-                    }
-
-                    char response;
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    response = Console.ReadKey().KeyChar;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    if (response != ' ')
-                        break;
-
-                    Deck.DealCard(players[currentPlayer]);
+                    GameLogic.PlayersTurn(player);
                 }
-                Graphics.PrintPlayerTitleAndSum(players[currentPlayer]);
-                currentPlayer++;
             }
 
-            //Erase the dealer's card
-            Graphics.EraseAPrintedCard(107, 0);
-            Graphics.UpdateBoard(Dealer);
-            //Dramatic pause
-            Thread.Sleep(1000);
-
-            GameLogic.DealersTurn(Dealer);
-
-            GameLogic.CheckResults(players, Dealer);
+            Thread.Sleep(1000);//Dramatic pause
+            GameLogic.DealersTurn();
+            GameLogic.CheckResults(players);
+            Utilities.PrintGameSummary(players);
 
             foreach (Player player in players)
             {
                 player.UpdateWallet();
             }
 
-            Utilities.DisplayGameSummary(players);
-
-            char response2 = Console.ReadKey().KeyChar;
-            if (response2 == 'n' && response2 == 'N')
+            while (true)
             {
-                Environment.Exit(0); //TODO remove later.
+                char response = char.ToUpper(Console.ReadKey(false).KeyChar);
+                if (response == 'Y')
+                {
+                    break;
+                }
+                else if (response == 'N')
+                {
+                    Environment.Exit(0);
+                }
             }
-            RunGame(players);
         }
-
-        private void GetPlayerBets(List<Player> players)
+        private static void GetPlayerBets(List<Player> players)
         {
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            int cachedPromptWidth = 0;
 
             foreach (var player in players)
             {
-                Console.SetCursorPosition(80, 30);
-                Console.Write($"Player {player.Name}, please enter your bet");
-                Console.SetCursorPosition(80, 32);
-                Console.Write($"                                ");
+                int bet = Utilities.PromptPlayerBet(player, ref cachedPromptWidth);
 
+                player.Hands[0].Bet = bet;
+                player.Wallet -= player.Hands[0].Bet;
 
-                while (true)
-                {
-                    Console.SetCursorPosition(80, 31);
-                    Console.Write($"BET: ");
-                    if (int.TryParse(Console.ReadLine(), out int bet))
-                    {
-                        if (bet <= player.Wallet)
-                        {
-                            player.Bet = bet;
-                            player.Wallet -= player.Bet;
-                            Console.SetCursorPosition(80, 31);
-                            Console.Write($"                                      ");
-                            break;
-                        }
-                    }
-                    Console.SetCursorPosition(80, 31);
-                    Console.Write($"                                      ");
-                    Console.SetCursorPosition(80, 32);
-                    Console.Write($"Invalid input, please try again!");
-                }
+                //ShowDebugWallets(players); //Currently only for debugging
             }
-            Console.SetCursorPosition(80, 30);
-            Console.Write($"                                           ");
+            Utilities.ToggleCursorVisibility();
         }
-
-        private void InitializeNewGame(List<Player> players)
+        private static void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;
-            Dealer = new();
+            Dealer.Instance.Hand.CurrentCards.Clear();
+            Dealer.Instance.Hand.HandState = HandState.UNDECIDED;
+
             foreach (Player player in players)
             {
-                player.Hand.Clear();
-                if (player.Wallet == 0)
-                {
-                    // Fix error handling here.
-                }
+                player.Hands[0].CurrentCards.Clear();
+                player.Hands[1].CurrentCards.Clear();
+                player.Hands[0].HandState = HandState.UNDECIDED;
+                player.Hands[1].HandState = HandState.UNDECIDED;
+                player.CurrentHand = player.Hands[0];
+                player.LatestAction = 0;
             }
             Console.Clear();
         }
 
-        private void ShowDebugWallets(List<Player> players)
+        private static void ShowDebugWallets(List<Player> players)
         {
+            Utilities.SetConsoleColors("SETCACHED", "SETCACHED");
+
             Console.ResetColor();
             int cachedX = Console.CursorLeft;
             int cachedY = Console.CursorTop;
@@ -145,34 +88,29 @@ namespace Blackjack
             foreach (Player player in players)
             {
                 Console.SetCursorPosition(1, line);
-                Console.Write($"{player.Name}: Bet:{player.Bet} Wallet:{player.Wallet}");
+                Console.Write($"{player.Name}: Bet:{player.Hands[0].Bet} Wallet:{player.Wallet}");
                 line++;
             }
 
             Console.SetCursorPosition(cachedX, cachedY);
+            Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
         }
 
-        private void GameSetup(List<Player> players)
+        private static void GameSetup(List<Player> players)
         {
             Thread.Sleep(1500);
-            Graphics.AnimateDeckShuffle(Deck.AnimationCards[0]);
+            Utilities.log.Add("");
+            Utilities.log.Add(Utilities.GetCenteredPadding("────────── NEW GAME ──────────", 80));
+            Utilities.log.Add("");
+            Graphics.PrintLog();
+            Graphics.AnimateDeckShuffle(Deck.AllCards[0]);
             Deck.ShuffleDeck();
             Thread.Sleep(500);
-            ShowDebugWallets(players);
+            // ShowDebugWallets(players); Displays the player's funds on the left side of the screen
             GetPlayerBets(players);
-            Graphics.AnimateCardsInAllDirections(Deck.AnimationCards[0], 2, players);
-            Deck.FirstDeal(players, Dealer);
-        }
-
-        public static void FunMethod()
-        {
-            string soundFilePath = "../../../Files/KACHING.WAV";
-            if (OperatingSystem.IsWindows())
-            {
-                SoundPlayer soundPlayer = new SoundPlayer(soundFilePath);
-                soundPlayer.Load();
-                soundPlayer.Play();
-            }
+            Utilities.ToggleCursorVisibility();
+            Deck.FirstDeal(players);
+            Utilities.SaveFirstDealInfo(players);
         }
     }
 }

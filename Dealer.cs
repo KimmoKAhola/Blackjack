@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
     /// <summary>
     /// This class inherits from the Player class
     /// and creates ONE dealer who runs the place.
-    /// Not implemented
+    /// Implemented using singleton.
     /// </summary>
     public class Dealer : Participant
     {
-        public Dealer()
+        private static Dealer instance = null;
+        private Dealer()
         {
-            
+            Hands.Add(new());
         }
 
+        public Hand Hand { get { return Hands[0]; } set { Hands[0] = value; } }
+
+        public static Dealer Instance
+        {
+            get
+            {
+                instance ??= new Dealer();
+                return instance;
+            }
+        }
     }
 }

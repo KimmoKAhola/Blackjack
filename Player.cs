@@ -1,45 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
+    /// <summary>
+    /// A class for a player at the table.
+    /// Inherits for the Participant class.
+    /// Has the properties Name, PlayerNumber, Wallet
+    /// CurrentHand.
+    /// Has a method for updating the player wallet value after each round.
+    /// </summary>
     public class Player : Participant
     {
         private static int _playerCounter = 1;
+
+        /// <summary>
+        /// Creates a new player and immediately adds two hands, one main hand and a second empty "slpit" hand
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="buyIn"></param>
         public Player(string name, int buyIn)
         {
             Name = name;
             PlayerNumber = _playerCounter++;
             Wallet = buyIn;
-            GameState = GameState.UNDECIDED;
-            Bet = 0;
+            Hands.Add(new());
+            Hands.Add(new());
+            CurrentHand = Hands[0];
         }
 
         public string Name { get; set; }
         public int PlayerNumber { get; set; }
         public int Wallet { get; set; }
-        public int Bet { get; set; }
-        public GameState GameState { get; set; }
-
+        public Hand CurrentHand { get; set; }
+        /// <summary>
+        /// A method for updating the player's wallet value.
+        /// Wins increases the value.
+        /// </summary>
         public void UpdateWallet()
         {
-            if (GameState == GameState.BLACKJACK)
+            foreach (var hand in Hands)
             {
-                Wallet += Bet * 3;
+                if (hand.HandState == HandState.BLACKJACK)
+                {
+                    Wallet += hand.Bet * 3;
+                }
+                else if (hand.HandState == HandState.WIN)
+                {
+                    Wallet += hand.Bet * 2;
+                }
+
+                FileManager.SavePlayerWallet($"{Name}, {hand.HandState}, WALLET: {Wallet}");
             }
-            else if (GameState == GameState.WIN)
-            {
-                Wallet += Bet * 2;
-            }
-            else
-            {
-                //Bet is already withdrawn from the wallet at this point
-            }
-            FileManager.SavePlayerWallet($"{Name}, {GameState}, WALLET: {Wallet}");
         }
     }
 }

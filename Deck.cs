@@ -1,52 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
+    /// <summary>
+    /// A class creating the game deck with a certain number of cards.
+    /// Uses the Card class.
+    /// </summary>
     public static class Deck
     {
         private static List<Card>? cards = GetNewDeck();
         //private static List<Card>? cards = GetAceDeck(); // Only for testing
-        private static List<Card> animationCards = GetNewAnimationDeck();
-
-        public static List<Card> AllCards
-        {
-            get => cards ??= GetNewDeck();
-            //get => cards = (cards == null) ? GetNewDeck() : cards;
-        }
-
-        public static List<Card> AnimationCards
-        {
-            get => animationCards ??= GetNewAnimationDeck();
-        }
 
         /// <summary>
-        /// This deck is only used for testing animations. Uses a card
-        /// which has a blue background and a background graphic
-        /// which is loaded from the last index of our card enum.
+        /// Creates a list of cards.
+        /// </summary>
+        public static List<Card> AllCards
+        {
+            //get => cards ??= GetNewDeck();
+            get => cards ??= GetAceDeck(); // Only for testing
+        }
+        /// <summary>
+        /// Creates a test deck for testing different types of edge cases.
+        /// Should not be used in the live version of the program.
         /// </summary>
         /// <returns></returns>
-        private static List<Card> GetNewAnimationDeck()
-        {
-            List<Card> cards = new List<Card>();
-            cards.Add(new Card(Card.allCardGraphics[52], Card.allCardGraphics[53]));
-            return cards;
-        }
-        //Only for testing edge cases
         private static List<Card> GetAceDeck()
         {
             List<Card> aceCards = new List<Card>();
             for (int i = 0; i < 52; i++)
             {
-                aceCards.Add(new Card(Enum.GetNames(typeof(AllCards))[0], 1, Card.allCardGraphics[0], "♦"));
+                aceCards.Add(new Card("Q", 10, Card.allCardGraphics[11], "♦"));
+                aceCards[i].LatestCardPosition = (101, 18);
             }
             return aceCards;
         }
 
+        /// <summary>
+        /// Creates a new deck using our allCards enum.
+        /// Creates 52 card objects containing different card properties
+        /// such as title, color, value etc.
+        /// </summary>
+        /// <returns></returns>
         private static List<Card> GetNewDeck()
         {
             List<Card> cardNumbers = new();
@@ -81,11 +73,11 @@ namespace Blackjack
                         }
                         else
                         {
-                            card.Title = (i+1).ToString();
+                            card.Title = (i + 1).ToString();
                             card.Value = i + 1;
                             card.CardGraphic = Card.allCardGraphics[cardIndex];
                         }
-                        cardNumbers.Add(card);    
+                        cardNumbers.Add(card);
                         cardIndex++;
                         continue;
                     }
@@ -98,39 +90,93 @@ namespace Blackjack
             }
             return cardNumbers;
         }
-        public static void FirstDeal(List<Player> participants, Dealer dealer)
+        /// <summary>
+        /// A method which handles the first deal.
+        /// Deals 2 cards to each player, including the dealer, currently at the table.
+        /// </summary>
+        /// <param name="players"></param>
+        public static void FirstDeal(List<Player> players)
         {
             string firstDealInfo = $"[FIRST DEAL]~~~~~~\n";
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < participants.Count; j++)
+                for (int j = 0; j < players.Count; j++)
                 {
-                    DealCard(participants[j]);
-                    firstDealInfo += $"{participants[j].Name} was dealt a [{participants[j].Hand.Last().Title}{participants[j].Hand.Last().CardSymbol}]\n";
+                    if (players[j].CurrentHand.Bet < 1)
+                        continue;
+
+                    DealCard(players[j].CurrentHand, players[j]);
+
+                    Card latestCard = players[j].CurrentHand.CurrentCards.Last();
+                    firstDealInfo += $"{players[j].Name} was dealt a [{latestCard.Title}{latestCard.CardSymbol}]\n";
+
+                    GameLogic.CheckForBlackJack(players[j]);
+                    Graphics.PrintPlayerHeaders(players[j]);
+
                 }
-                DealCard(dealer);
-                firstDealInfo += $"The dealer was dealt a [{dealer.Hand.Last().Title}{dealer.Hand.Last().CardSymbol}]\n";
+                DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
+
+                Card dealersLatestCard = Dealer.Instance.Hand.CurrentCards.Last();
+                firstDealInfo += $"The dealer was dealt a [{dealersLatestCard.Title}{dealersLatestCard.CardSymbol}]\n";
             }
             FileManager.SaveFirstDealInfo(firstDealInfo);
         }
+        /// <summary>
+        /// Shuffles the card deck using the Fisher-Yates shuffle algorithm.
+        /// </summary>
         public static void ShuffleDeck()
         {
-            cards = GetNewDeck();
-
+            //cards = GetNewDeck();
+            cards = GetAceDeck(); //Only for testing
             Random randomNum = new();
             for (int i = 51; i > 0; i--)
             {
                 int j = randomNum.Next(0, i);
-
                 (cards[j], cards[i]) = (cards[i], cards[j]);
             }
         }
-        public static void DealCard(Participant participant)
+        /// <summary>
+        /// A method which deals a single card to a specific participants
+        /// active hand.
+        /// </summary>
+        /// <param name="hand"></param>
+        /// <param name="participant"></param>
+        public static void DealCard(Hand hand, Participant participant)
         {
-            participant.Hand.Add(cards[0]);
+            hand.CurrentCards.Add(cards[0]);
+            if (participant is Player)
+            {
+                var currentPlayer = (Player)participant;
+
+                switch (currentPlayer.PlayerNumber)
+                {
+                    case 1:
+                        Graphics.AnimateACardFromLeftToRight(currentPlayer);
+                        break;
+                    case 2:
+                        Graphics.AnimateACardFromTopToBottom(currentPlayer);
+                        break;
+                    case 3:
+                        Graphics.AnimateACardFromRightToLeft(currentPlayer);
+                        break;
+                }
+
+                GameLogic.CheckForBlackJack(currentPlayer);
+                Graphics.PrintHandStatus(currentPlayer, hand);
+            }
+            if (participant is Dealer)
+            {
+                Graphics.AnimateACardFromBottomToTop(Dealer.Instance.Hands.Last());
+            }
             cards.RemoveAt(0);
         }
 
+        /// <summary>
+        /// A method which calculates the chance of not getting a bust when drawing a new card
+        /// Mostly for debugging purposes, is currently not printed correctly
+        /// </summary>
+        /// <param name="HandSum"></param>
+        /// <returns></returns>
         public static double CalculateChanceOfSuccess(int HandSum)
         {
             int bustCards = 0;

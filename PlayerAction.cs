@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blackjack
+﻿namespace Blackjack
 {
+    /// <summary>
+    /// Enum containing the player's available actions.
+    /// HIT, STAND, SPLIT
+    /// </summary>
     public enum PlayerAction
     {
         HIT = 1,
         STAND,
-        BUST,
-        BLACKJACK
+        SPLIT,
     }
 }
