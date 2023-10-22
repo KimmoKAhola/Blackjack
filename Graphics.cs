@@ -463,10 +463,11 @@
         /// Prints the sum of a participant's specific current.
         /// </summary>
         /// <param name="participant"></param>
-        public static void PrintHandSum(Player player, Hand hand)
+        public static void PrintHandStatus(Player player, Hand hand)
         {
             int sumStartXPos = 0;
             int sumStartYPos = 0;
+            string handStatus = "";
 
             switch (player.PlayerNumber)
             {
@@ -484,11 +485,31 @@
                     break;
             }
 
-            string handSum = $"HAND SUM: {player.CurrentHand.HandSum()}";
-            string clearLine = new(' ', player.Hands[0].HandSum() + player.Hands[1].HandSum());
+            switch (hand.HandState)
+            {
+                case HandState.UNDECIDED:
+                    handStatus = $"HAND SUM: {player.CurrentHand.HandSum()}";
+                    break;
+                case HandState.STANDS:
+                    handStatus = $"STAND ON: {player.CurrentHand.HandSum()}";
+                    break;
+                case HandState.BUSTS:
+                    handStatus = $"BUST ON: {player.CurrentHand.HandSum()}";
+                    break;
+                case HandState.BLACKJACK:
+                    handStatus = $"BLACKJACK";
+                    break;
+                default:
+                    break;
+            }
+
+
+            string clearLine = new(' ', 12);
 
             Console.SetCursorPosition(sumStartXPos, sumStartYPos);
-            Console.Write(handSum);
+            Console.Write(clearLine);
+            Console.SetCursorPosition(sumStartXPos, sumStartYPos);
+            Console.Write(handStatus);
         }
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.

@@ -11,8 +11,6 @@
             if (Dealer.Instance.Hand.HandSum() == 21)
             {
                 Dealer.Instance.Hand.HandState = HandState.BLACKJACK;
-                Utilities.UpdateDealerLog();
-                Graphics.PrintLog();
                 return true;
             }
             return false;
@@ -70,6 +68,7 @@
                 }
                 Utilities.UpdatePlayerLog(player, player.CurrentHand);
                 Graphics.PrintLog();
+                Graphics.PrintHandStatus(player, player.CurrentHand);
             }
 
             Utilities.PromptEndedHand(player);
@@ -119,8 +118,8 @@
                             }
                         }
                         Graphics.PrintASplitHand(player);
-                        Graphics.PrintHandSum(player, player.Hands[0]);
-                        Graphics.PrintHandSum(player, player.Hands[1]);
+                        Graphics.PrintHandStatus(player, player.Hands[0]);
+                        Graphics.PrintHandStatus(player, player.Hands[1]);
                     }
                     else if (response == 'N')
                     {
