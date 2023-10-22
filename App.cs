@@ -32,11 +32,11 @@
                     Player william = new("William", 10000);
                     Player mille = new("Mille", 10000);
                     List<Player> debugPlayers = new() { kimmo, william, mille };
-                    blackjack.RunGame(debugPlayers);
+                    BlackJack.RunGame(debugPlayers);
                 }
                 else
                 {
-                    blackjack.RunGame(players);
+                    BlackJack.RunGame(players);
                 }
             }
         }
