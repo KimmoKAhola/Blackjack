@@ -24,15 +24,17 @@
         /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
-            Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
-            Graphics.PrintLog();
-            foreach (var hand in player.Hands)
+            if (player.Hands[0].Bet > 1)
             {
-                CheckForSplit(player);
-                if (hand.HandState != HandState.BLACKJACK)
+                Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
+                Graphics.PrintLog();
+                foreach (var hand in player.Hands)
+                {
+                    CheckForSplit(player);
                     GetPlayerMove(player);
 
-                player.CurrentHand = player.Hands[1];
+                    player.CurrentHand = player.Hands[1];
+                }
             }
         }
         /// <summary>
@@ -49,7 +51,12 @@
             {
                 CheckForBlackJack(player);
                 if (player.CurrentHand.HandState == HandState.BLACKJACK)
+                {
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                     break;
+                }
 
                 Utilities.PromptPlayerMove(player, out int promptWidth, out int promptYPosition);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
@@ -57,21 +64,27 @@
                 {
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
+                    Graphics.EraseHandHighLight(player);
                     Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player);
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                 }
                 else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
                     player.CurrentHand.HandState = HandState.STANDS;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
+                    Graphics.EraseHandHighLight(player);
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                 }
-                Utilities.UpdatePlayerLog(player, player.CurrentHand);
-                Graphics.PrintLog();
-                Graphics.PrintHandStatus(player, player.CurrentHand);
             }
 
             Utilities.PromptEndedHand(player);
+
         }
         /// <summary>
         /// A methods which contains logic if the player will split its hand.
@@ -95,6 +108,7 @@
                     char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                     if (response == 'Y')
                     {
+                        Graphics.EraseHandHighLight(player);
                         splitHand.CurrentCards.Add(mainHand.CurrentCards[1]);
                         splitHand.Bet = mainHand.Bet;
                         mainHand.CurrentCards.RemoveAt(1);

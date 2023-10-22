@@ -76,7 +76,7 @@
             return output;
         }
 
-        public static void DisplayGameSummary(List<Player> players)
+        public static void PrintGameSummary(List<Player> players)
         {
             SetConsoleColors("B", "G");
             int yStartPosition = 20;
@@ -99,11 +99,14 @@
 
             foreach (var player in players)
             {
+                if (player.Hands[0].Bet < 1)
+                    continue;
+
                 int namePadding = 70;
                 int handpadding = 11;
-                int outcomePadding = 11;
+                int outcomePadding = 13;
                 int betPadding = 12;
-                int walletPadding = 15;
+                int walletPadding = 13;
 
                 string paddedName = GetPadding(player.Name, namePadding);
                 string nameLine = $"│ {paddedName}│";
@@ -122,17 +125,17 @@
                     if (hand.HandState == HandState.BLACKJACK)
                     {
                         betResult = $"+{(hand.Bet * 2).ToString("C2")}";
-                        wallet = GetPadding((player.Wallet + (3 * hand.Bet)).ToString(), walletPadding);
+                        wallet = GetPadding((player.Wallet + (3 * hand.Bet)).ToString("C2"), walletPadding);
                     }
                     else if (hand.HandState == HandState.WIN)
                     {
                         betResult = $"+{hand.Bet.ToString("C2")}";
-                        wallet = GetPadding((player.Wallet + (2 * hand.Bet)).ToString(), walletPadding);
+                        wallet = GetPadding((player.Wallet + (2 * hand.Bet)).ToString("C2"), walletPadding);
                     }
                     else
                     {
                         betResult = $"-{hand.Bet.ToString("C2")}";
-                        wallet = GetPadding(player.Wallet.ToString(), walletPadding);
+                        wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
                     }
 
                     betResult = GetPadding(betResult, betPadding);
@@ -157,6 +160,8 @@
             SetConsoleColors("B", "G");
             promptWidth = 73;
             yPosition = 30;
+
+            Graphics.HighlightCurrentHand(player);
 
             string[] prompt =
             {

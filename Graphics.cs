@@ -312,8 +312,8 @@
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
             Console.SetCursorPosition(startingXPosition, startingYPosition);
+            Utilities.SetConsoleColors("W", "DB");
 
-            Utilities.SetConsoleColors("", "DB");
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -322,7 +322,6 @@
 
             for (int i = 0; i <= numberOfCardsInStack; i++)
             {
-                Utilities.SetConsoleColors("", "DB");
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
                     Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
@@ -330,7 +329,7 @@
                 }
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
-            Utilities.SetConsoleColors("", "DG");
+            Utilities.SetConsoleColors("Y", "DG");
         }
         /// <summary>
         /// A method for printing a player's split hand.
@@ -465,25 +464,9 @@
         /// <param name="participant"></param>
         public static void PrintHandStatus(Player player, Hand hand)
         {
-            int sumStartXPos = 0;
-            int sumStartYPos = 0;
+            int statusStartXPos = 0;
+            int statusStartYPos = 0;
             string handStatus = "";
-
-            switch (player.PlayerNumber)
-            {
-                case 1:
-                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition - 5;
-                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
-                    break;
-                case 2:
-                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
-                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
-                    break;
-                case 3:
-                    sumStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
-                    sumStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
-                    break;
-            }
 
             switch (hand.HandState)
             {
@@ -503,13 +486,136 @@
                     break;
             }
 
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    statusStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition - 4;
+                    statusStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 2:
+                    statusStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    statusStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+                case 3:
+                    statusStartXPos = hand.CurrentCards[0].LatestCardPosition.LatestXPosition;
+                    statusStartYPos = hand.CurrentCards[0].LatestCardPosition.LatestYPosition + 8;
+                    break;
+            }
 
             string clearLine = new(' ', 12);
 
-            Console.SetCursorPosition(sumStartXPos, sumStartYPos);
+            Console.SetCursorPosition(statusStartXPos, statusStartYPos);
             Console.Write(clearLine);
-            Console.SetCursorPosition(sumStartXPos, sumStartYPos);
+            Console.SetCursorPosition(statusStartXPos, statusStartYPos);
             Console.Write(handStatus);
+        }
+        public static void HighlightCurrentHand(Player player)
+        {
+            Utilities.SetConsoleColors("SETCACHED", "SETCACHED");
+            Utilities.SetConsoleColors("Y", "DG");
+            char topLeftCorner = '╭';
+            char topRightCorner = '╮';
+            char bottomLeftCorner = '╰';
+            char bottomRightCorner = '╯';
+            char verticalLine = '│';
+            char horizontalLine = '─';
+
+            int yPosition = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+            int leftX = 0;
+            int rightX = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    leftX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition + 7;
+
+                    break;
+                case 2:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+                case 3:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+
+                default:
+                    break;
+            }
+
+            int horizontalEdgeWidth = rightX - leftX - 1;
+            string horizontalEdge = new(horizontalLine, horizontalEdgeWidth);
+            string topEdge = $"{topLeftCorner}{horizontalEdge}{topRightCorner}";
+            string bottomEdge = $"{bottomLeftCorner}{horizontalEdge}{bottomRightCorner}";
+
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(topEdge);
+
+            for (int i = 0; i < 6; i++)
+            {
+                yPosition++;
+                Console.SetCursorPosition(leftX, yPosition);
+                Console.Write(verticalLine);
+                Console.SetCursorPosition(rightX, yPosition);
+                Console.Write(verticalLine);
+            }
+
+            yPosition++;
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(bottomEdge);
+
+            Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
+        }
+        public static void EraseHandHighLight(Player player)
+        {
+            Utilities.SetConsoleColors("SETCACHED", "SETCACHED");
+            Utilities.SetConsoleColors("DG", "DG");
+
+            int yPosition = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+            int leftX = 0;
+            int rightX = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    leftX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition + 7;
+
+                    break;
+                case 2:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+                case 3:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+
+                default:
+                    break;
+            }
+
+            int horizontalEdgeWidth = rightX - leftX + 1;
+            string horizontalEdge = new(' ', horizontalEdgeWidth);
+
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(horizontalEdge);
+
+            for (int i = 0; i < 6; i++)
+            {
+                yPosition++;
+                Console.SetCursorPosition(leftX, yPosition);
+                Console.Write(' ');
+                Console.SetCursorPosition(rightX, yPosition);
+                Console.Write(' ');
+            }
+
+            yPosition++;
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(horizontalEdge);
+
+            Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
         }
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.

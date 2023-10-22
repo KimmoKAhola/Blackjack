@@ -1,4 +1,8 @@
-# Blackjack
+
+
+
+#
+Blackjack
 
 There is a graphics bug currently. If you experience any issues, please change your display scaling in the windows settings to 100 % 
 

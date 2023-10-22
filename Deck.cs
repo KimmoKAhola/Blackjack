@@ -102,6 +102,9 @@
             {
                 for (int j = 0; j < players.Count; j++)
                 {
+                    if (players[j].CurrentHand.Bet < 1)
+                        continue;
+
                     DealCard(players[j].CurrentHand, players[j]);
 
                     Card latestCard = players[j].CurrentHand.CurrentCards.Last();
@@ -110,8 +113,6 @@
                     GameLogic.CheckForBlackJack(players[j]);
                     Graphics.PrintPlayerHeaders(players[j]);
 
-                    if (players[j].CurrentHand.HandState == HandState.BLACKJACK)
-                        Utilities.PromptEndedHand(players[j]);
                 }
                 DealCard(Dealer.Instance.Hands[0], Dealer.Instance);
 
@@ -159,6 +160,8 @@
                         Graphics.AnimateACardFromRightToLeft(currentPlayer);
                         break;
                 }
+
+                GameLogic.CheckForBlackJack(currentPlayer);
                 Graphics.PrintHandStatus(currentPlayer, hand);
             }
             if (participant is Dealer)
@@ -170,6 +173,7 @@
 
         /// <summary>
         /// A method which calculates the chance of not getting a bust when drawing a new card
+        /// Mostly for debugging purposes, is currently not printed correctly
         /// </summary>
         /// <param name="HandSum"></param>
         /// <returns></returns>

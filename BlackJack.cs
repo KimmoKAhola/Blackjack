@@ -23,19 +23,25 @@
             Thread.Sleep(1000);//Dramatic pause
             GameLogic.DealersTurn();
             GameLogic.CheckResults(players);
-            Utilities.DisplayGameSummary(players);
+            Utilities.PrintGameSummary(players);
 
             foreach (Player player in players)
             {
                 player.UpdateWallet();
             }
 
-            char response2 = Console.ReadKey().KeyChar;
-            if (response2 == 'n' || response2 == 'N')
+            while (true)
             {
-                Environment.Exit(0);
+                char response = char.ToUpper(Console.ReadKey(false).KeyChar);
+                if (response == 'Y')
+                {
+                    break;
+                }
+                else if (response == 'N')
+                {
+                    Environment.Exit(0);
+                }
             }
-            RunGame(players);
         }
         private static void GetPlayerBets(List<Player> players)
         {
@@ -48,8 +54,9 @@
                 player.Hands[0].Bet = bet;
                 player.Wallet -= player.Hands[0].Bet;
 
-                ShowDebugWallets(players);
+                //ShowDebugWallets(players); //Currently only for debugging
             }
+            Utilities.ToggleCursorVisibility();
         }
         private static void InitializeNewGame(List<Player> players)
         {
