@@ -29,8 +29,7 @@
             foreach (var hand in player.Hands)
             {
                 CheckForSplit(player);
-                if (hand.HandState != HandState.BLACKJACK)
-                    GetPlayerMove(player);
+                GetPlayerMove(player);
 
                 player.CurrentHand = player.Hands[1];
             }
@@ -49,7 +48,12 @@
             {
                 CheckForBlackJack(player);
                 if (player.CurrentHand.HandState == HandState.BLACKJACK)
+                {
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                     break;
+                }
 
                 Utilities.PromptPlayerMove(player, out int promptWidth, out int promptYPosition);
                 char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
@@ -59,19 +63,23 @@
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
                     Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player);
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                 }
                 else if (response == 'S')
                 {
                     player.LatestAction = PlayerAction.STAND;
                     player.CurrentHand.HandState = HandState.STANDS;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
+                    Utilities.UpdatePlayerLog(player, player.CurrentHand);
+                    Graphics.PrintLog();
+                    Graphics.PrintHandStatus(player, player.CurrentHand);
                 }
-                Utilities.UpdatePlayerLog(player, player.CurrentHand);
-                Graphics.PrintLog();
-                Graphics.PrintHandStatus(player, player.CurrentHand);
             }
 
             Utilities.PromptEndedHand(player);
+
         }
         /// <summary>
         /// A methods which contains logic if the player will split its hand.
