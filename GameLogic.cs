@@ -61,6 +61,7 @@
                 {
                     player.LatestAction = PlayerAction.HIT;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
+                    Graphics.EraseHandHighLight(player);
                     Deck.DealCard(player.CurrentHand, player);
                     CheckForBust(player);
                     Utilities.UpdatePlayerLog(player, player.CurrentHand);
@@ -72,6 +73,7 @@
                     player.LatestAction = PlayerAction.STAND;
                     player.CurrentHand.HandState = HandState.STANDS;
                     Utilities.ErasePrompt(promptWidth, promptYPosition);
+                    Graphics.EraseHandHighLight(player);
                     Utilities.UpdatePlayerLog(player, player.CurrentHand);
                     Graphics.PrintLog();
                     Graphics.PrintHandStatus(player, player.CurrentHand);
@@ -103,6 +105,7 @@
                     char response = Char.ToUpper(Console.ReadKey(false).KeyChar);
                     if (response == 'Y')
                     {
+                        Graphics.EraseHandHighLight(player);
                         splitHand.CurrentCards.Add(mainHand.CurrentCards[1]);
                         splitHand.Bet = mainHand.Bet;
                         mainHand.CurrentCards.RemoveAt(1);

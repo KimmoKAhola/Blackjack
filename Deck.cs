@@ -157,8 +157,8 @@
                         Graphics.AnimateACardFromRightToLeft(currentPlayer);
                         break;
                 }
-                if (hand.HandSum() == 21)
-                    hand.HandState = HandState.BLACKJACK;
+
+                GameLogic.CheckForBlackJack(currentPlayer);
                 Graphics.PrintHandStatus(currentPlayer, hand);
             }
             if (participant is Dealer)

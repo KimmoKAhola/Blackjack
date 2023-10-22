@@ -567,6 +567,56 @@
 
             Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
         }
+        public static void EraseHandHighLight(Player player)
+        {
+            Utilities.SetConsoleColors("SETCACHED", "SETCACHED");
+            Utilities.SetConsoleColors("DG", "DG");
+
+            int yPosition = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestYPosition;
+            int leftX = 0;
+            int rightX = 0;
+
+            switch (player.PlayerNumber)
+            {
+                case 1:
+                    leftX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition + 7;
+
+                    break;
+                case 2:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+                case 3:
+                    leftX = player.CurrentHand.CurrentCards[0].LatestCardPosition.LatestXPosition - 1;
+                    rightX = player.CurrentHand.CurrentCards.Last().LatestCardPosition.LatestXPosition + 7;
+                    break;
+
+                default:
+                    break;
+            }
+
+            int horizontalEdgeWidth = rightX - leftX + 1;
+            string horizontalEdge = new(' ', horizontalEdgeWidth);
+
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(horizontalEdge);
+
+            for (int i = 0; i < 6; i++)
+            {
+                yPosition++;
+                Console.SetCursorPosition(leftX, yPosition);
+                Console.Write(' ');
+                Console.SetCursorPosition(rightX, yPosition);
+                Console.Write(' ');
+            }
+
+            yPosition++;
+            Console.SetCursorPosition(leftX, yPosition);
+            Console.Write(horizontalEdge);
+
+            Utilities.SetConsoleColors("GETCACHED", "GETCACHED");
+        }
         /// <summary>
         /// Prints the player's title and sum close to the position of the player's active hand.
         /// </summary>

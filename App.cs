@@ -22,15 +22,18 @@
             FileManager.CreateDirectory();
             FileManager.CreateFile();
             BlackJack blackjack = new();
-            //blackjack.RunGame(Utilities.GetPlayers());
+            List<Player> players = Utilities.GetPlayers();
+            while (true)
+            {
+                blackjack.RunGame(players);
 
-            //! DEBUG MODE, comment out BlackJack.RunGame-line above to use
-            Player kimmo = new("Kimmo", 1000);
-            Player william = new("William", 1000);
-            Player mille = new("Mille", 1000);
-
-            List<Player> debugPlayers = new() { kimmo, william, mille };
-            blackjack.RunGame(debugPlayers);
+                //! DEVELOPER MODE, comment out BlackJack.RunGame-line above to use
+                Player kimmo = new("Kimmo", 10000);
+                Player william = new("William", 10000);
+                Player mille = new("Mille", 10000);
+                List<Player> debugPlayers = new() { kimmo, william, mille };
+                blackjack.RunGame(debugPlayers);
+            }
         }
     }
 }

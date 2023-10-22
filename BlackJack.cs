@@ -42,7 +42,6 @@
                     Environment.Exit(0);
                 }
             }
-            RunGame(players);
         }
         private static void GetPlayerBets(List<Player> players)
         {
@@ -55,7 +54,7 @@
                 player.Hands[0].Bet = bet;
                 player.Wallet -= player.Hands[0].Bet;
 
-                ShowDebugWallets(players);
+                //ShowDebugWallets(players); //Currently only for debugging
             }
         }
         private static void InitializeNewGame(List<Player> players)
