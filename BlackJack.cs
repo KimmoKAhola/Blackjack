@@ -30,10 +30,17 @@
                 player.UpdateWallet();
             }
 
-            char response2 = Console.ReadKey().KeyChar;
-            if (response2 == 'n' || response2 == 'N')
+            while (true)
             {
-                Environment.Exit(0);
+                char response = char.ToUpper(Console.ReadKey(false).KeyChar);
+                if (response == 'Y')
+                {
+                    break;
+                }
+                else if (response == 'N')
+                {
+                    Environment.Exit(0);
+                }
             }
             RunGame(players);
         }

@@ -312,6 +312,7 @@
         public static void PrintAStackOfCards(Card card, int startingXPosition, int startingYPosition, int numberOfCardsInStack)
         {
             Console.SetCursorPosition(startingXPosition, startingYPosition);
+            Utilities.SetConsoleColors("W", "DB");
 
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
@@ -321,7 +322,6 @@
 
             for (int i = 0; i <= numberOfCardsInStack; i++)
             {
-                Utilities.SetConsoleColors("W", "DB");
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
                     Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
