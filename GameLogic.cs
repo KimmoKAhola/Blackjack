@@ -24,14 +24,17 @@
         /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
-            Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
-            Graphics.PrintLog();
-            foreach (var hand in player.Hands)
+            if (player.Hands[0].Bet > 1)
             {
-                CheckForSplit(player);
-                GetPlayerMove(player);
+                Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
+                Graphics.PrintLog();
+                foreach (var hand in player.Hands)
+                {
+                    CheckForSplit(player);
+                    GetPlayerMove(player);
 
-                player.CurrentHand = player.Hands[1];
+                    player.CurrentHand = player.Hands[1];
+                }
             }
         }
         /// <summary>

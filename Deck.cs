@@ -102,6 +102,9 @@
             {
                 for (int j = 0; j < players.Count; j++)
                 {
+                    if (players[j].CurrentHand.Bet < 1)
+                        continue;
+
                     DealCard(players[j].CurrentHand, players[j]);
 
                     Card latestCard = players[j].CurrentHand.CurrentCards.Last();
@@ -170,6 +173,7 @@
 
         /// <summary>
         /// A method which calculates the chance of not getting a bust when drawing a new card
+        /// Mostly for debugging purposes, is currently not printed correctly
         /// </summary>
         /// <param name="HandSum"></param>
         /// <returns></returns>

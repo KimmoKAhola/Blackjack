@@ -23,7 +23,7 @@
             Thread.Sleep(1000);//Dramatic pause
             GameLogic.DealersTurn();
             GameLogic.CheckResults(players);
-            Utilities.DisplayGameSummary(players);
+            Utilities.PrintGameSummary(players);
 
             foreach (Player player in players)
             {
@@ -56,6 +56,7 @@
 
                 //ShowDebugWallets(players); //Currently only for debugging
             }
+            Utilities.ToggleCursorVisibility();
         }
         private static void InitializeNewGame(List<Player> players)
         {

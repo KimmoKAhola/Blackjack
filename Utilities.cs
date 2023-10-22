@@ -76,7 +76,7 @@
             return output;
         }
 
-        public static void DisplayGameSummary(List<Player> players)
+        public static void PrintGameSummary(List<Player> players)
         {
             SetConsoleColors("B", "G");
             int yStartPosition = 20;
@@ -99,6 +99,9 @@
 
             foreach (var player in players)
             {
+                if (player.Hands[0].Bet < 1)
+                    continue;
+
                 int namePadding = 70;
                 int handpadding = 11;
                 int outcomePadding = 13;
