@@ -69,6 +69,7 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
             if (hand.CurrentCards.Count >= 2)
                 PrintASingleCard(hand.CurrentCards.Last());
+            
         }
         /// <summary>
         /// Animates a single card at a time to player 1.
@@ -275,8 +276,18 @@
         /// </summary>
         /// <param name="startingXPosition"></param>
         /// <param name="startingYPosition"></param>
-        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        public static void EraseAPrintedCard(Player player)
         {
+            Card card = player.CurrentHand.CurrentCards.Last();
+            (int startingXPosition, int startingYPosition) = (card.LatestCardPosition.LatestXPosition, card.LatestCardPosition.LatestYPosition);
+            if(player.PlayerNumber == 2)
+            {
+                startingXPosition += (int)(1.5*_cardWidth);
+            }
+            if(player.PlayerNumber == 3)
+            {
+                startingXPosition += (int)(1.5 * _cardWidth);
+            }
             Utilities.SetConsoleColors("", "DG");
             Console.SetCursorPosition(startingXPosition, startingYPosition);
             for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
@@ -289,7 +300,7 @@
         /// Prints a single card at a given position. The card's position depends on the current player.
         /// </summary>
         /// <param name="card"></param>
-        private static void PrintASingleCard(Card card)
+        public static void PrintASingleCard(Card card)
         {
             Utilities.SetConsoleColors("", "W");
             Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
@@ -333,7 +344,7 @@
         }
         /// <summary>
         /// A method for printing a player's split hand.
-        /// Does this by erasing the player's original 2 card hand and printing the cards with a distance between them to
+        /// Does this by erasing the player's main 2 card hand and printing the cards with a distance between them to
         /// show the user that the hand has been split into 2 separate hands.
         /// </summary>
         /// <param name="player"></param>

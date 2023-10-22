@@ -8,6 +8,6 @@
     {
         HIT = 1,
         STAND,
-        SPLIT
+        SPLIT,
     }
 }

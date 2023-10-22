@@ -394,14 +394,16 @@
             HandState handState = currentHand.HandState;
 
             if (currentHand == player.Hands[0])
-                handVariant = "original";
+                handVariant = "main";
             else
                 handVariant = "split";
 
             if (handState == HandState.BLACKJACK)
                 handInfo = $"{playerName} got [BLACKJACK] on their {handVariant} hand";
+            else if(player.LatestAction == 0)
+                handInfo = $"{playerName} declined to split their main hand";
             else if (latestAction == PlayerAction.SPLIT)
-                handInfo = $"{playerName} <SPLITS> their original hand, they now have two hands worth [{cardSum}]";
+                handInfo = $"{playerName} <SPLITS> their main hand, they now have two hands worth [{cardSum}]";
             else if (latestAction == PlayerAction.STAND)
                 handInfo = $"{playerName} <STANDS> at [{cardSum}] on their {handVariant} hand";
             else if (latestAction == PlayerAction.HIT && handState != HandState.BUSTS)
