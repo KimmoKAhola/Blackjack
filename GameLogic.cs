@@ -24,7 +24,7 @@
         /// <param name="player"></param>
         public static void PlayersTurn(Player player)
         {
-            if (player.Hands[0].Bet > 1)
+            if (player.Hands[0].Bet > 0)
             {
                 Utilities.log.Add(Utilities.GetCenteredPadding($"- - - - {player.Name.ToUpper()}'S TURN - - - -", 80));
                 Graphics.PrintLog();
