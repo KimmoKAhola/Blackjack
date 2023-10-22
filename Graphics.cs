@@ -313,7 +313,6 @@
         {
             Console.SetCursorPosition(startingXPosition, startingYPosition);
 
-            Utilities.SetConsoleColors("", "DB");
             string[] cardArray = new string[6];
             for (int i = 0; i < _cardWidth - 1; i++)
             {
@@ -322,7 +321,7 @@
 
             for (int i = 0; i <= numberOfCardsInStack; i++)
             {
-                Utilities.SetConsoleColors("", "DB");
+                Utilities.SetConsoleColors("W", "DB");
                 for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
                 {
                     Console.SetCursorPosition(Console.CursorLeft - _cardWidth, Console.CursorTop + 1);
@@ -330,7 +329,7 @@
                 }
                 Console.SetCursorPosition(startingXPosition++, startingYPosition);
             }
-            Utilities.SetConsoleColors("", "DG");
+            Utilities.SetConsoleColors("Y", "DG");
         }
         /// <summary>
         /// A method for printing a player's split hand.
