@@ -216,6 +216,10 @@
         /// </summary>
         public static void DealersTurn()
         {
+            for (int i = 0; i < 2; i++)
+            {
+                Graphics.PrintASingleCard(Dealer.Instance.Hand.CurrentCards[i]);
+            }
             Utilities.log.Add(Utilities.GetCenteredPadding($"-  -  -  -  DEALER'S TURN  -  -  -  -", 80));
             Graphics.PrintLog();
             while (true)

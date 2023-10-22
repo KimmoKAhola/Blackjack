@@ -69,6 +69,7 @@
             hand.CurrentCards.Last().LatestCardPosition = (Console.CursorLeft, Console.CursorTop - _cardHeight);
             if (hand.CurrentCards.Count >= 2)
                 PrintASingleCard(hand.CurrentCards.Last());
+            
         }
         /// <summary>
         /// Animates a single card at a time to player 1.
@@ -289,7 +290,7 @@
         /// Prints a single card at a given position. The card's position depends on the current player.
         /// </summary>
         /// <param name="card"></param>
-        private static void PrintASingleCard(Card card)
+        public static void PrintASingleCard(Card card)
         {
             Utilities.SetConsoleColors("", "W");
             Console.ForegroundColor = card.IsRed ? ConsoleColor.Red : ConsoleColor.Black;
