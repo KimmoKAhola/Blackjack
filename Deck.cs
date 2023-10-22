@@ -14,8 +14,8 @@
         /// </summary>
         public static List<Card> AllCards
         {
-            //get => cards ??= GetNewDeck();
-            get => cards ??= GetAceDeck(); // Only for testing
+            get => cards ??= GetNewDeck();
+            //get => cards ??= GetAceDeck(); // Only for testing
         }
         /// <summary>
         /// Creates a test deck for testing different types of edge cases.
@@ -126,8 +126,8 @@
         /// </summary>
         public static void ShuffleDeck()
         {
-            //cards = GetNewDeck();
-            cards = GetAceDeck(); //Only for testing
+            cards = GetNewDeck();
+            //cards = GetAceDeck(); //Only for testing
             Random randomNum = new();
             for (int i = 51; i > 0; i--)
             {
