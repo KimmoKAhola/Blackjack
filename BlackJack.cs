@@ -1,6 +1,6 @@
 ﻿namespace Blackjack
 {
-    public class BlackJack
+    public class Blackjack
     {
         private static int _gameId = 0;
         public static int GameId { get { return _gameId; } }

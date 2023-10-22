@@ -20,7 +20,8 @@ namespace Blackjack
         {
             if(!File.Exists(_filePath))
             {
-                File.Create( _filePath);
+                FileStream fs = File.Create( _filePath);
+                fs.Close();
             }
         }
 
