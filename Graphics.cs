@@ -276,8 +276,18 @@
         /// </summary>
         /// <param name="startingXPosition"></param>
         /// <param name="startingYPosition"></param>
-        public static void EraseAPrintedCard(int startingXPosition, int startingYPosition)
+        public static void EraseAPrintedCard(Player player)
         {
+            Card card = player.CurrentHand.CurrentCards.Last();
+            (int startingXPosition, int startingYPosition) = (card.LatestCardPosition.LatestXPosition, card.LatestCardPosition.LatestYPosition);
+            if(player.PlayerNumber == 2)
+            {
+                startingXPosition += (int)(1.5*_cardWidth);
+            }
+            if(player.PlayerNumber == 3)
+            {
+                startingXPosition += (int)(1.5 * _cardWidth);
+            }
             Utilities.SetConsoleColors("", "DG");
             Console.SetCursorPosition(startingXPosition, startingYPosition);
             for (int yPosition = 0; yPosition < _cardWidth - 1; yPosition++)
