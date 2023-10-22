@@ -21,7 +21,7 @@
             }
             FileManager.CreateDirectory();
             FileManager.CreateFile();
-            BlackJack blackjack = new();
+            Blackjack blackjack = new();
             List<Player> players = Utilities.GetPlayers();
             bool developerMode = false; //! DEVELOPER MODE, set to true to use!
             while (true)
@@ -32,11 +32,11 @@
                     Player william = new("William", 10000);
                     Player mille = new("Mille", 10000);
                     List<Player> debugPlayers = new() { kimmo, william, mille };
-                    blackjack.RunGame(debugPlayers);
+                    Blackjack.RunGame(debugPlayers);
                 }
                 else
                 {
-                    blackjack.RunGame(players);
+                    Blackjack.RunGame(players);
                 }
             }
         }
