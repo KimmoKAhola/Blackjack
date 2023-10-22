@@ -23,13 +23,12 @@
             Thread.Sleep(1000);//Dramatic pause
             GameLogic.DealersTurn();
             GameLogic.CheckResults(players);
+            Utilities.DisplayGameSummary(players);
 
             foreach (Player player in players)
             {
                 player.UpdateWallet();
             }
-
-            Utilities.DisplayGameSummary(players);
 
             char response2 = Console.ReadKey().KeyChar;
             if (response2 == 'n' || response2 == 'N')
@@ -55,6 +54,9 @@
         private static void InitializeNewGame(List<Player> players)
         {
             int gameId = _gameId++;
+            Dealer.Instance.Hand.CurrentCards.Clear();
+            Dealer.Instance.Hand.HandState = HandState.UNDECIDED;
+
             foreach (Player player in players)
             {
                 player.Hands[0].CurrentCards.Clear();

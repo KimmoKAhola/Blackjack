@@ -88,6 +88,7 @@
             };
             string[] endPrompt =
             {
+                $"│                                                                       │",
                 $"│                               PLAY AGAIN?                             │",
                 $"│                                  Y/N                                  │",
                 $"╰───────────────────────────────────────────────────────────────────────╯"
@@ -98,27 +99,50 @@
 
             foreach (var player in players)
             {
-                int namePadding = 10;
-                int outcomePadding = 10;
-                int betPadding = 15;
+                int namePadding = 70;
+                int handpadding = 11;
+                int outcomePadding = 11;
+                int betPadding = 12;
                 int walletPadding = 15;
+
+                string paddedName = GetPadding(player.Name, namePadding);
+                string nameLine = $"│ {paddedName}│";
+                PrintCenteredString(nameLine, yStartPosition);
+                yStartPosition++;
+
                 foreach (var hand in player.Hands)
                 {
-                    string paddedName = GetPadding(player.Name, namePadding);
-                    string outcome = GetPadding($"[{Enum.GetName(hand.HandState)}]", outcomePadding);
-                    string wallet = GetPadding(player.Wallet.ToString("C2"), walletPadding);
+                    if (hand.CurrentCards.Count < 1)
+                        continue;
 
-                    string betResult;
+                    string outcome = GetPadding($"[{Enum.GetName(hand.HandState)}]", outcomePadding);
+                    string betResult = "";
+                    string wallet = "";
+
                     if (hand.HandState == HandState.BLACKJACK)
+                    {
                         betResult = $"+{(hand.Bet * 2).ToString("C2")}";
+                        wallet = GetPadding((player.Wallet + (3 * hand.Bet)).ToString(), walletPadding);
+                    }
                     else if (hand.HandState == HandState.WIN)
+                    {
                         betResult = $"+{hand.Bet.ToString("C2")}";
+                        wallet = GetPadding((player.Wallet + (2 * hand.Bet)).ToString(), walletPadding);
+                    }
                     else
+                    {
                         betResult = $"-{hand.Bet.ToString("C2")}";
+                        wallet = GetPadding(player.Wallet.ToString(), walletPadding);
+                    }
 
                     betResult = GetPadding(betResult, betPadding);
 
-                    string playerSummary = $"│ {paddedName} {outcome} {betResult} REMAINING FUNDS:{wallet} │";
+                    string handVariant = "MAIN HAND";
+                    if (hand == player.Hands[1])
+                        handVariant = "SPLIT HAND";
+                    handVariant = GetPadding(handVariant, handpadding);
+
+                    string playerSummary = $"│    {handVariant}{outcome}{betResult} REMAINING FUNDS:{wallet} │";
                     PrintCenteredString(playerSummary, yStartPosition);
                     yStartPosition++;
                 }
