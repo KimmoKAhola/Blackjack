@@ -1,4 +1,5 @@
-
+A blackjack console game with moving graphics. All based on Console.Write/Writeline.
+<img src="https://kimmoprojectstorage.blob.core.windows.net/project/blackjack.png" />
 
 
 #
